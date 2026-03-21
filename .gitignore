@@ -1,6 +1,9 @@
 # Local Netlify folder
 .netlify
 
+# Source assets (not for version control)
+files_to_use/
+
 # Build output
 dist/
 .astro/
@@ -14,3 +17,4 @@ node_modules/
 # Env
 .env
 .env.*
+node_modules

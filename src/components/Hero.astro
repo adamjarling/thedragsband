@@ -9,45 +9,53 @@ const { lang } = Astro.props;
 ---
 
 <section class="hero" aria-label="Hero">
-  <!-- Desktop: looping video background -->
-  <video
-    class="hero-video"
-    src="/video/HeroBG_optimized.mp4"
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="auto"
-    aria-hidden="true"
-  ></video>
-
-  <!-- Fallback poster image (always visible on mobile) -->
   <img
-    src="/images/lill-onstage-1.png"
+    src="/images/hapsburgs.jpeg"
     alt=""
-    class="hero-poster"
+    class="hero-bg"
     aria-hidden="true"
     loading="eager"
   />
 
   <div class="hero-content">
-    <h1 class="hero-title">The Drags</h1>
-    <p class="hero-tagline">{t(lang, 'hero.tagline')}</p>
-  </div>
-
-  <div class="hero-scroll" aria-hidden="true">
-    {t(lang, 'hero.scroll')}
+    <img
+      src="/images/the-drags-logo-textured.svg"
+      alt="The Drags"
+      class="hero-logo"
+    />
   </div>
 </section>
 
 <style>
-  /* On desktop, video sits on top of the poster image */
-  @media (min-width: 900px) {
-    .hero-poster {
-      z-index: 0;
-    }
-    .hero-video {
-      z-index: 1;
-    }
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1) brightness(0.3);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .hero-logo {
+    width: clamp(240px, 50vw, 520px);
+    filter: brightness(0) invert(1);
   }
 </style>
