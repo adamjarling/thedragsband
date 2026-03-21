@@ -8,11 +8,10 @@ interface Props {
 const { lang } = Astro.props;
 
 const photos = [
-  { src: '/images/lill-onstage-1.png', alt: 'The Drags live' },
-  { src: '/images/IMG_9554.jpeg', alt: 'The Drags' },
-  { src: '/images/IMG_9148.jpeg', alt: 'The Drags' },
+  { src: '/images/alex-stefan-chilling.jpeg', alt: 'The Drags' },
   { src: '/images/IMG_1081.JPG', alt: 'The Drags' },
   { src: '/images/IMG_1084.JPG', alt: 'The Drags' },
+  { src: '/images/lill-singing-edited.png', alt: 'The Drags' },
   { src: '/images/band-photo-4.JPG', alt: 'The Drags' },
 ];
 ---
@@ -20,7 +19,7 @@ const photos = [
 <section id="gallery" class="section">
   <h2 class="section-heading">{t(lang, 'gallery.heading')}</h2>
 
-  <div class="gallery-grid">
+  <div class="gallery-masonry">
     {photos.map((photo) => (
       <div class="gallery-item">
         <img src={photo.src} alt={photo.alt} loading="lazy" />
@@ -28,3 +27,44 @@ const photos = [
     ))}
   </div>
 </section>
+
+<style>
+  /* Mobile: natural dimensions, stacked */
+  .gallery-masonry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .gallery-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: grayscale(1) contrast(1.1) brightness(0.85);
+    transition: filter 0.4s ease;
+  }
+
+  .gallery-item:hover img {
+    filter: grayscale(1) contrast(1.2) brightness(1);
+  }
+
+  /* Tablet and up: CSS columns masonry, no cropping */
+  @media (min-width: 640px) {
+    .gallery-masonry {
+      display: block;
+      columns: 2;
+      column-gap: 0.5rem;
+    }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .gallery-masonry {
+      columns: 3;
+    }
+  }
+</style>
