@@ -1,0 +1,25 @@
+---
+import { t } from '../i18n/utils';
+
+interface Props {
+  lang: 'de' | 'en';
+}
+
+const { lang } = Astro.props;
+---
+
+<section id="media" class="section">
+  <h2 class="section-heading">{t(lang, 'media.heading')}</h2>
+
+  <div class="media-video-wrap">
+    <video
+      controls
+      preload="none"
+      src="/video/the-drags-live.mp4"
+      poster="/images/lill-onstage-1.png"
+    >
+      Your browser does not support the video element.
+    </video>
+    <p class="media-label">{t(lang, 'media.video.label')}</p>
+  </div>
+</section>

@@ -1,0 +1,38 @@
+{
+  "nav.about": "Über uns",
+  "nav.shows": "Konzerte",
+  "nav.music": "Musik",
+  "nav.media": "Medien",
+  "nav.gallery": "Galerie",
+  "nav.contact": "Kontakt",
+
+  "hero.tagline": "Blues. Dreck. Wien.",
+  "hero.scroll": "Nach unten scrollen",
+
+  "about.heading": "Die Drags",
+  "about.bio": "The Drags sind eine Blues-Garage-Rock-Band aus Wien, Österreich. Ihre Musik ist ein ursprünglicher Klang in der Tradition von Howlin' Wolf, Small Faces, Chess Records, Etta James, Mike Bloomfield – und allem Coolen aus den 50ern und 60ern.",
+
+  "shows.heading": "Konzerte",
+  "shows.date": "Samstag, 18. April 2026",
+  "shows.venue": "Café Carina",
+  "shows.city": "Wien, Österreich",
+  "shows.tickets": "Tickets",
+  "shows.none": "Keine weiteren Konzerte angekündigt.",
+
+  "music.heading": "Musik",
+  "music.track": "Blues Jam №1",
+  "music.label": "Demo-Aufnahme",
+
+  "media.heading": "Medien",
+  "media.video.label": "Live-Auftritt",
+
+  "gallery.heading": "Galerie",
+
+  "contact.heading": "Buchung & Kontakt",
+  "contact.text": "Für Buchungsanfragen, Presse und sonstige Kontaktaufnahme:",
+  "contact.email": "booking@thedrags.com",
+  "contact.subtext": "Wir antworten auf Deutsch und Englisch.",
+
+  "footer.rights": "Alle Rechte vorbehalten.",
+  "footer.lang": "EN"
+}

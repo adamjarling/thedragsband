@@ -1,0 +1,31 @@
+---
+import { t, getAltLangPath } from '../i18n/utils';
+
+interface Props {
+  lang: 'de' | 'en';
+  currentUrl: URL;
+}
+
+const { lang, currentUrl } = Astro.props;
+const altPath = getAltLangPath(currentUrl);
+const altLabel = t(lang, 'footer.lang');
+---
+
+<nav class="site-nav">
+  <a href={lang === 'en' ? '/en/' : '/'} aria-label="The Drags – Home">
+    <img src="/images/the-drags-logo-textured.svg" alt="The Drags" class="nav-logo" />
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#about">{t(lang, 'nav.about')}</a></li>
+    <li><a href="#shows">{t(lang, 'nav.shows')}</a></li>
+    <li><a href="#music">{t(lang, 'nav.music')}</a></li>
+    <li><a href="#media">{t(lang, 'nav.media')}</a></li>
+    <li><a href="#gallery">{t(lang, 'nav.gallery')}</a></li>
+    <li><a href="#contact">{t(lang, 'nav.contact')}</a></li>
+  </ul>
+
+  <a href={altPath} class="lang-toggle" aria-label={`Switch to ${altLabel}`}>
+    {altLabel}
+  </a>
+</nav>

@@ -1,0 +1,53 @@
+---
+import { t } from '../i18n/utils';
+
+interface Props {
+  lang: 'de' | 'en';
+}
+
+const { lang } = Astro.props;
+---
+
+<section class="hero" aria-label="Hero">
+  <!-- Desktop: looping video background -->
+  <video
+    class="hero-video"
+    src="/video/HeroBG_optimized.mp4"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    aria-hidden="true"
+  ></video>
+
+  <!-- Fallback poster image (always visible on mobile) -->
+  <img
+    src="/images/lill-onstage-1.png"
+    alt=""
+    class="hero-poster"
+    aria-hidden="true"
+    loading="eager"
+  />
+
+  <div class="hero-content">
+    <h1 class="hero-title">The Drags</h1>
+    <p class="hero-tagline">{t(lang, 'hero.tagline')}</p>
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true">
+    {t(lang, 'hero.scroll')}
+  </div>
+</section>
+
+<style>
+  /* On desktop, video sits on top of the poster image */
+  @media (min-width: 900px) {
+    .hero-poster {
+      z-index: 0;
+    }
+    .hero-video {
+      z-index: 1;
+    }
+  }
+</style>

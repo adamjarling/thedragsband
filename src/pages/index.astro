@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Shows from '../components/Shows.astro';
+import MusicPlayer from '../components/MusicPlayer.astro';
+import Media from '../components/Media.astro';
+import Gallery from '../components/Gallery.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+
+const lang = 'de';
+---
+
+<BaseLayout
+  lang={lang}
+  title="The Drags"
+  description="The Drags – Blues Garage Rock aus Wien, Österreich."
+>
+  <div class="tv-wrapper">
+    <div class="tv-cabinet">
+      <div class="tv-screen">
+        <Nav lang={lang} currentUrl={Astro.url} />
+        <Hero lang={lang} />
+        <main>
+          <About lang={lang} />
+          <Shows lang={lang} />
+          <MusicPlayer lang={lang} />
+          <Media lang={lang} />
+          <Gallery lang={lang} />
+          <Contact lang={lang} />
+        </main>
+        <Footer lang={lang} />
+      </div>
+      <div class="tv-controls" aria-hidden="true">
+        <div class="tv-knob"></div>
+        <div class="tv-channel-bar"></div>
+        <div class="tv-knob"></div>
+        <div class="tv-knob"></div>
+        <div class="tv-channel-bar"></div>
+        <div class="tv-knob"></div>
+      </div>
+      <span class="tv-brand">DRAGATRON</span>
+    </div>
+  </div>
+</BaseLayout>
