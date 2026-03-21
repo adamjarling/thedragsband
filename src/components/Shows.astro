@@ -1,20 +1,38 @@
 ---
-import { t } from '../i18n/utils';
+import { t } from "../i18n/utils";
 
 interface Props {
-  lang: 'de' | 'en';
+  lang: "de" | "en";
 }
 
 const { lang } = Astro.props;
 ---
 
 <section id="shows" class="section">
-  <h2 class="section-heading">{t(lang, 'shows.heading')}</h2>
+  <h2 class="section-heading">{t(lang, "shows.heading")}</h2>
 
   <div class="show-listing">
-    <p class="show-date">{t(lang, 'shows.date')}</p>
-    <p class="show-venue">{t(lang, 'shows.venue')}</p>
-    <p class="show-city">{t(lang, 'shows.city')}</p>
-    <a href="#" class="show-cta">{t(lang, 'shows.tickets')}</a>
+    <p class="show-date">{t(lang, "shows.date")}</p>
+    <p class="show-venue">{t(lang, "shows.venue")}</p>
+    <p class="show-city">{t(lang, "shows.city")}</p>
+    <a href="#" class="show-cta">{t(lang, "shows.tickets")}</a>
+  </div>
+
+  <div class="flyer-compare">
+    <img
+      src="/images/2026-04-18-carina_1.png"
+      alt="Show flyer version 1"
+      class="flyer-img"
+    />
+    <img
+      src="/images/2026-04-18-carina_2.png"
+      alt="Show flyer version 2"
+      class="flyer-img"
+    />
+    <img
+      src="/images/2026-04-18-carina_3.png"
+      alt="Show flyer version 3"
+      class="flyer-img"
+    />
   </div>
 </section>

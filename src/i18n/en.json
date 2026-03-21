@@ -3,14 +3,14 @@
   "nav.shows": "Shows",
   "nav.music": "Music",
   "nav.media": "Media",
-  "nav.gallery": "Gallery",
+  "nav.gallery": "Look",
   "nav.contact": "Contact",
 
   "hero.tagline": "Blues. Dirt. Vienna.",
   "hero.scroll": "Scroll down",
 
   "about.heading": "The Drags",
-  "about.bio": "The Drags are a blues garage rock band from Vienna, Austria. Their music is a primal sound in the vein of Howlin' Wolf, Small Faces, Chess Records, Etta James, Mike Bloomfield — and anything cool from the '50s and '60s.",
+  "about.bio": "The Drags are a blues garage rock band from Vienna, Austria. Their music is a primal sound in the vein of Howlin' Wolf, Small Faces, Chess Records, Etta James, Mike Bloomfield — and anything cool or weird from the '60s and '70s.",
 
   "shows.heading": "Shows",
   "shows.date": "Saturday, April 18, 2026",
@@ -26,11 +26,11 @@
   "media.heading": "Media",
   "media.video.label": "Live Performance",
 
-  "gallery.heading": "Gallery",
+  "gallery.heading": "Look",
 
   "contact.heading": "Booking & Contact",
   "contact.text": "For booking inquiries, press, and all other matters:",
-  "contact.email": "booking@thedrags.com",
+  "contact.email": "contactthedrags@gmail.com",
   "contact.subtext": "We respond in German and English.",
 
   "footer.rights": "All rights reserved.",

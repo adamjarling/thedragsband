@@ -3,7 +3,7 @@
   "nav.shows": "Konzerte",
   "nav.music": "Musik",
   "nav.media": "Medien",
-  "nav.gallery": "Galerie",
+  "nav.gallery": "Look",
   "nav.contact": "Kontakt",
 
   "hero.tagline": "Blues. Dreck. Wien.",
@@ -26,11 +26,11 @@
   "media.heading": "Medien",
   "media.video.label": "Live-Auftritt",
 
-  "gallery.heading": "Galerie",
+  "gallery.heading": "Look",
 
   "contact.heading": "Buchung & Kontakt",
   "contact.text": "Für Buchungsanfragen, Presse und sonstige Kontaktaufnahme:",
-  "contact.email": "booking@thedrags.com",
+  "contact.email": "contactthedrags@gmail.com",
   "contact.subtext": "Wir antworten auf Deutsch und Englisch.",
 
   "footer.rights": "Alle Rechte vorbehalten.",
