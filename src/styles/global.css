@@ -37,6 +37,14 @@
   --font-body:    'IBM Plex Mono', 'Courier New', monospace;
 
   --section-gap: clamp(4rem, 10vw, 8rem);
+
+  /* Golden ratio spacing scale (Fibonacci × 0.25rem: 2,3,5,8,13,21) */
+  --sp-1: 0.5rem;    /*  8px */
+  --sp-2: 0.75rem;   /* 12px */
+  --sp-3: 1.25rem;   /* 20px */
+  --sp-4: 2rem;      /* 32px */
+  --sp-5: 3.25rem;   /* 52px */
+  --sp-6: 5.25rem;   /* 84px */
 }
 
 html {
@@ -350,7 +358,7 @@ h1, h2, h3 {
   position: relative;
   z-index: 10;
   text-align: center;
-  padding: 2rem;
+  padding: var(--sp-4);
 }
 
 .hero-title {
@@ -376,7 +384,7 @@ h1, h2, h3 {
 
 .hero-scroll {
   position: absolute;
-  bottom: 2rem;
+  bottom: var(--sp-4);
   left: 50%;
   transform: translateX(-50%);
   font-size: 0.6rem;
@@ -386,7 +394,7 @@ h1, h2, h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--sp-1);
   animation: scroll-pulse 2s ease-in-out infinite;
 }
 
@@ -421,7 +429,7 @@ h1, h2, h3 {
   height: 1px;
   width: 100%;
   background: linear-gradient(to right, var(--accent), transparent);
-  margin-top: 0.5rem;
+  margin-top: var(--sp-1);
 }
 
 /* ─── About ─────────────────────────────────────── */
@@ -482,7 +490,7 @@ h1, h2, h3 {
   font-family: var(--font-display);
   font-size: clamp(1.1rem, 2.5vw, 1.5rem);
   color: var(--text-bright);
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--sp-1);
 }
 
 .show-venue {
@@ -518,7 +526,7 @@ h1, h2, h3 {
 
 .flyer-compare {
   display: flex;
-  gap: 2rem;
+  gap: var(--sp-4);
   margin-top: 2.5rem;
   flex-wrap: wrap;
 }
@@ -530,12 +538,23 @@ h1, h2, h3 {
   filter: none;
 }
 
+@media (min-width: 768px) {
+  .flyer-compare {
+    max-width: 600px;
+  }
+
+  .flyer-img {
+    max-width: none;
+    flex: 1;
+  }
+}
+
 /* ─── Music Player ──────────────────────────────── */
 .music-player {
   max-width: 480px;
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.1);
-  padding: 2rem;
+  padding: var(--sp-4);
 }
 
 .player-track-name {
@@ -576,7 +595,7 @@ h1, h2, h3 {
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--text-dim);
-  margin-top: 0.75rem;
+  margin-top: var(--sp-2);
 }
 
 
@@ -621,7 +640,7 @@ h1, h2, h3 {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 2rem;
+  gap: var(--sp-4);
 }
 
 .social-links {
@@ -635,7 +654,7 @@ h1, h2, h3 {
   .social-links {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.75rem;
+    gap: var(--sp-2);
   }
 }
 

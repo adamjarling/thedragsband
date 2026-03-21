@@ -5,13 +5,17 @@ interface Props {
   title?: string;
   lang?: string;
   description?: string;
+  canonicalUrl?: string;
 }
 
 const {
   title = 'The Drags',
   lang = 'de',
   description = 'The Drags – Blues Garage Rock aus Wien.',
+  canonicalUrl = 'https://www.thedragsband.com/',
 } = Astro.props;
+
+const ogImage = 'https://www.thedragsband.com/images/hapsburgs.jpeg';
 ---
 
 <!doctype html>
@@ -22,11 +26,45 @@ const {
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <title>{title}</title>
-    <link rel="icon" type="image/svg+xml" href="/images/the-drags-logo-textured.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={lang === 'de' ? 'de_AT' : 'en_US'} />
+    <meta property="og:site_name" content="The Drags" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
     <!-- Alternate language links -->
-    {lang === 'de' && <link rel="alternate" hreflang="en" href="/en/" />}
-    {lang === 'en' && <link rel="alternate" hreflang="de" href="/" />}
-    <link rel="alternate" hreflang="x-default" href="/" />
+    {lang === 'de' && <link rel="alternate" hreflang="en" href="https://www.thedragsband.com/en/" />}
+    {lang === 'en' && <link rel="alternate" hreflang="de" href="https://www.thedragsband.com/" />}
+    <link rel="alternate" hreflang="x-default" href="https://www.thedragsband.com/" />
+
+    <!-- MusicGroup structured data -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "MusicGroup",
+      "name": "The Drags",
+      "description": "Blues Garage Rock band from Vienna, Austria.",
+      "url": "https://www.thedragsband.com",
+      "image": ogImage,
+      "genre": ["Blues", "Garage Rock"],
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "Vienna, Austria"
+      }
+    })} />
   </head>
   <body>
     <!-- CRT noise layer -->
