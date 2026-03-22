@@ -15,24 +15,15 @@ const { lang } = Astro.props;
     <p class="show-date">{t(lang, "shows.date")}</p>
     <p class="show-venue">{t(lang, "shows.venue")}</p>
     <p class="show-city">{t(lang, "shows.city")}</p>
-    <a href="#" class="show-cta">{t(lang, "shows.tickets")}</a>
+    <p class="show-meta">{t(lang, "shows.time")} &nbsp;·&nbsp; {t(lang, "shows.price")}</p>
+    <a href="https://www.cafe-carina.at/2020/events/the-drags-deloreans/" target="_blank" rel="noopener" class="show-cta">{t(lang, "shows.tickets")}</a>
   </div>
 
   <div class="flyer-compare">
-    <!-- <img
-      src="/images/2026-04-18-carina_1.png"
-      alt="Show flyer version 1"
-      class="flyer-img"
-    /> -->
     <img
-      src="/images/2026-04-18-carina_2.png"
-      alt="Show flyer version 2"
+      src="/images/2026-04-18-carina_FINAL.jpeg"
+      alt="Flyer for Cafe Carina show on April 18, 2026"
       class="flyer-img"
     />
-    <!-- <img
-      src="/images/2026-04-18-carina_3.png"
-      alt="Show flyer version 3"
-      class="flyer-img"
-    /> -->
   </div>
 </section>

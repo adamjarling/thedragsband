@@ -31,7 +31,7 @@
   --accent:       #a09888;
   --glow:         rgba(200, 196, 184, 0.15);
   --glow-strong:  rgba(220, 216, 200, 0.35);
-  --scan-dark:    rgba(0, 0, 0, 0.45);
+  --scan-dark:    rgba(0, 0, 0, 0.12);
 
   --font-display: 'Special Elite', 'Courier New', monospace;
   --font-body:    'IBM Plex Mono', 'Courier New', monospace;
@@ -191,9 +191,9 @@ h1, h2, h3 {
   background: repeating-linear-gradient(
     0deg,
     transparent,
-    transparent 2px,
-    var(--scan-dark) 2px,
-    var(--scan-dark) 4px
+    transparent 3px,
+    var(--scan-dark) 3px,
+    var(--scan-dark) 6px
   );
   mix-blend-mode: multiply;
 }
@@ -504,6 +504,13 @@ h1, h2, h3 {
 .show-city {
   font-size: 0.75rem;
   color: var(--text-dim);
+  margin-bottom: 0.75rem;
+}
+
+.show-meta {
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 0.05em;
   margin-bottom: 1.5rem;
 }
 
