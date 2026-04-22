@@ -14,8 +14,14 @@ const photos = [
   { src: "/images/lill-singing-edited.png", alt: "The Drags" },
   { src: "/images/IMG_1084.JPG", alt: "The Drags" },
   { src: "/images/IMG_9554.jpeg", alt: "The Drags" },
-
   { src: "/images/IMG_1033.jpg", alt: "The Drags" },
+  { src: "/images/674179262_4316869891974648_8757351351663698479_n.jpg", alt: "The Drags" },
+  { src: "/images/674582433_4316869388641365_4163761276374460983_n.jpg", alt: "The Drags" },
+  { src: "/images/675791807_4316869621974675_8272766122137894808_n.jpg", alt: "The Drags" },
+  { src: "/images/677254653_4316869155308055_4397627386105333027_n.jpg", alt: "The Drags" },
+  { src: "/images/677257479_4316869355308035_3448653469414273722_n.jpg", alt: "The Drags" },
+  { src: "/images/677925938_4316869271974710_5530924666295572768_n.jpg", alt: "The Drags" },
+  { src: "/images/677927990_4316869245308046_7291756835387345483_n.jpg", alt: "The Drags" },
 ];
 ---
 
@@ -31,6 +37,10 @@ const photos = [
       ))
     }
   </div>
+
+  <p class="photo-credits">
+    Photos by <a href="https://www.facebook.com/profile.php?id=100009550403171" target="_blank" rel="noopener noreferrer">Peter Kogoj</a> &amp; <a href="https://www.instagram.com/caseymolloymurtaugh/" target="_blank" rel="noopener noreferrer">Casey Murtaugh</a>
+  </p>
 </section>
 
 <style>
@@ -71,5 +81,23 @@ const photos = [
     .gallery-masonry {
       columns: 3;
     }
+  }
+
+  .photo-credits {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  .photo-credits a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .photo-credits a:hover {
+    opacity: 0.8;
   }
 </style>
