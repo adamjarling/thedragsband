@@ -12,14 +12,35 @@ const { lang } = Astro.props;
   <h2 class="section-heading">{t(lang, 'media.heading')}</h2>
 
   <div class="media-video-wrap">
-    <video
-      controls
-      preload="none"
-      src="/video/the-drags-live.mp4"
-      poster="/images/lill-onstage-1.png"
-    >
-      Your browser does not support the video element.
-    </video>
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/hqVK8x67hhI"
+      title={t(lang, 'media.video.label')}
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+      loading="lazy"
+    ></iframe>
     <p class="media-label">{t(lang, 'media.video.label')}</p>
   </div>
 </section>
+
+<style>
+  .media-video-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+    display: block;
+  }
+
+  .media-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+</style>

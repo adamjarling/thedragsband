@@ -681,6 +681,11 @@ h1, h2, h3 {
   opacity: 1;
 }
 
+.social-link--disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
 .social-icon {
   width: 18px;
   height: 18px;
