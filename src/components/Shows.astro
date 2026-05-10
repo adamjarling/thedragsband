@@ -6,24 +6,66 @@ interface Props {
 }
 
 const { lang } = Astro.props;
+
+const showsData = [
+  {
+    date: "Saturday, April 18, 2026",
+    dateObj: new Date("2026-04-18"),
+    venue: "Café Carina",
+    city: "Vienna, Austria",
+    time: "8:00 PM",
+    price: "Pass the hat — pay what you like",
+    ticketUrl: "https://www.cafe-carina.at/2020/events/the-drags-deloreans/",
+    flyer: "/images/2026-04-18-carina_FINAL.jpeg",
+    flyerAlt: "Flyer for Cafe Carina show on April 18, 2026"
+  },
+  {
+    date: "Friday, June 19, 2026",
+    dateObj: new Date("2026-06-19"),
+    venue: "Café Carina",
+    city: "Vienna, Austria",
+    time: "8:00 PM",
+    price: "Pass the hat — pay what you like",
+    ticketUrl: "https://www.cafe-carina.at/2020/events/the-drags/",
+    flyer: null,
+    flyerAlt: null
+  }
+];
+
+const now = new Date();
+const shows = showsData.sort((a, b) => b.dateObj.getTime() - a.dateObj.getTime()).map(show => ({
+  ...show,
+  isPast: show.dateObj < now
+}));
 ---
 
 <section id="shows" class="section">
   <h2 class="section-heading">{t(lang, "shows.heading")}</h2>
 
-  <div class="show-listing">
-    <p class="show-date">{t(lang, "shows.date")}</p>
-    <p class="show-venue">{t(lang, "shows.venue")}</p>
-    <p class="show-city">{t(lang, "shows.city")}</p>
-    <p class="show-meta">{t(lang, "shows.time")} &nbsp;·&nbsp; {t(lang, "shows.price")}</p>
-    <a href="https://www.cafe-carina.at/2020/events/the-drags-deloreans/" target="_blank" rel="noopener" class="show-cta">{t(lang, "shows.tickets")}</a>
-  </div>
-
-  <div class="flyer-compare">
-    <img
-      src="/images/2026-04-18-carina_FINAL.jpeg"
-      alt="Flyer for Cafe Carina show on April 18, 2026"
-      class="flyer-img"
-    />
-  </div>
+  {shows.map((show) => (
+    <div class={`show-listing ${show.isPast ? 'show-past' : ''}`}>
+      <p class="show-date">{show.date}</p>
+      <p class="show-venue">{show.venue}</p>
+      <p class="show-city">{show.city}</p>
+      <p class="show-meta">{show.time} &nbsp;·&nbsp; {show.price}</p>
+      <a href={show.ticketUrl} target="_blank" rel="noopener" class="show-cta">{t(lang, "shows.tickets")}</a>
+      {show.flyer && (
+        <div class="flyer-compare">
+          <img
+            src={show.flyer}
+            alt={show.flyerAlt}
+            class="flyer-img"
+          />
+        </div>
+      )}
+    </div>
+  ))}
 </section>
+
+<style>
+  @media (min-width: 960px) {
+    .show-past .flyer-compare {
+      max-width: 50%;
+    }
+  }
+</style>
