@@ -16,6 +16,7 @@ const links = [
 ];
 ---
 
+<div class="header-shell">
 <header class="header">
   <a href={home} class="header__logo" aria-label="The Drags">
     <img src={logoSolid.src} alt={t.hero.logoAlt} width="120" height="34" />
@@ -49,6 +50,7 @@ const links = [
     <span>{t.nav.themeToggle}</span>
   </button>
 </div>
+</div>
 
 <style>
   .header {
@@ -59,6 +61,12 @@ const links = [
     padding: 14px var(--gutter);
     border-bottom: var(--rule) solid var(--ink);
     background: var(--paper);
+  }
+
+  /* The menu is a sibling of the bar, so it has to share the bar's sticky
+     context — otherwise following a nav link scrolls the panel off-screen
+     while the bar stays pinned, and the burger appears to do nothing. */
+  .header-shell {
     position: sticky;
     top: 0;
     z-index: 40;
@@ -114,6 +122,8 @@ const links = [
     padding: 18px var(--gutter) 26px;
     border-bottom: var(--rule) solid var(--ink);
     background: var(--paper);
+    max-height: 78dvh;
+    overflow-y: auto;
   }
 
   .mobile-menu[data-open] { display: flex; }
@@ -182,6 +192,7 @@ const links = [
     menu.removeAttribute('data-open');
     menu.hidden = true;
     burger.setAttribute('aria-expanded', 'false');
+    document.body.style.removeProperty('overflow');
   }
 
   burger?.addEventListener('click', () => {
@@ -193,6 +204,7 @@ const links = [
       menu.hidden = false;
       menu.setAttribute('data-open', '');
       burger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
     }
   });
 
