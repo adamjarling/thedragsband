@@ -57,6 +57,9 @@ const gallery = defineCollection({
     z.object({
       src: image(),
       alt: localizedString,
+      // Key into `photographers` in src/data/lineup.ts. Null falls back
+      // to the combined credit line beneath the grid.
+      credit: z.enum(['kogoj', 'murtaugh']).nullable().default(null),
     }),
 });
 

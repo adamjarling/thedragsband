@@ -39,7 +39,7 @@ export interface Copy {
       guitarVocals: string;
       guitar: string;
       drums: string;
-      bassVocals: string;
+      bassGuitarVocals: string;
     };
   };
   shows: {
@@ -71,6 +71,8 @@ export interface Copy {
     close: string;
     prev: string;
     next: string;
+    photoBy: string;
+    openGallery: string;
   };
   booking: {
     eyebrow: string;
@@ -126,7 +128,7 @@ export const ui: Record<Lang, Copy> = {
         guitarVocals: 'Gitarre / Gesang',
         guitar: 'Gitarre',
         drums: 'Schlagzeug',
-        bassVocals: 'Bass / Gesang',
+        bassGuitarVocals: 'Bass / Gitarre / Gesang',
       },
     },
     shows: {
@@ -154,16 +156,18 @@ export const ui: Record<Lang, Copy> = {
     look: {
       heading: 'Look',
       seeAll: 'ALLE {n} ANSEHEN',
-      credit: 'FOTOS VON PETER KOGOJ & CASEY MURTAUGH',
+      credit: 'FOTOS VON {a} & {b}',
       close: 'Schließen',
       prev: 'Vorheriges Foto',
       next: 'Nächstes Foto',
+      photoBy: 'Foto',
+      openGallery: 'Galerie öffnen',
     },
     booking: {
       eyebrow: 'BOOKING & PRESSE',
       headline: ['Sag', 'wann.'],
       body: 'Clubs, Bars, Festivals, Hinterzimmer. Wir antworten auf Deutsch und Englisch.',
-      email: 'info@thedragsband.com',
+      email: 'contactthedrags@gmail.com',
       pressKit: 'Pressekit laden',
       copyright: '© {year} THE DRAGS — WIEN',
       skipToContent: 'Zum Inhalt springen',
@@ -212,7 +216,7 @@ export const ui: Record<Lang, Copy> = {
         guitarVocals: 'Guitar / Vocals',
         guitar: 'Guitar',
         drums: 'Drums',
-        bassVocals: 'Bass / Vocals',
+        bassGuitarVocals: 'Bass / Guitar / Vocals',
       },
     },
     shows: {
@@ -240,16 +244,18 @@ export const ui: Record<Lang, Copy> = {
     look: {
       heading: 'Look',
       seeAll: 'SEE ALL {n}',
-      credit: 'PHOTOS BY PETER KOGOJ & CASEY MURTAUGH',
+      credit: 'PHOTOS BY {a} & {b}',
       close: 'Close',
       prev: 'Previous photo',
       next: 'Next photo',
+      photoBy: 'Photo',
+      openGallery: 'Open gallery',
     },
     booking: {
       eyebrow: 'BOOKING & PRESS',
       headline: ['Say', 'when.'],
       body: 'Clubs, bars, festivals, back rooms. We answer in English and German.',
-      email: 'info@thedragsband.com',
+      email: 'contactthedrags@gmail.com',
       pressKit: 'Download press kit',
       copyright: '© {year} THE DRAGS — VIENNA',
       skipToContent: 'Skip to content',

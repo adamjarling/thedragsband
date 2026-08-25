@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import SectionHead from './SectionHead.astro';
+import { photographers } from '../data/lineup';
 import { useTranslations, fill, type Lang } from '../i18n/utils';
 import { pick } from '../i18n/localized';
 import type { CollectionEntry } from 'astro:content';
@@ -13,6 +14,9 @@ const t = useTranslations(lang);
    onto a single baseline. Indexed, not random, so it is build-stable. */
 const TILTS = [-1.2, 0.9, -0.6, 1.4, -1.1, 0.7, 1.2, -0.9, 0.5, -1.4, 1.0];
 const OFFSETS = [0, 10, 0, 8, 12, 0, 9, 0, 11, 0, 8];
+
+const creditName = (key: CollectionEntry<'gallery'>['data']['credit']) =>
+  key ? photographers[key].name : null;
 ---
 
 <section class="look gutter" id="look">
@@ -27,23 +31,28 @@ const OFFSETS = [0, 10, 0, 8, 12, 0, 9, 0, 11, 0, 8];
         data-lightbox
         data-full={p.data.src.src}
         data-alt={pick(p.data.alt, lang)}
-        data-index={i}
+        data-credit={creditName(p.data.credit) ?? ''}
         aria-label={pick(p.data.alt, lang)}
       >
         <Image src={p.data.src} alt={pick(p.data.alt, lang)} width={600} class="photo" />
       </button>
     ))}
 
-    <div class="look__all plate frame">
+    <button type="button" class="look__all plate frame" data-open-gallery>
       <span class="label">{fill(t.look.seeAll, { n: photos.length })} &rarr;</span>
-    </div>
+    </button>
   </div>
 
-  <p class="look__credit label">{t.look.credit}</p>
+  <p class="look__credit label">
+    {t.look.credit.replace('{a}', photographers.kogoj.name).replace('{b}', photographers.murtaugh.name)}
+  </p>
 </section>
 
 <dialog class="lb" data-lb aria-label={t.look.heading}>
-  <img class="lb__img" data-lb-img src="" alt="" />
+  <figure class="lb__stage">
+    <img class="lb__img" data-lb-img src="" alt="" />
+    <figcaption class="lb__caption label" data-lb-caption></figcaption>
+  </figure>
   <button type="button" class="lb__btn lb__prev" data-lb-prev aria-label={t.look.prev}>&#8592;</button>
   <button type="button" class="lb__btn lb__next" data-lb-next aria-label={t.look.next}>&#8594;</button>
   <button type="button" class="lb__btn lb__close" data-lb-close aria-label={t.look.close}>&#10005;</button>
@@ -81,6 +90,8 @@ const OFFSETS = [0, 10, 0, 8, 12, 0, 9, 0, 11, 0, 8];
     text-align: center;
   }
 
+  .look__all:hover { background: var(--ink); color: var(--paper); }
+
   .look__credit { margin-top: 16px; }
 
   .lb {
@@ -95,11 +106,29 @@ const OFFSETS = [0, 10, 0, 8, 12, 0, 9, 0, 11, 0, 8];
 
   .lb::backdrop { background: rgba(10, 11, 9, 0.9); }
 
-  .lb__img {
+  .lb__stage {
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 56px 20px 24px;
+  }
+
+  .lb__img {
+    max-width: 100%;
+    min-height: 0;
+    flex: 1;
     object-fit: contain;
-    padding: 40px 20px;
+  }
+
+  .lb__caption {
+    flex: none;
+    color: #e8e5da;
+    text-align: center;
+    min-height: 1em;
   }
 
   .lb__btn {
@@ -114,9 +143,16 @@ const OFFSETS = [0, 10, 0, 8, 12, 0, 9, 0, 11, 0, 8];
     background: rgba(10, 11, 9, 0.6);
   }
 
+  .lb__btn:hover { background: var(--plate); color: var(--ink-on-plate); }
+
   .lb__prev { left: 12px; top: 50%; transform: translateY(-50%); }
   .lb__next { right: 12px; top: 50%; transform: translateY(-50%); }
   .lb__close { top: 12px; right: 12px; }
+
+  /* Flyers open in the same dialog but stand outside the gallery
+     sequence, so the arrows are hidden for them. */
+  .lb[data-single] .lb__prev,
+  .lb[data-single] .lb__next { display: none; }
 
   @media (max-width: 980px) {
     .look__grid { grid-template-columns: repeat(3, 1fr); }
@@ -130,8 +166,12 @@ const OFFSETS = [0, 10, 0, 8, 12, 0, 9, 0, 11, 0, 8];
 <script>
   const dialog = document.querySelector<HTMLDialogElement>('[data-lb]');
   const img = document.querySelector<HTMLImageElement>('[data-lb-img]');
+  const caption = document.querySelector<HTMLElement>('[data-lb-caption]');
   const tiles = Array.from(document.querySelectorAll<HTMLElement>('[data-lightbox]'));
   const flyers = Array.from(document.querySelectorAll<HTMLElement>('[data-flyer]'));
+  const openAll = document.querySelector<HTMLElement>('[data-open-gallery]');
+
+  const PHOTO_BY = document.documentElement.lang === 'de' ? 'Foto' : 'Photo';
 
   let index = 0;
 
@@ -141,22 +181,29 @@ const OFFSETS = [0, 10, 0, 8, 12, 0, 9, 0, 11, 0, 8];
     const tile = tiles[index];
     img.src = tile.dataset.full ?? '';
     img.alt = tile.dataset.alt ?? '';
+    if (caption) {
+      const credit = tile.dataset.credit;
+      caption.textContent = credit
+        ? `${index + 1} / ${tiles.length} · ${PHOTO_BY}: ${credit}`
+        : `${index + 1} / ${tiles.length}`;
+    }
   }
 
   function open(i: number) {
+    dialog?.removeAttribute('data-single');
     show(i);
     dialog?.showModal();
   }
 
   tiles.forEach((tile, i) => tile.addEventListener('click', () => open(i)));
+  openAll?.addEventListener('click', () => open(0));
 
-  /* The FLYER buttons in the Shows section reuse this same dialog, but
-     stand outside the gallery sequence — so arrows are hidden for them. */
   flyers.forEach((btn) => {
     btn.addEventListener('click', () => {
       if (!img) return;
       img.src = btn.dataset.flyerSrc ?? '';
       img.alt = btn.dataset.flyerAlt ?? '';
+      if (caption) caption.textContent = btn.dataset.flyerAlt ?? '';
       dialog?.setAttribute('data-single', '');
       dialog?.showModal();
     });

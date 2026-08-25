@@ -5,7 +5,8 @@
     "alt": {
       "de": "The Drags live in Wien",
       "en": "The Drags live in Vienna"
-    }
+    },
+    "credit": null
   },
   {
     "id": "stefan-hand",
@@ -13,7 +14,8 @@
     "alt": {
       "de": "The Drags live in Wien",
       "en": "The Drags live in Vienna"
-    }
+    },
+    "credit": null
   },
   {
     "id": "lill-onstage",
@@ -21,7 +23,8 @@
     "alt": {
       "de": "The Drags live in Wien",
       "en": "The Drags live in Vienna"
-    }
+    },
+    "credit": null
   },
   {
     "id": "live-2",
@@ -29,7 +32,8 @@
     "alt": {
       "de": "The Drags live in Wien",
       "en": "The Drags live in Vienna"
-    }
+    },
+    "credit": null
   },
   {
     "id": "smiles",
@@ -37,7 +41,8 @@
     "alt": {
       "de": "The Drags live in Wien",
       "en": "The Drags live in Vienna"
-    }
+    },
+    "credit": null
   },
   {
     "id": "live-3",
@@ -45,7 +50,8 @@
     "alt": {
       "de": "The Drags live in Wien",
       "en": "The Drags live in Vienna"
-    }
+    },
+    "credit": null
   },
   {
     "id": "rehearsal",
@@ -53,7 +59,8 @@
     "alt": {
       "de": "The Drags live in Wien",
       "en": "The Drags live in Vienna"
-    }
+    },
+    "credit": null
   },
   {
     "id": "first-gig",
@@ -61,7 +68,8 @@
     "alt": {
       "de": "The Drags live in Wien",
       "en": "The Drags live in Vienna"
-    }
+    },
+    "credit": null
   },
   {
     "id": "helmut",
@@ -69,7 +77,8 @@
     "alt": {
       "de": "The Drags live in Wien",
       "en": "The Drags live in Vienna"
-    }
+    },
+    "credit": null
   },
   {
     "id": "lill",
@@ -77,7 +86,8 @@
     "alt": {
       "de": "The Drags live in Wien",
       "en": "The Drags live in Vienna"
-    }
+    },
+    "credit": null
   },
   {
     "id": "leopard",
@@ -85,6 +95,7 @@
     "alt": {
       "de": "The Drags live in Wien",
       "en": "The Drags live in Vienna"
-    }
+    },
+    "credit": null
   }
 ]
