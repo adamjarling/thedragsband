@@ -33,6 +33,8 @@ export interface Copy {
     location: string;
     body: string[];
     chip: string;
+    readMore: string;
+    readLess: string;
     lineupLabel: string;
     instruments: {
       vocals: string;
@@ -122,6 +124,8 @@ export const ui: Record<Lang, Copy> = {
         'Gemeinsam beschwören The Drags den Geist von Howlin’ Wolf, den Small Faces und den Chess-Records-Sound, gefiltert durch eine unverkennbare 60s-Pop-Garage-Blues-Linse — verzerrte Gitarren, treibende Rhythmen und Hooks, die scharf genug sind, um den Lärm zu überleben. Derzeit hat sich die Band zum Schreiben ihres Debütalbums verschanzt und jagt genau jener Energie nach, von der das Publikum im Café Carina schon einen Vorgeschmack bekommen hat.',
       ],
       chip: 'Mehr folgt bald.',
+      readMore: 'Mehr lesen',
+      readLess: 'Weniger',
       lineupLabel: 'Die Besetzung',
       instruments: {
         vocals: 'Gesang',
@@ -210,6 +214,8 @@ export const ui: Record<Lang, Copy> = {
         'Together, The Drags channel the spirit of Howlin’ Wolf, the Small Faces, and the Chess Records sound, filtered through a distinctly 60s pop garage blues lens — fuzzed-out guitars, driving rhythms, and hooks sharp enough to survive the noise. The band is currently holed up writing their debut album, chasing that same electricity live audiences have already caught a glimpse of at Café Carina.',
       ],
       chip: 'More to come soon.',
+      readMore: 'Read more',
+      readLess: 'Less',
       lineupLabel: 'The lineup',
       instruments: {
         vocals: 'Vocals',

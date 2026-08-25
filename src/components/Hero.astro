@@ -4,9 +4,9 @@ import logoTextured from '../assets/logos/logo-textured.svg';
 import heroBand from '../assets/photos/hero-band.png';
 import lillOnstage from '../assets/photos/lill-onstage.png';
 import stefanHand from '../assets/photos/stefan-hand.jpeg';
-import lill from '../assets/photos/lill.png';
 import { useTranslations, formatShortDate, type Lang } from '../i18n/utils';
 import { pick } from '../i18n/localized';
+import MobileHeroCarousel from './MobileHeroCarousel.astro';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -46,10 +46,6 @@ const t = useTranslations(lang);
       <span class="hero__desc-short">{t.hero.descriptionShort}</span>
     </p>
 
-    <div class="hero__portrait frame">
-      <Image src={lill} alt={t.hero.logoAlt} width={600} class="photo" />
-    </div>
-
     {next && (
       <div class="hero__strip">
         <span class="label">{t.hero.nextLabel}: {formatShortDate(next.data.date, lang)}</span>
@@ -62,6 +58,16 @@ const t = useTranslations(lang);
       <span>{t.hero.cta}</span>
       <span aria-hidden="true">&rarr;</span>
     </a>
+  </div>
+
+  <div class="hero__mobile">
+    <MobileHeroCarousel lang={lang} />
+    <div class="hero__mobile-cta">
+      <a href="#booking" class="hero__cta plate frame tilt-f">
+        <span>{t.hero.cta}</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -102,8 +108,10 @@ const t = useTranslations(lang);
   .hero__desc { font-size: 13px; line-height: 1.55; text-transform: uppercase; }
   .hero__desc-short { display: none; }
 
-  /* The portrait is a mobile-only beat; desktop carries the 3-up row instead. */
-  .hero__portrait { display: none; aspect-ratio: 4 / 5; overflow: hidden; }
+  /* The carousel replaces the whole hero on mobile; desktop never shows it,
+     and its script skips fetching frames 2-6 on a desktop viewport. */
+  .hero__mobile { display: none; }
+  .hero__mobile-cta { padding: 14px 16px 0; }
 
   .hero__strip {
     display: flex;
@@ -135,11 +143,11 @@ const t = useTranslations(lang);
   }
 
   @media (max-width: 780px) {
-    .hero { grid-template-columns: 1fr; gap: 16px; padding-top: 22px; }
-    .hero__left { display: none; }
-    .hero__desc-full { display: none; }
-    .hero__desc-short { display: inline; }
-    .hero__portrait { display: block; }
+    /* Mobile drops the gutter entirely — the carousel is full-bleed. */
+    .hero { grid-template-columns: 1fr; gap: 0; padding: 0; }
+    .hero__left,
+    .hero__right { display: none; }
+    .hero__mobile { display: block; }
     .hero__cta { justify-content: space-between; }
   }
 </style>

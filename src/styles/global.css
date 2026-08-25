@@ -18,6 +18,7 @@
   --plate: #5c6b4c; /* spot ink */
   --ink-on-plate: #141210;
   --accent: #a8b893; /* dates on dark */
+  --paper-rgb: 23, 25, 15;
   --stripe-a: #3a3d31; /* photo placeholder */
   --stripe-b: #2e3126;
 
@@ -43,6 +44,7 @@
   --plate: #6b7c59; /* RAL 6011 Resedagrün */
   --ink-on-plate: #141210;
   --accent: #6b7c59;
+  --paper-rgb: 229, 224, 212;
   --stripe-a: #cfc8b8;
   --stripe-b: #c4bcaa;
 
