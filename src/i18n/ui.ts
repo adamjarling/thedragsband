@@ -263,7 +263,7 @@ export const ui: Record<Lang, Copy> = {
     },
     booking: {
       eyebrow: 'BOOKING & PRESS',
-      headline: ['Say', 'when.'],
+      headline: ['Get in', 'touch.'],
       body: 'Clubs, bars, festivals, back rooms, punk rock squatter flats, Buschenschanken, you name it. Drop us a line.',
       email: 'contactthedrags@gmail.com',
       pressKit: 'Download press kit',
