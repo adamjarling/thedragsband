@@ -5,7 +5,7 @@ export const lineup = [
   { name: 'Stefan Zisser', role: 'guitarVocals' },
   { name: 'Alex K.', role: 'guitar' },
   { name: 'Thomas Haberl', role: 'drums' },
-  { name: 'Adam J. Arling', role: 'bassGuitarVocals' },
+  { name: 'Adam J. Arling', role: 'bass' },
 ] as const;
 
 export const socials = [

@@ -43,7 +43,7 @@ export interface Copy {
       guitarVocals: string;
       guitar: string;
       drums: string;
-      bassGuitarVocals: string;
+      bass: string;
     };
   };
   shows: {
@@ -136,7 +136,7 @@ export const ui: Record<Lang, Copy> = {
         guitarVocals: 'Gitarre / Gesang',
         guitar: 'Gitarre',
         drums: 'Schlagzeug',
-        bassGuitarVocals: 'Bass / Gitarre / Gesang',
+        bass: 'Bass',
       },
     },
     shows: {
@@ -228,7 +228,7 @@ export const ui: Record<Lang, Copy> = {
         guitarVocals: 'Guitar / Vocals',
         guitar: 'Guitar',
         drums: 'Drums',
-        bassGuitarVocals: 'Bass / Guitar / Vocals',
+        bass: 'Bass',
       },
     },
     shows: {
