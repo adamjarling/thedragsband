@@ -1,5 +1,6 @@
 ---
 import { socials } from '../data/lineup';
+import { site } from '../data/site';
 import { useTranslations, getAltLangPath, fill, type Lang } from '../i18n/utils';
 
 interface Props { lang: Lang; url: URL }
@@ -25,9 +26,11 @@ const altLabel = lang === 'de' ? 'EN' : 'DE';
       <a href={`mailto:${t.booking.email}`} class="booking__btn booking__btn--fill">
         {t.booking.email}
       </a>
-      <a href="/press-kit.zip" class="booking__btn label" download>
-        {t.booking.pressKit}
-      </a>
+      {site.pressKitUrl && (
+        <a href={site.pressKitUrl} class="booking__btn label" download>
+          {t.booking.pressKit}
+        </a>
+      )}
       <nav class="booking__socials" aria-label="Social">
         {socials.map((s) => (
           <a href={s.href} class="label booking__social" target="_blank" rel="noopener noreferrer">
