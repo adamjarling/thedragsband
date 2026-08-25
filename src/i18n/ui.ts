@@ -16,6 +16,7 @@ export interface Copy {
     book: string;
     menu: string;
     themeToggle: string;
+    language: string;
     themeDark: string;
     themeLight: string;
   };
@@ -103,6 +104,7 @@ export const ui: Record<Lang, Copy> = {
       book: 'Buchen',
       menu: 'Menü',
       themeToggle: 'Farbschema wechseln',
+      language: 'Sprache wechseln',
       themeDark: 'Dunkel',
       themeLight: 'Hell',
     },
@@ -120,8 +122,9 @@ export const ui: Record<Lang, Copy> = {
       heading: 'Über uns',
       location: 'WIEN, ÖSTERREICH',
       body: [
-        'The Drags sind eine Blues-Garage-Rock-Band, die sich durch Wien spielt — zusammengehalten von der gemeinsamen Liebe zu rohem, ungeschliffenem Sound, wie er in verrauchten Lokalen lebte, lange bevor jemand auf die Idee kam, ihn sauber zu machen. Die Besetzung bringt Wiener Musikerinnen und Musiker mit dem Chicagoer Zuwanderer Adam Arling zusammen, der auf drei Kontinenten in Hard-Rock-Bands gespielt hat, bevor er in Wien landete und der Bluesszene der Stadt verfiel. Am Mikrofon steht Lill Oehl, deren Stimme zuerst bei Blonde on Blonde auffiel, einer viel geliebten reinen Frauenband des 60s-Pop, die vor einer Generation die Wiener Szene prägte. Dahinter sitzt Thomas Haberl, Wiener durch und durch, der sich in Londoner Session-Studios die Sporen verdiente, und vorne die Doppelgitarren von Stefan Zisser und Alex K. — Jugendfreunde, die lange genug miteinander spielen, um die Soli des anderen zu Ende zu bringen.',
-        'Gemeinsam beschwören The Drags den Geist von Howlin’ Wolf, den Small Faces und den Chess-Records-Sound, gefiltert durch eine unverkennbare 60s-Pop-Garage-Blues-Linse — verzerrte Gitarren, treibende Rhythmen und Hooks, die scharf genug sind, um den Lärm zu überleben. Derzeit hat sich die Band zum Schreiben ihres Debütalbums verschanzt und jagt genau jener Energie nach, von der das Publikum im Café Carina schon einen Vorgeschmack bekommen hat.',
+        'The Drags beschwören den Geist von Howlin’ Wolf, den Small Faces und den Chess-Records-Sound, gefiltert durch eine unverkennbare 60s-Pop-Garage-Blues-Linse — verzerrte Gitarren, treibende Rhythmen und Hooks, die scharf genug sind, um den Lärm zu überleben. Derzeit hat sich die Band zum Schreiben ihres Debütalbums verschanzt und jagt genau jener Energie nach, von der das Publikum im Café Carina schon einen Vorgeschmack bekommen hat.',
+        'Die Besetzung bringt Wiener Musikerinnen und Musiker mit dem Chicagoer Zuwanderer Adam Arling zusammen, der auf drei Kontinenten in Hard-Rock-Bands gespielt hat, bevor er in Wien landete und der Bluesszene der Stadt verfiel. Am Mikrofon steht Lill Oehl, deren Stimme zuerst bei Blonde on Blonde auffiel, einer viel geliebten reinen Frauenband des 60s-Pop, die vor Corona die Wiener Szene prägte. Dahinter sitzt Thomas Haberl, Wiener durch und durch, der sich in Londoner Session-Studios die Sporen verdiente, und vorne die Doppelgitarren von Stefan Zisser und Alex K. — Jugendfreunde, die lange genug miteinander spielen, um die Soli des anderen zu Ende zu bringen.',
+        'Bis zum nächsten Gig!',
       ],
       chip: 'Mehr folgt bald.',
       readMore: 'Mehr lesen',
@@ -170,7 +173,7 @@ export const ui: Record<Lang, Copy> = {
     booking: {
       eyebrow: 'BOOKING & PRESSE',
       headline: ['Sag', 'wann.'],
-      body: 'Clubs, Bars, Festivals, Hinterzimmer. Wir antworten auf Deutsch und Englisch.',
+      body: 'Clubs, Bars, Festivals, Hinterzimmer, besetzte Punkrock-Häuser, Buschenschanken, was auch immer. Schreibt uns.',
       email: 'contactthedrags@gmail.com',
       pressKit: 'Pressekit laden',
       copyright: '© {year} THE DRAGS — WIEN',
@@ -193,6 +196,7 @@ export const ui: Record<Lang, Copy> = {
       book: 'Book us',
       menu: 'Menu',
       themeToggle: 'Switch colour scheme',
+      language: 'Switch language',
       themeDark: 'Dark',
       themeLight: 'Light',
     },
@@ -210,8 +214,9 @@ export const ui: Record<Lang, Copy> = {
       heading: 'About',
       location: 'VIENNA, AUSTRIA',
       body: [
-        'The Drags are a blues garage rock band tearing through Vienna, Austria, built on a shared love of raw, unpolished sound — the kind of thing that lived in smoky rooms decades before anyone thought to clean it up. The lineup pairs local Viennese musicians with Chicago transplant Adam Arling, who has logged time in hard rock outfits across three continents before landing in Vienna and falling hard for the city’s blues scene. Fronting the band is Lill Oehl, whose voice first turned heads in Blonde on Blonde, a beloved all-female 60s pop outfit that made its mark on the Vienna scene a generation ago. Behind them sits Thomas Haberl, a Vienna lifer who cut his teeth in London session rooms, and out front the twin guitars of Stefan Zisser and Alex K. — childhood friends who have been trading licks long enough to finish each other’s solos.',
-        'Together, The Drags channel the spirit of Howlin’ Wolf, the Small Faces, and the Chess Records sound, filtered through a distinctly 60s pop garage blues lens — fuzzed-out guitars, driving rhythms, and hooks sharp enough to survive the noise. The band is currently holed up writing their debut album, chasing that same electricity live audiences have already caught a glimpse of at Café Carina.',
+        'The Drags channel the spirit of Howlin’ Wolf, the Small Faces, and the Chess Records sound, filtered through a distinctly 60s pop garage blues lens — fuzzed-out guitars, driving rhythms, and hooks sharp enough to survive the noise. The band is currently holed up writing their debut album, chasing that same electricity live audiences have already caught a glimpse of at Café Carina.',
+        'The lineup pairs local Viennese musicians with Chicago transplant Adam Arling, who has logged time in hard rock outfits across three continents before landing in Vienna and falling hard for the city’s blues scene. Fronting the band is Lill Oehl, whose voice first turned heads in Blonde on Blonde, a beloved all-female 60s pop outfit that made its mark on the Vienna scene pre-Covid. Behind them sits Thomas Haberl, a Vienna lifer who cut his teeth in London session rooms, and out front the twin guitars of Stefan Zisser and Alex K. — childhood friends who have been trading licks long enough to finish each other’s solos.',
+        'See ya at the next gig.',
       ],
       chip: 'More to come soon.',
       readMore: 'Read more',
@@ -260,7 +265,7 @@ export const ui: Record<Lang, Copy> = {
     booking: {
       eyebrow: 'BOOKING & PRESS',
       headline: ['Say', 'when.'],
-      body: 'Clubs, bars, festivals, back rooms. We answer in English and German.',
+      body: 'Clubs, bars, festivals, back rooms, punk rock squatter flats, Buschenschanken, you name it. Drop us a line.',
       email: 'contactthedrags@gmail.com',
       pressKit: 'Download press kit',
       copyright: '© {year} THE DRAGS — VIENNA',
