@@ -1,0 +1,60 @@
+---
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+/* Repeated enough to fill a wide viewport twice over, so the -50%
+   translate loops seamlessly. */
+const REPEATS = 8;
+---
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    {Array.from({ length: 2 }).map(() => (
+      <span class="marquee__group">
+        {Array.from({ length: REPEATS }).map(() => <span class="marquee__item">{t.marquee} · </span>)}
+      </span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee {
+    background: var(--deep);
+    color: #e8e5da;
+    padding: 9px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: marquee 40s linear infinite;
+  }
+
+  .marquee__group { display: inline-block; }
+
+  .marquee__item {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Handoff: respect reduced motion by leaving it static. */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track { animation: none; }
+  }
+
+  @media (max-width: 780px) {
+    .marquee__item { font-size: 10px; letter-spacing: 0.24em; }
+  }
+</style>

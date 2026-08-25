@@ -1,4 +1,18 @@
 [
-  { "id": "boots", "youtubeId": "zmulzEoGWM8", "title": "Boots", "label": "Live Performance" },
-  { "id": "live-2", "youtubeId": "hqVK8x67hhI", "title": "Live at Café Carina", "label": "Live Performance" }
+  {
+    "id": "boots",
+    "youtubeId": "zmulzEoGWM8",
+    "title": {
+      "de": "Live im Café Carina",
+      "en": "Live at Café Carina"
+    }
+  },
+  {
+    "id": "live-2",
+    "youtubeId": "hqVK8x67hhI",
+    "title": {
+      "de": "The Drags — live",
+      "en": "The Drags — live"
+    }
+  }
 ]

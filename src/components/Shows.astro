@@ -1,0 +1,161 @@
+---
+import { Image } from 'astro:assets';
+import SectionHead from './SectionHead.astro';
+import {
+  useTranslations, formatShowDate, formatTime, formatPlateDate, type Lang,
+} from '../i18n/utils';
+import { pick } from '../i18n/localized';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  lang: Lang;
+  upcoming: CollectionEntry<'shows'>[];
+  past: CollectionEntry<'shows'>[];
+}
+const { lang, upcoming, past } = Astro.props;
+const t = useTranslations(lang);
+
+/* Tilt alternates per row so the stack never reads as uniform. */
+const tilt = (i: number) => (i % 2 === 0 ? 'rotate(-1deg)' : 'rotate(1deg)');
+
+function dateLine(show: CollectionEntry<'shows'>) {
+  const d = show.data;
+  const base = `${formatShowDate(d.date, lang)}`;
+  if (d.doors) {
+    return `${base} · ${t.shows.doors.toUpperCase()} ${formatTime(d.doors, lang)} · ${t.shows.show.toUpperCase()} ${formatTime(d.date, lang)}`;
+  }
+  return `${base} · ${formatTime(d.date, lang)}`;
+}
+
+const rows = [
+  ...upcoming.map((s) => ({ show: s, isPast: false })),
+  ...past.map((s) => ({ show: s, isPast: true })),
+];
+---
+
+<section class="shows gutter" id="shows">
+  <SectionHead
+    title={t.shows.heading}
+    meta={`${upcoming.length} ${t.shows.upcoming}`}
+  />
+
+  {rows.length === 0 && <p>{t.shows.none}</p>}
+
+  <div class="shows__stack">
+    {rows.map(({ show, isPast }, i) => (
+      <article class:list={['show', 'frame', isPast && 'show--past']}>
+        <div class="show__art" style={`transform:${tilt(i)}`}>
+          {show.data.flyer ? (
+            /* Flyers stay in full colour — no greyscale filter here. */
+            <Image
+              src={show.data.flyer}
+              alt={pick(show.data.flyerAlt, lang) ?? show.data.venue}
+              width={300}
+              class="show__flyer frame"
+            />
+          ) : (
+            /* Standing pattern for dates announced before artwork exists. */
+            <div class="show__plate plate frame">
+              <span class="show__plate-date">{formatPlateDate(show.data.date, lang)}</span>
+              <span class="display show__plate-city">{pick(show.data.plateCity, lang) ?? pick(show.data.city, lang)}</span>
+            </div>
+          )}
+        </div>
+
+        <div class="show__body">
+          <p class="show__date">{dateLine(show)}</p>
+          <h3 class="display show__venue">{show.data.venue}</h3>
+          <p class="show__meta">
+            {pick(show.data.city, lang)}{show.data.support ? ` · ${pick(show.data.support, lang)}` : ''}
+          </p>
+          <p class="show__meta">{pick(show.data.policy, lang) ?? t.shows.policy}</p>
+        </div>
+
+        <div class="show__actions">
+          {show.data.ticketUrl && !isPast && (
+            <a href={show.data.ticketUrl} target="_blank" rel="noopener noreferrer" class="show__btn show__btn--fill label">
+              {t.shows.tickets}
+            </a>
+          )}
+          {show.data.flyer && (
+            <button
+              type="button"
+              class="show__btn label"
+              data-flyer
+              data-flyer-src={show.data.flyer.src}
+              data-flyer-alt={pick(show.data.flyerAlt, lang) ?? show.data.venue}
+            >
+              {t.shows.flyer}
+            </button>
+          )}
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .shows { padding-block: var(--section-pad); }
+  .shows__stack { display: flex; flex-direction: column; gap: 16px; }
+
+  .show {
+    display: grid;
+    grid-template-columns: 150px 1fr auto;
+    gap: 16px;
+    padding: 14px;
+    align-items: center;
+  }
+
+  /* Past dates stay on the page but recede. */
+  .show--past { opacity: 0.55; }
+  .show--past:hover { opacity: 1; }
+
+  .show__art { width: 150px; }
+  .show__flyer { width: 150px; height: 186px; object-fit: cover; }
+
+  .show__plate {
+    width: 150px;
+    height: 186px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  .show__plate-date { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; }
+  .show__plate-city { font-size: 40px; }
+
+  .show__date {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .show__venue { font-size: 34px; margin: 4px 0 6px; }
+  .show__meta { font-size: 12px; line-height: 1.5; }
+
+  .show__actions { display: flex; flex-direction: column; gap: 8px; }
+
+  .show__btn {
+    border: var(--rule) solid var(--ink);
+    padding: 10px 14px;
+    text-align: center;
+    min-height: var(--tap);
+    display: grid;
+    place-items: center;
+  }
+
+  .show__btn--fill { background: var(--ink); color: var(--paper); }
+  .show__btn:hover { background: var(--plate); color: var(--ink-on-plate); }
+
+  @media (max-width: 780px) {
+    .show { grid-template-columns: 1fr; gap: 12px; }
+    .show__art, .show__flyer, .show__plate { width: 100%; }
+    .show__flyer, .show__plate { height: auto; aspect-ratio: 150 / 186; }
+    .show__venue { font-size: 26px; }
+    .show__actions { flex-direction: row; }
+    .show__btn { flex: 1; }
+  }
+</style>

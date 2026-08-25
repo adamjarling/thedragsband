@@ -1,13 +1,90 @@
 [
-  { "id": "live-1",       "src": "../assets/photos/live-1.jpg",       "alt": "The Drags live" },
-  { "id": "stefan-hand",  "src": "../assets/photos/stefan-hand.jpeg", "alt": "Stefan's hand on the guitar neck" },
-  { "id": "lill-onstage", "src": "../assets/photos/lill-onstage.png", "alt": "Lill onstage" },
-  { "id": "live-2",       "src": "../assets/photos/live-2.jpg",       "alt": "The Drags live" },
-  { "id": "smiles",       "src": "../assets/photos/smiles.png",       "alt": "The Drags backstage" },
-  { "id": "live-3",       "src": "../assets/photos/live-3.jpg",       "alt": "The Drags live" },
-  { "id": "rehearsal",    "src": "../assets/photos/rehearsal.jpeg",   "alt": "The Drags in rehearsal" },
-  { "id": "first-gig",    "src": "../assets/photos/first-gig.jpeg",   "alt": "The Drags at their first gig" },
-  { "id": "helmut",       "src": "../assets/photos/helmut.png",       "alt": "The Drags with Helmut" },
-  { "id": "lill",         "src": "../assets/photos/lill.png",         "alt": "Lill singing" },
-  { "id": "leopard",      "src": "../assets/photos/leopard.jpeg",     "alt": "The Drags" }
+  {
+    "id": "live-1",
+    "src": "../assets/photos/live-1.jpg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    }
+  },
+  {
+    "id": "stefan-hand",
+    "src": "../assets/photos/stefan-hand.jpeg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    }
+  },
+  {
+    "id": "lill-onstage",
+    "src": "../assets/photos/lill-onstage.png",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    }
+  },
+  {
+    "id": "live-2",
+    "src": "../assets/photos/live-2.jpg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    }
+  },
+  {
+    "id": "smiles",
+    "src": "../assets/photos/smiles.png",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    }
+  },
+  {
+    "id": "live-3",
+    "src": "../assets/photos/live-3.jpg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    }
+  },
+  {
+    "id": "rehearsal",
+    "src": "../assets/photos/rehearsal.jpeg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    }
+  },
+  {
+    "id": "first-gig",
+    "src": "../assets/photos/first-gig.jpeg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    }
+  },
+  {
+    "id": "helmut",
+    "src": "../assets/photos/helmut.png",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    }
+  },
+  {
+    "id": "lill",
+    "src": "../assets/photos/lill.png",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    }
+  },
+  {
+    "id": "leopard",
+    "src": "../assets/photos/leopard.jpeg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    }
+  }
 ]

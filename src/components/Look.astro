@@ -1,0 +1,180 @@
+---
+import { Image } from 'astro:assets';
+import SectionHead from './SectionHead.astro';
+import { useTranslations, fill, type Lang } from '../i18n/utils';
+import { pick } from '../i18n/localized';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props { lang: Lang; photos: CollectionEntry<'gallery'>[] }
+const { lang, photos } = Astro.props;
+const t = useTranslations(lang);
+
+/* Rotation and vertical offset vary per tile so the grid never settles
+   onto a single baseline. Indexed, not random, so it is build-stable. */
+const TILTS = [-1.2, 0.9, -0.6, 1.4, -1.1, 0.7, 1.2, -0.9, 0.5, -1.4, 1.0];
+const OFFSETS = [0, 10, 0, 8, 12, 0, 9, 0, 11, 0, 8];
+---
+
+<section class="look gutter" id="look">
+  <SectionHead title={t.look.heading} />
+
+  <div class="look__grid">
+    {photos.map((p, i) => (
+      <button
+        type="button"
+        class="look__tile frame"
+        style={`transform:rotate(${TILTS[i % TILTS.length]}deg);margin-top:${OFFSETS[i % OFFSETS.length]}px`}
+        data-lightbox
+        data-full={p.data.src.src}
+        data-alt={pick(p.data.alt, lang)}
+        data-index={i}
+        aria-label={pick(p.data.alt, lang)}
+      >
+        <Image src={p.data.src} alt={pick(p.data.alt, lang)} width={600} class="photo" />
+      </button>
+    ))}
+
+    <div class="look__all plate frame">
+      <span class="label">{fill(t.look.seeAll, { n: photos.length })} &rarr;</span>
+    </div>
+  </div>
+
+  <p class="look__credit label">{t.look.credit}</p>
+</section>
+
+<dialog class="lb" data-lb aria-label={t.look.heading}>
+  <img class="lb__img" data-lb-img src="" alt="" />
+  <button type="button" class="lb__btn lb__prev" data-lb-prev aria-label={t.look.prev}>&#8592;</button>
+  <button type="button" class="lb__btn lb__next" data-lb-next aria-label={t.look.next}>&#8594;</button>
+  <button type="button" class="lb__btn lb__close" data-lb-close aria-label={t.look.close}>&#10005;</button>
+</dialog>
+
+<style>
+  .look { padding-block: var(--section-pad); }
+
+  .look__grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    align-items: start;
+  }
+
+  .look__tile {
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    padding: 0;
+    display: block;
+    transition: transform 120ms ease-out;
+  }
+
+  .look__tile:hover { transform: rotate(0deg) !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .look__tile { transition: none; }
+  }
+
+  .look__all {
+    aspect-ratio: 3 / 4;
+    display: grid;
+    place-items: center;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .look__credit { margin-top: 16px; }
+
+  .lb {
+    border: none;
+    background: rgba(10, 11, 9, 0.94);
+    width: 100vw;
+    height: 100dvh;
+    max-width: 100vw;
+    max-height: 100dvh;
+    padding: 0;
+  }
+
+  .lb::backdrop { background: rgba(10, 11, 9, 0.9); }
+
+  .lb__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 40px 20px;
+  }
+
+  .lb__btn {
+    position: fixed;
+    color: #e8e5da;
+    font-size: 22px;
+    width: var(--tap);
+    height: var(--tap);
+    display: grid;
+    place-items: center;
+    border: var(--rule) solid #e8e5da;
+    background: rgba(10, 11, 9, 0.6);
+  }
+
+  .lb__prev { left: 12px; top: 50%; transform: translateY(-50%); }
+  .lb__next { right: 12px; top: 50%; transform: translateY(-50%); }
+  .lb__close { top: 12px; right: 12px; }
+
+  @media (max-width: 980px) {
+    .look__grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 560px) {
+    .look__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-lb]');
+  const img = document.querySelector<HTMLImageElement>('[data-lb-img]');
+  const tiles = Array.from(document.querySelectorAll<HTMLElement>('[data-lightbox]'));
+  const flyers = Array.from(document.querySelectorAll<HTMLElement>('[data-flyer]'));
+
+  let index = 0;
+
+  function show(i: number) {
+    if (!tiles.length || !img) return;
+    index = (i + tiles.length) % tiles.length;
+    const tile = tiles[index];
+    img.src = tile.dataset.full ?? '';
+    img.alt = tile.dataset.alt ?? '';
+  }
+
+  function open(i: number) {
+    show(i);
+    dialog?.showModal();
+  }
+
+  tiles.forEach((tile, i) => tile.addEventListener('click', () => open(i)));
+
+  /* The FLYER buttons in the Shows section reuse this same dialog, but
+     stand outside the gallery sequence — so arrows are hidden for them. */
+  flyers.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (!img) return;
+      img.src = btn.dataset.flyerSrc ?? '';
+      img.alt = btn.dataset.flyerAlt ?? '';
+      dialog?.setAttribute('data-single', '');
+      dialog?.showModal();
+    });
+  });
+
+  document.querySelector('[data-lb-close]')?.addEventListener('click', () => dialog?.close());
+  document.querySelector('[data-lb-prev]')?.addEventListener('click', () => show(index - 1));
+  document.querySelector('[data-lb-next]')?.addEventListener('click', () => show(index + 1));
+
+  dialog?.addEventListener('close', () => dialog.removeAttribute('data-single'));
+
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+
+  dialog?.addEventListener('keydown', (e) => {
+    if (dialog.hasAttribute('data-single')) return;
+    if (e.key === 'ArrowLeft') show(index - 1);
+    if (e.key === 'ArrowRight') show(index + 1);
+  });
+</script>

@@ -1,0 +1,204 @@
+---
+import logoSolid from '../assets/logos/logo-solid.svg';
+import { useTranslations, localePath, type Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const home = localePath('/', lang);
+
+const links = [
+  { href: '#shows', label: t.nav.shows },
+  { href: '#listen', label: t.nav.music },
+  { href: '#video', label: t.nav.video },
+  { href: '#look', label: t.nav.look },
+  { href: '#about', label: t.nav.about },
+];
+---
+
+<header class="header">
+  <a href={home} class="header__logo" aria-label="The Drags">
+    <img src={logoSolid.src} alt={t.hero.logoAlt} width="120" height="34" />
+  </a>
+
+  <nav class="header__nav" aria-label={t.nav.menu}>
+    {links.map((l) => <a href={l.href} class="label header__link">{l.label}</a>)}
+    <a href="#booking" class="header__chip label">{t.nav.book}</a>
+    <button
+      type="button"
+      class="header__theme"
+      data-theme-toggle
+      aria-label={t.nav.themeToggle}
+      title={t.nav.themeToggle}
+    >
+      <span data-theme-icon aria-hidden="true"></span>
+    </button>
+  </nav>
+
+  <button type="button" class="header__burger" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu">
+    <span class="visually-hidden">{t.nav.menu}</span>
+    <span aria-hidden="true">&#8801;</span>
+  </button>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" data-menu hidden>
+  {links.map((l) => <a href={l.href} class="mobile-menu__link display">{l.label}</a>)}
+  <a href="#booking" class="mobile-menu__cta label">{t.nav.book}</a>
+  <button type="button" class="mobile-menu__theme label" data-theme-toggle>
+    <span data-theme-icon aria-hidden="true"></span>
+    <span>{t.nav.themeToggle}</span>
+  </button>
+</div>
+
+<style>
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px var(--gutter);
+    border-bottom: var(--rule) solid var(--ink);
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+  }
+
+  .header__logo img {
+    height: 34px;
+    width: auto;
+    /* Logos ship white-on-transparent; invert them on light stock. */
+    filter: invert(var(--logo-invert));
+  }
+
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .header__link:hover { color: var(--accent); }
+
+  .header__chip {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 5px 9px;
+  }
+
+  .header__chip:hover { background: var(--plate); color: var(--ink-on-plate); }
+
+  .header__theme {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border: var(--rule) solid var(--ink);
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .header__theme:hover { background: var(--plate); color: var(--ink-on-plate); }
+
+  .header__burger {
+    display: none;
+    font-size: 26px;
+    line-height: 1;
+    min-width: var(--tap);
+    min-height: var(--tap);
+  }
+
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    padding: 18px var(--gutter) 26px;
+    border-bottom: var(--rule) solid var(--ink);
+    background: var(--paper);
+  }
+
+  .mobile-menu[data-open] { display: flex; }
+
+  .mobile-menu__link {
+    font-size: 30px;
+    padding: 6px 0;
+    min-height: var(--tap);
+  }
+
+  .mobile-menu__cta {
+    margin-top: 10px;
+    background: var(--plate);
+    color: var(--ink-on-plate);
+    border: var(--rule) solid var(--ink);
+    padding: 14px;
+    text-align: center;
+  }
+
+  .mobile-menu__theme {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    min-height: var(--tap);
+  }
+
+  @media (max-width: 780px) {
+    .header__nav { display: none; }
+    .header__burger { display: block; }
+  }
+</style>
+
+<script>
+  const ICONS = { dark: '◑', light: '○' };
+
+  function paintIcons(theme: string) {
+    document.querySelectorAll<HTMLElement>('[data-theme-icon]').forEach((el) => {
+      el.textContent = theme === 'dark' ? ICONS.dark : ICONS.light;
+    });
+  }
+
+  function setTheme(theme: 'dark' | 'light') {
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem('drags-theme', theme);
+    } catch {
+      /* private browsing — the choice just will not persist */
+    }
+    paintIcons(theme);
+  }
+
+  paintIcons(document.documentElement.dataset.theme ?? 'dark');
+
+  document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+    });
+  });
+
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  const burger = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+
+  function closeMenu() {
+    if (!menu || !burger) return;
+    menu.removeAttribute('data-open');
+    menu.hidden = true;
+    burger.setAttribute('aria-expanded', 'false');
+  }
+
+  burger?.addEventListener('click', () => {
+    if (!menu) return;
+    const open = menu.hasAttribute('data-open');
+    if (open) {
+      closeMenu();
+    } else {
+      menu.hidden = false;
+      menu.setAttribute('data-open', '');
+      burger.setAttribute('aria-expanded', 'true');
+    }
+  });
+
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+</script>

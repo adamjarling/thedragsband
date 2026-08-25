@@ -3,9 +3,15 @@
     "id": "2026-11-27-carina",
     "date": "2026-11-27T20:00:00+01:00",
     "venue": "Café Carina",
-    "city": "Vienna",
+    "city": {
+      "de": "Wien, Österreich",
+      "en": "Vienna, Austria"
+    },
     "district": "1080 Wien",
-    "policy": "Pass the hat — pay what you like",
+    "plateCity": {
+      "de": "Wien",
+      "en": "Vienna"
+    },
     "ticketUrl": null,
     "flyer": null,
     "flyerAlt": null,
@@ -16,24 +22,48 @@
     "date": "2026-06-19T21:00:00+02:00",
     "doors": "2026-06-19T20:00:00+02:00",
     "venue": "Café Carina",
-    "city": "Vienna",
+    "city": {
+      "de": "Wien, Österreich",
+      "en": "Vienna, Austria"
+    },
     "district": "1080 Wien",
-    "policy": "Pass the hat — pay what you like",
+    "plateCity": {
+      "de": "Wien",
+      "en": "Vienna"
+    },
     "ticketUrl": "https://www.cafe-carina.at/2020/events/the-drags/",
     "flyer": "../assets/flyers/flyer-2026-06-19.jpg",
-    "flyerAlt": "Flyer for the Café Carina show on 19 June 2026",
-    "support": "with The Cooltrains"
+    "flyerAlt": {
+      "de": "Flyer zum Konzert im Café Carina am 19. Juni 2026",
+      "en": "Flyer for the Café Carina show on 19 June 2026"
+    },
+    "support": {
+      "de": "mit The Cooltrains",
+      "en": "with The Cooltrains"
+    }
   },
   {
     "id": "2026-04-18-carina",
     "date": "2026-04-18T20:00:00+02:00",
     "venue": "Café Carina",
-    "city": "Vienna",
+    "city": {
+      "de": "Wien, Österreich",
+      "en": "Vienna, Austria"
+    },
     "district": "1080 Wien",
-    "policy": "Pass the hat — pay what you like",
+    "plateCity": {
+      "de": "Wien",
+      "en": "Vienna"
+    },
     "ticketUrl": "https://www.cafe-carina.at/2020/events/the-drags-deloreans/",
     "flyer": "../assets/flyers/flyer-2026-04-18.jpeg",
-    "flyerAlt": "Flyer for the Café Carina show on 18 April 2026",
-    "support": "with The Deloreans"
+    "flyerAlt": {
+      "de": "Flyer zum Konzert im Café Carina am 18. April 2026",
+      "en": "Flyer for the Café Carina show on 18 April 2026"
+    },
+    "support": {
+      "de": "mit The Deloreans",
+      "en": "with The Deloreans"
+    }
   }
 ]

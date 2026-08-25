@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Hero from './Hero.astro';
+import About from './About.astro';
+import Marquee from './Marquee.astro';
+import Shows from './Shows.astro';
+import ListenVideo from './ListenVideo.astro';
+import Look from './Look.astro';
+import BookingFooter from './BookingFooter.astro';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props { lang: Lang; canonicalUrl: string }
+const { lang, canonicalUrl } = Astro.props;
+const t = useTranslations(lang);
+
+const all = (await getCollection('shows')).sort(
+  (a, b) => a.data.date.getTime() - b.data.date.getTime()
+);
+const now = new Date();
+/* Upcoming ascending (soonest first), past descending (most recent first). */
+const upcoming = all.filter((s) => s.data.date >= now);
+const past = all.filter((s) => s.data.date < now).reverse();
+
+const tracks = await getCollection('tracks');
+const videos = await getCollection('videos');
+const photos = await getCollection('gallery');
+---
+
+<BaseLayout
+  lang={lang}
+  title={t.meta.title}
+  description={t.meta.description}
+  canonicalUrl={canonicalUrl}
+>
+  <a href="#main" class="skip-link">{t.booking.skipToContent}</a>
+  <Header lang={lang} />
+  <main id="main">
+    <Hero lang={lang} next={upcoming[0]} />
+    <About lang={lang} />
+    <Marquee lang={lang} />
+    <Shows lang={lang} upcoming={upcoming} past={past} />
+    <ListenVideo lang={lang} tracks={tracks} videos={videos} />
+    <Look lang={lang} photos={photos} />
+  </main>
+  <BookingFooter lang={lang} url={Astro.url} />
+</BaseLayout>

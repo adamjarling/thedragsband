@@ -1,0 +1,126 @@
+---
+import { socials } from '../data/lineup';
+import { useTranslations, getAltLangPath, fill, type Lang } from '../i18n/utils';
+
+interface Props { lang: Lang; url: URL }
+const { lang, url } = Astro.props;
+const t = useTranslations(lang);
+
+const year = new Date().getFullYear();
+const altPath = getAltLangPath(url);
+const altLabel = lang === 'de' ? 'EN' : 'DE';
+---
+
+<footer class="booking" id="booking">
+  <div class="booking__grid gutter">
+    <div class="booking__left">
+      <p class="booking__eyebrow">{t.booking.eyebrow}</p>
+      <h2 class="display booking__headline">
+        {t.booking.headline[0]}<br />{t.booking.headline[1]}
+      </h2>
+      <p class="booking__body">{t.booking.body}</p>
+    </div>
+
+    <div class="booking__right">
+      <a href={`mailto:${t.booking.email}`} class="booking__btn booking__btn--fill">
+        {t.booking.email}
+      </a>
+      <a href="/press-kit.zip" class="booking__btn label" download>
+        {t.booking.pressKit}
+      </a>
+      <nav class="booking__socials" aria-label="Social">
+        {socials.map((s) => (
+          <a href={s.href} class="label booking__social" target="_blank" rel="noopener noreferrer">
+            {s.name}
+          </a>
+        ))}
+      </nav>
+    </div>
+  </div>
+
+  <div class="booking__sub gutter">
+    <span class="booking__copy">{fill(t.booking.copyright, { year })}</span>
+    <a href={altPath} class="booking__lang" hreflang={lang === 'de' ? 'en' : 'de'}>
+      {lang === 'de' ? 'DE' : 'EN'} / <span class="booking__lang-alt">{altLabel}</span>
+    </a>
+  </div>
+</footer>
+
+<style>
+  .booking {
+    background: var(--deep);
+    color: #e8e5da;
+    padding-top: 40px;
+  }
+
+  .booking__grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 28px;
+    align-items: end;
+    padding-bottom: 30px;
+  }
+
+  .booking__eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #a8b893;
+  }
+
+  .booking__headline {
+    font-size: 62px;
+    line-height: 0.86;
+    margin: 12px 0 14px;
+  }
+
+  .booking__body { font-size: 13px; line-height: 1.6; max-width: 46ch; }
+
+  .booking__right { display: flex; flex-direction: column; gap: 10px; }
+
+  .booking__btn {
+    border: var(--rule) solid #e8e5da;
+    padding: 18px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    min-height: var(--tap);
+    display: grid;
+    place-items: center;
+  }
+
+  .booking__btn--fill {
+    background: var(--plate);
+    color: var(--ink-on-plate);
+    border-color: var(--plate);
+    font-size: 15px;
+  }
+
+  .booking__btn:hover { background: #e8e5da; color: var(--deep); border-color: #e8e5da; }
+
+  .booking__socials { display: flex; gap: 16px; margin-top: 6px; flex-wrap: wrap; }
+  .booking__social { letter-spacing: 0.12em; }
+  .booking__social:hover { color: #a8b893; }
+
+  .booking__sub {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-block: 14px;
+    border-top: var(--rule) solid rgba(232, 229, 218, 0.3);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .booking__lang { min-height: var(--tap); display: flex; align-items: center; }
+  .booking__lang-alt { opacity: 0.6; }
+  .booking__lang:hover .booking__lang-alt { opacity: 1; color: #a8b893; }
+
+  @media (max-width: 780px) {
+    .booking__grid { grid-template-columns: 1fr; gap: 22px; align-items: start; }
+    .booking__headline { font-size: 40px; }
+  }
+</style>

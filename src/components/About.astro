@@ -1,0 +1,91 @@
+---
+import { Image } from 'astro:assets';
+import leopard from '../assets/photos/leopard.jpeg';
+import SectionHead from './SectionHead.astro';
+import { lineup } from '../data/lineup';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="about gutter" id="about">
+  <SectionHead title={t.about.heading} meta={t.about.location} />
+
+  <div class="about__grid">
+    <div class="about__body">
+      {t.about.body.map((p) => <p class="about__para">{p}</p>)}
+      <p class="about__chip plate tilt-h">{t.about.chip}</p>
+    </div>
+
+    <div class="about__side">
+      <div class="frame tilt-g about__photo">
+        <Image src={leopard} alt={t.about.heading} width={600} class="photo" />
+      </div>
+
+      <p class="about__eyebrow">{t.about.lineupLabel}</p>
+      <ul class="about__lineup">
+        {lineup.map((m) => (
+          <li class="about__member">
+            <span class="display about__name">{m.name}</span>
+            <span class="label about__role">{t.about.instruments[m.role]}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about { padding-block: var(--section-pad); }
+
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 28px;
+  }
+
+  .about__body { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+  .about__para { font-size: 13px; line-height: 1.7; }
+
+  .about__chip {
+    display: inline-block;
+    padding: 9px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .about__side { display: flex; flex-direction: column; gap: 18px; }
+  .about__photo { aspect-ratio: 4 / 3; overflow: hidden; }
+
+  .about__eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .about__lineup { list-style: none; }
+
+  .about__member {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px dotted color-mix(in srgb, var(--ink) 45%, transparent);
+  }
+
+  .about__member:last-child { border-bottom: none; }
+  .about__name { font-size: 21px; }
+  .about__role { color: var(--accent); }
+
+  @media (max-width: 780px) {
+    .about__grid { grid-template-columns: 1fr; gap: 22px; }
+    .about__name { font-size: 18px; }
+  }
+</style>

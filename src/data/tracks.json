@@ -1,5 +1,23 @@
 [
-  { "id": "blues-jam-1", "title": "Blues Jam №1", "label": "Demo Recording", "src": "/audio/blues-jam-1.m4a", "featured": true, "status": null },
-  { "id": "tbc-1", "title": "Title TBC", "label": null, "src": null, "featured": false, "status": "COMING SOON" },
-  { "id": "tbc-2", "title": "Title TBC", "label": null, "src": null, "featured": false, "status": "COMING SOON" }
+  {
+    "id": "blues-jam-1",
+    "title": "Blues Jam №1",
+    "src": "/audio/blues-jam-1.m4a",
+    "featured": true,
+    "status": null
+  },
+  {
+    "id": "tbc-1",
+    "title": null,
+    "src": null,
+    "featured": false,
+    "status": "soon"
+  },
+  {
+    "id": "tbc-2",
+    "title": null,
+    "src": null,
+    "featured": false,
+    "status": "soon"
+  }
 ]
