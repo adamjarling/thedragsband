@@ -72,12 +72,6 @@ const t = useTranslations(lang);
 
   <div class="hero__mobile">
     <MobileHeroCarousel lang={lang} />
-    <div class="hero__mobile-cta">
-      <a href="#booking" class="hero__cta frame tilt-f">
-        <span>{t.hero.cta}</span>
-        <span aria-hidden="true">&rarr;</span>
-      </a>
-    </div>
   </div>
 </section>
 
@@ -151,7 +145,6 @@ const t = useTranslations(lang);
   /* The carousel replaces the whole hero on mobile; desktop never shows it,
      and its script skips fetching frames 2-6 on a desktop viewport. */
   .hero__mobile { display: none; }
-  .hero__mobile-cta { padding: 14px 16px 0; }
 
   /* Only the NEXT label goes acid; its two siblings stay paper. */
   .hero__next { color: var(--accent); }
