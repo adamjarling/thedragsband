@@ -1,9 +1,10 @@
 ---
+import { Font } from 'astro:assets';
 import '../styles/global.css';
 
 interface Props {
   title?: string;
-  lang?: string;
+  lang?: 'de' | 'en';
   description?: string;
   canonicalUrl?: string;
 }
@@ -27,6 +28,25 @@ const ogImage = 'https://www.thedragsband.com/images/og-image.jpg';
     <meta name="robots" content="index, follow" />
     <title>{title}</title>
     <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Theme must be resolved BEFORE first paint or light-theme
+         visitors get a black flash on every load. Deliberately does
+         not consult prefers-color-scheme: the band wants dark first. -->
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('drags-theme');
+          document.documentElement.dataset.theme =
+            stored === 'light' || stored === 'dark' ? stored : 'dark';
+        } catch (e) {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      })();
+    </script>
+
+    <Font cssVariable="--font-display" preload />
+    <Font cssVariable="--font-body" preload />
+
     <link rel="icon" type="image/x-icon" href="/favicon_io/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png" />
@@ -56,26 +76,22 @@ const ogImage = 'https://www.thedragsband.com/images/og-image.jpg';
     <link rel="alternate" hreflang="x-default" href="https://www.thedragsband.com/" />
 
     <!-- MusicGroup structured data -->
-    <script is:inline type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "MusicGroup",
-      "name": "The Drags",
-      "description": "Blues Garage Rock band from Vienna, Austria.",
-      "url": "https://www.thedragsband.com",
-      "image": ogImage,
-      "genre": ["Blues", "Garage Rock"],
-      "foundingLocation": {
-        "@type": "Place",
-        "name": "Vienna, Austria"
-      }
-    })} />
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'MusicGroup',
+        name: 'The Drags',
+        description: 'Blues Garage Rock band from Vienna, Austria.',
+        url: 'https://www.thedragsband.com',
+        image: ogImage,
+        genre: ['Blues', 'Garage Rock'],
+        foundingLocation: { '@type': 'Place', name: 'Vienna, Austria' },
+      })}
+    />
   </head>
   <body>
-    <!-- CRT noise layer -->
-    <div class="crt-noise" aria-hidden="true"></div>
-    <!-- CRT scanline + vignette overlay -->
-    <div class="crt-overlay" aria-hidden="true"></div>
-
     <slot />
   </body>
 </html>
