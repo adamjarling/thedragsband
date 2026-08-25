@@ -122,9 +122,8 @@ export const ui: Record<Lang, Copy> = {
       heading: 'Über uns',
       location: 'WIEN, ÖSTERREICH',
       body: [
-        'The Drags beschwören den Geist von Howlin’ Wolf, den Small Faces und den Chess-Records-Sound, gefiltert durch eine unverkennbare 60s-Pop-Garage-Blues-Linse — verzerrte Gitarren, treibende Rhythmen und Hooks, die scharf genug sind, um den Lärm zu überleben. Derzeit hat sich die Band zum Schreiben ihres Debütalbums verschanzt und jagt genau jener Energie nach, von der das Publikum im Café Carina schon einen Vorgeschmack bekommen hat.',
-        'Die Besetzung bringt Wiener Musikerinnen und Musiker mit dem Chicagoer Zuwanderer Adam Arling zusammen, der auf drei Kontinenten in Hard-Rock-Bands gespielt hat, bevor er in Wien landete und der Bluesszene der Stadt verfiel. Am Mikrofon steht Lill Oehl, deren Stimme zuerst bei Blonde on Blonde auffiel, einer viel geliebten reinen Frauenband des 60s-Pop, die vor Corona die Wiener Szene prägte. Dahinter sitzt Thomas Haberl, Wiener durch und durch, der sich in Londoner Session-Studios die Sporen verdiente, und vorne die Doppelgitarren von Stefan Zisser und Alex K. — Jugendfreunde, die lange genug miteinander spielen, um die Soli des anderen zu Ende zu bringen.',
-        'Bis zum nächsten Gig!',
+        'The Drags beschwören den Geist von Howlin’ Wolf, den Small Faces und dem Chess-Records-Sound, gefiltert durch eine unverkennbare 60s-Pop-Garage-Blues-Linse — verzerrte Gitarren, treibende Rhythmen und süße Hooks. Die Band schreibt in aller Ruhe an ihrem Debütalbum und jagt genau jener Stimmung nach, die das heimische Live-Publikum im Café Carina schon zu spüren bekommen hat.',
+        'Die Besetzung bringt Wiener Musikerinnen und Musiker mit dem Chicagoer Zuwanderer Adam Arling zusammen, der auf drei Kontinenten in Rock- und Indie-Bands gespielt hat, bevor er in Wien landete und der Bluesszene der Stadt verfiel. Am Mikrofon steht Lill Oehl, deren Stimme zuerst bei Blonde on Blonde auffiel, einer viel geliebten reinen Frauenband des 60s-Pop, die die Wiener Szene geprägt hat. Die Drums übernimmt Thomas Haberl, ein gebürtiger Wiener, der sich in Londoner Session-Studios die Sporen verdiente, und vorne die Doppelgitarren von Stefan Zisser und Alex K. — langjährige Freunde, die schon lange genug zusammenspielen, um die Soli des anderen zu Ende zu bringen.',
       ],
       chip: 'Mehr folgt bald.',
       readMore: 'Mehr lesen',
@@ -172,7 +171,7 @@ export const ui: Record<Lang, Copy> = {
     },
     booking: {
       eyebrow: 'BOOKING & PRESSE',
-      headline: ['Sag', 'wann.'],
+      headline: ['Meldet', 'euch.'],
       body: 'Clubs, Bars, Festivals, Hinterzimmer, besetzte Punkrock-Häuser, Buschenschanken, was auch immer. Schreibt uns.',
       email: 'contactthedrags@gmail.com',
       pressKit: 'Pressekit laden',
