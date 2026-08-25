@@ -4,6 +4,7 @@ import logoTextured from '../assets/logos/logo-textured.svg';
 import heroBand from '../assets/photos/hero-band.png';
 import lillOnstage from '../assets/photos/lill-onstage.png';
 import stefanHand from '../assets/photos/stefan-hand.jpeg';
+import plateBg from '../assets/photos/rehearsal.jpeg';
 import { useTranslations, formatShortDate, type Lang } from '../i18n/utils';
 import { pick } from '../i18n/localized';
 import MobileHeroCarousel from './MobileHeroCarousel.astro';
@@ -25,13 +26,22 @@ const t = useTranslations(lang);
 
     <div class="hero__row">
       <div class="frame tilt-b hero__tile">
-        <Image src={lillOnstage} alt={t.hero.logoAlt} width={600} class="photo" />
+        <Image src={lillOnstage} alt={t.hero.logoAlt} width={600} class="photo hero__tile-right" />
       </div>
       <div class="frame tilt-c hero__tile">
         <Image src={stefanHand} alt={t.hero.logoAlt} width={600} class="photo" />
       </div>
       <div class="frame tilt-d hero__plate plate">
-        {t.hero.plate.map((word) => <span class="label">{word}</span>)}
+        <Image
+          src={plateBg}
+          alt=""
+          aria-hidden="true"
+          width={600}
+          class="hero__plate-bg"
+        />
+        <span class="hero__plate-words">
+          {t.hero.plate.map((word) => <span class="label">{word}</span>)}
+        </span>
       </div>
     </div>
   </div>
@@ -48,13 +58,13 @@ const t = useTranslations(lang);
 
     {next && (
       <div class="hero__strip">
-        <span class="label">{t.hero.nextLabel}: {formatShortDate(next.data.date, lang)}</span>
+        <span class="label hero__next">{t.hero.nextLabel}: {formatShortDate(next.data.date, lang)}</span>
         <span class="label">{next.data.venue}</span>
         <span class="label">{pick(next.data.district, lang) ?? pick(next.data.city, lang)}</span>
       </div>
     )}
 
-    <a href="#booking" class="hero__cta plate frame tilt-f">
+    <a href="#booking" class="hero__cta frame tilt-f">
       <span>{t.hero.cta}</span>
       <span aria-hidden="true">&rarr;</span>
     </a>
@@ -63,7 +73,7 @@ const t = useTranslations(lang);
   <div class="hero__mobile">
     <MobileHeroCarousel lang={lang} />
     <div class="hero__mobile-cta">
-      <a href="#booking" class="hero__cta plate frame tilt-f">
+      <a href="#booking" class="hero__cta frame tilt-f">
         <span>{t.hero.cta}</span>
         <span aria-hidden="true">&rarr;</span>
       </a>
@@ -91,14 +101,44 @@ const t = useTranslations(lang);
 
   .hero__tile { aspect-ratio: 1; overflow: hidden; }
 
+  /* Lill stands at the far right of this frame; a centre crop lands on the
+     drum kit instead. */
+  .hero__tile-right { object-position: 100% 45%; }
+
   .hero__plate {
+    position: relative;
     aspect-ratio: 1;
+    display: grid;
+    align-content: center;
+    padding: 10px;
+    overflow: hidden;
+  }
+
+  /* Luminosity keeps the photo monochrome in the plate's own hue rather than
+     laying grey over green, so the tile still reads as the spot colour. */
+  .hero__plate-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 60% 28%;
+    filter: grayscale(1) contrast(2.6) brightness(0.92);
+    mix-blend-mode: luminosity;
+    /* Held well back: the tile has to still read as the spot-colour plate,
+       and 10px black Courier needs a calm ground to sit on. */
+    opacity: 0.32;
+  }
+
+  .hero__plate-words {
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     gap: 2px;
-    padding: 10px;
+    color: var(--ink-on-plate);
   }
+
+  .hero__plate-words .label { font-size: 10px; }
 
   .hero__right { display: flex; flex-direction: column; gap: 16px; }
 
@@ -113,6 +153,9 @@ const t = useTranslations(lang);
   .hero__mobile { display: none; }
   .hero__mobile-cta { padding: 14px 16px 0; }
 
+  /* Only the NEXT label goes acid; its two siblings stay paper. */
+  .hero__next { color: var(--accent); }
+
   .hero__strip {
     display: flex;
     justify-content: space-between;
@@ -123,7 +166,10 @@ const t = useTranslations(lang);
     border-bottom: var(--rule) solid var(--ink);
   }
 
+  /* Button-sized, so it takes the acid fill; black text as always on acid. */
   .hero__cta {
+    background: var(--accent);
+    color: var(--ink-on-plate);
     display: flex;
     align-items: center;
     justify-content: space-between;

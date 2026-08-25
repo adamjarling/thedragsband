@@ -69,7 +69,7 @@ const altLabel = lang === 'de' ? 'EN' : 'DE';
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #a8b893;
+    color: var(--accent-on-deep);
   }
 
   .booking__headline {
@@ -94,9 +94,9 @@ const altLabel = lang === 'de' ? 'EN' : 'DE';
   }
 
   .booking__btn--fill {
-    background: var(--plate);
+    background: var(--accent);
     color: var(--ink-on-plate);
-    border-color: var(--plate);
+    border-color: var(--accent);
     font-size: 15px;
   }
 
@@ -104,7 +104,7 @@ const altLabel = lang === 'de' ? 'EN' : 'DE';
 
   .booking__socials { display: flex; gap: 16px; margin-top: 6px; flex-wrap: wrap; }
   .booking__social { letter-spacing: 0.12em; }
-  .booking__social:hover { color: #a8b893; }
+  .booking__social:hover { color: var(--accent-on-deep); }
 
   .booking__sub {
     display: flex;
@@ -120,7 +120,7 @@ const altLabel = lang === 'de' ? 'EN' : 'DE';
 
   .booking__lang { min-height: var(--tap); display: flex; align-items: center; }
   .booking__lang-alt { opacity: 0.6; }
-  .booking__lang:hover .booking__lang-alt { opacity: 1; color: #a8b893; }
+  .booking__lang:hover .booking__lang-alt { opacity: 1; color: var(--accent-on-deep); }
 
   @media (max-width: 780px) {
     .booking__grid { grid-template-columns: 1fr; gap: 22px; align-items: start; }

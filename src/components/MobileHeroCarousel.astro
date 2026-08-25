@@ -1,10 +1,8 @@
 ---
 import { getImage } from 'astro:assets';
 import logoTextured from '../assets/logos/logo-textured.svg';
-import bg1 from '../assets/photos/mobile-hero-bg1.png';
 import stageBodies from '../assets/photos/stage-bodies.png';
 import live2 from '../assets/photos/live-2.jpg';
-import lill from '../assets/photos/lill.png';
 import bg4 from '../assets/photos/mobile-hero-bg4.png';
 import bg6 from '../assets/photos/mobile-hero-bg6.jpeg';
 import { useTranslations, type Lang } from '../i18n/utils';
@@ -20,10 +18,8 @@ const t = useTranslations(lang);
    different values, and a single global filter renders the dark sources
    near-black. Values come straight from the handoff. */
 const LAYERS = [
-  { src: bg1,         pos: '50% 28%', filter: 'grayscale(1) contrast(1.14) brightness(1.06)', scrim: 0.34 },
   { src: stageBodies, pos: '50% 30%', filter: 'grayscale(1) contrast(1.08) brightness(1.32)', scrim: 0.26 },
   { src: live2,       pos: '50% 34%', filter: 'grayscale(1) contrast(1.24) brightness(1.0)',  scrim: 0.42 },
-  { src: lill,        pos: '50% 32%', filter: 'grayscale(1) contrast(1.32) brightness(.82)',  scrim: 0.55 },
   { src: bg4,         pos: '50% 30%', filter: 'grayscale(1) contrast(1.02) brightness(1.0)',  scrim: 0.38 },
   { src: bg6,         pos: '42% 30%', filter: 'grayscale(1) contrast(1.06) brightness(1.08)', scrim: 0.3 },
 ];

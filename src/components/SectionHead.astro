@@ -18,11 +18,14 @@ const { title, meta, id } = Astro.props;
     gap: 14px;
     margin-bottom: 22px;
     scroll-margin-top: 70px;
+    /* Title and meta are both flex:none. On a very narrow phone (320px) the
+       pair overflows, so let the meta drop to its own line instead. */
+    flex-wrap: wrap;
   }
 
   .head__title { font-size: 44px; flex: none; }
-  .head__rule { flex: 1; height: var(--rule); background: var(--ink); }
-  .head__meta { flex: none; }
+  .head__rule { flex: 1; height: var(--rule); background: var(--accent); }
+  .head__meta { flex: none; margin-left: auto; color: var(--accent); }
 
   @media (max-width: 780px) {
     .head__title { font-size: 30px; }
