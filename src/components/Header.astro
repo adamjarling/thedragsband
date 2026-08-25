@@ -29,7 +29,7 @@ const links = [
 
     <nav class="header__nav" aria-label={t.nav.menu}>
       {links.map((l) => <a href={l.href} class="label header__link">{l.label}</a>)}
-      <a href="#booking" class="header__chip label">{t.nav.book}</a>
+      <a href="#booking" class="header__chip label">{t.nav.bookDesktop}</a>
       <span class="header__lang label">
         <span class="header__lang-current">{current}</span>
         <span aria-hidden="true">/</span>
@@ -67,7 +67,7 @@ const links = [
       <img src={logoSolid.src} alt={t.hero.logoAlt} width="120" height="34" />
     </a>
     {links.map((l) => <a href={l.href} class="mobile-menu__link display">{l.label}</a>)}
-    <a href="#booking" class="mobile-menu__cta label">{t.nav.book}</a>
+    <a href="#booking" class="mobile-menu__cta label">{t.nav.bookMobile}</a>
     <div class="mobile-menu__utils">
       <button type="button" class="mobile-menu__theme label" data-theme-toggle>
         <span data-theme-icon aria-hidden="true"></span>

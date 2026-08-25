@@ -13,7 +13,8 @@ export interface Copy {
     video: string;
     look: string;
     about: string;
-    book: string;
+    bookDesktop: string;
+    bookMobile: string;
     menu: string;
     themeToggle: string;
     language: string;
@@ -101,7 +102,8 @@ export const ui: Record<Lang, Copy> = {
       video: 'Video',
       look: 'Look',
       about: 'Über uns',
-      book: 'Buchen',
+      bookDesktop: 'Sag Hi',
+      bookMobile: 'Meldet euch',
       menu: 'Menü',
       themeToggle: 'Farbschema wechseln',
       language: 'Sprache wechseln',
@@ -192,7 +194,8 @@ export const ui: Record<Lang, Copy> = {
       video: 'Video',
       look: 'Look',
       about: 'About',
-      book: 'Book us',
+      bookDesktop: 'Say Hi',
+      bookMobile: 'Get in touch',
       menu: 'Menu',
       themeToggle: 'Switch colour scheme',
       language: 'Switch language',
