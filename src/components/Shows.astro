@@ -133,9 +133,20 @@ const rows = [
     padding: 10px;
   }
 
-  /* Placeholder treatment until the band supplies artwork. Lazy plus
-     display:none means a desktop visitor never downloads it. */
-  .show__plate-bg { display: none; }
+  /* Same recipe as the hero's green tile: luminosity keeps the photo in the
+     plate's own hue, held well back so black ink still reads over it. */
+  .show__plate-bg {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 26%;
+    filter: grayscale(1) contrast(2.6) brightness(0.92);
+    mix-blend-mode: luminosity;
+    opacity: 0.32;
+  }
 
   .show__plate-date,
   .show__plate-city { position: relative; }
@@ -172,21 +183,6 @@ const rows = [
     .show { grid-template-columns: 1fr; gap: 12px; }
     .show__art, .show__flyer, .show__plate { width: 100%; }
     .show__flyer, .show__plate { height: auto; aspect-ratio: 150 / 186; }
-
-    /* Same recipe as the hero's green tile: luminosity keeps the photo in the
-       plate's own hue, held well back so black ink still reads over it. */
-    .show__plate-bg {
-      display: block;
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: 50% 26%;
-      filter: grayscale(1) contrast(2.6) brightness(0.92);
-      mix-blend-mode: luminosity;
-      opacity: 0.32;
-    }
     .show__venue { font-size: 26px; }
     .show__actions { flex-direction: row; }
     .show__btn { flex: 1; }

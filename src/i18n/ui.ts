@@ -214,9 +214,8 @@ export const ui: Record<Lang, Copy> = {
       heading: 'About',
       location: 'VIENNA, AUSTRIA',
       body: [
-        'The Drags channel the spirit of Howlin’ Wolf, the Small Faces, and the Chess Records sound, filtered through a distinctly 60s pop garage blues lens — fuzzed-out guitars, driving rhythms, and hooks sharp enough to survive the noise. The band is currently holed up writing their debut album, chasing that same electricity live audiences have already caught a glimpse of at Café Carina.',
-        'The lineup pairs local Viennese musicians with Chicago transplant Adam Arling, who has logged time in hard rock outfits across three continents before landing in Vienna and falling hard for the city’s blues scene. Fronting the band is Lill Oehl, whose voice first turned heads in Blonde on Blonde, a beloved all-female 60s pop outfit that made its mark on the Vienna scene pre-Covid. Behind them sits Thomas Haberl, a Vienna lifer who cut his teeth in London session rooms, and out front the twin guitars of Stefan Zisser and Alex K. — childhood friends who have been trading licks long enough to finish each other’s solos.',
-        'See ya at the next gig.',
+        'The Drags channel the spirit of Howlin’ Wolf, the Small Faces, and the Chess Records sound, filtered through a distinctly 60s pop garage blues lens — fuzzed-out guitars, driving rhythms, and sweet hooks. The band is leisurely crafting their debut album, chasing that same vibe local live audiences have caught a glimpse of at Café Carina.',
+        'The lineup pairs local Viennese musicians with a Chicago transplant Adam Arling, who has logged time in rock/indie outfits across three continents before landing in Vienna and falling hard for the city’s blues scene. Fronting the band is Lill Oehl, whose voice first turned heads in Blonde on Blonde, a beloved all-female 60s pop outfit that made its mark on the Vienna scene. Beating the skins is Thomas Haberl, a Vienna native who cut his teeth in London session rooms, and out front the twin guitars of Stefan Zisser and Alex K. — longtime friends who have been trading licks long enough to finish each other’s solos.',
       ],
       chip: 'More to come soon.',
       readMore: 'Read more',
