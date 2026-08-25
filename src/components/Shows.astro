@@ -1,71 +1,190 @@
 ---
-import { t } from "../i18n/utils";
+import { Image } from 'astro:assets';
+import platePhoto from '../assets/photos/mobile-hero-bg1.png';
+import SectionHead from './SectionHead.astro';
+import {
+  useTranslations, formatShowDate, formatTime, formatPlateDate, type Lang,
+} from '../i18n/utils';
+import { pick } from '../i18n/localized';
+import type { CollectionEntry } from 'astro:content';
 
 interface Props {
-  lang: "de" | "en";
+  lang: Lang;
+  upcoming: CollectionEntry<'shows'>[];
+  past: CollectionEntry<'shows'>[];
+}
+const { lang, upcoming, past } = Astro.props;
+const t = useTranslations(lang);
+
+/* Tilt alternates per row so the stack never reads as uniform. */
+const tilt = (i: number) => (i % 2 === 0 ? 'rotate(-1deg)' : 'rotate(1deg)');
+
+function dateLine(show: CollectionEntry<'shows'>) {
+  const d = show.data;
+  const base = `${formatShowDate(d.date, lang)}`;
+  if (d.doors) {
+    return `${base} · ${t.shows.doors.toUpperCase()} ${formatTime(d.doors, lang)} · ${t.shows.show.toUpperCase()} ${formatTime(d.date, lang)}`;
+  }
+  return `${base} · ${formatTime(d.date, lang)}`;
 }
 
-const { lang } = Astro.props;
-
-const showsData = [
-  {
-    date: "Saturday, April 18, 2026",
-    dateObj: new Date("2026-04-18"),
-    venue: "Café Carina",
-    city: "Vienna, Austria",
-    time: "8:00 PM",
-    price: "Pass the hat — pay what you like",
-    ticketUrl: "https://www.cafe-carina.at/2020/events/the-drags-deloreans/",
-    flyer: "/images/2026-04-18-carina_FINAL.jpeg",
-    flyerAlt: "Flyer for Cafe Carina show on April 18, 2026"
-  },
-  {
-    date: "Friday, June 19, 2026",
-    dateObj: new Date("2026-06-19"),
-    venue: "Café Carina",
-    city: "Vienna, Austria",
-    time: "8:00 PM",
-    price: "Pass the hat — pay what you like",
-    ticketUrl: "https://www.cafe-carina.at/2020/events/the-drags/",
-    flyer: "/images/2026-06-19_carina-flyer.jpg",
-    flyerAlt: "Flyer for Cafe Carina show on June 19, 2026"
-  }
+const rows = [
+  ...upcoming.map((s) => ({ show: s, isPast: false })),
+  ...past.map((s) => ({ show: s, isPast: true })),
 ];
-
-const now = new Date();
-const shows = showsData.sort((a, b) => b.dateObj.getTime() - a.dateObj.getTime()).map(show => ({
-  ...show,
-  isPast: show.dateObj < now
-}));
 ---
 
-<section id="shows" class="section">
-  <h2 class="section-heading">{t(lang, "shows.heading")}</h2>
+<section class="shows gutter" id="shows">
+  <SectionHead
+    title={t.shows.heading}
+    meta={`${upcoming.length} ${t.shows.upcoming}`}
+  />
 
-  {shows.map((show) => (
-    <div class={`show-listing ${show.isPast ? 'show-past' : ''}`}>
-      <p class="show-date">{show.date}</p>
-      <p class="show-venue">{show.venue}</p>
-      <p class="show-city">{show.city}</p>
-      <p class="show-meta">{show.time} &nbsp;·&nbsp; {show.price}</p>
-      <a href={show.ticketUrl} target="_blank" rel="noopener" class="show-cta">{t(lang, "shows.tickets")}</a>
-      {show.flyer && (
-        <div class="flyer-compare">
-          <img
-            src={show.flyer}
-            alt={show.flyerAlt}
-            class="flyer-img"
-          />
+  {rows.length === 0 && <p>{t.shows.none}</p>}
+
+  <div class="shows__stack">
+    {rows.map(({ show, isPast }, i) => (
+      <article class:list={['show', 'frame', isPast && 'show--past']}>
+        <div class="show__art" style={`transform:${tilt(i)}`}>
+          {show.data.flyer ? (
+            /* Flyers stay in full colour — no greyscale filter here. */
+            <Image
+              src={show.data.flyer}
+              alt={pick(show.data.flyerAlt, lang) ?? show.data.venue}
+              width={300}
+              class="show__flyer frame"
+            />
+          ) : (
+            /* Standing pattern for dates announced before artwork exists. */
+            <div class="show__plate plate frame">
+              <Image
+                src={platePhoto}
+                alt=""
+                aria-hidden="true"
+                width={400}
+                loading="lazy"
+                class="show__plate-bg"
+              />
+              <span class="show__plate-date">{formatPlateDate(show.data.date, lang)}</span>
+              <span class="display show__plate-city">{pick(show.data.plateCity, lang) ?? pick(show.data.city, lang)}</span>
+            </div>
+          )}
         </div>
-      )}
-    </div>
-  ))}
+
+        <div class="show__body">
+          <p class="show__date">{dateLine(show)}</p>
+          <h3 class="display show__venue">{show.data.venue}</h3>
+          <p class="show__meta">
+            {pick(show.data.city, lang)}{show.data.support ? ` · ${pick(show.data.support, lang)}` : ''}
+          </p>
+          <p class="show__meta">{pick(show.data.policy, lang) ?? t.shows.policy}</p>
+        </div>
+
+        <div class="show__actions">
+          {show.data.ticketUrl && !isPast && (
+            <a href={show.data.ticketUrl} target="_blank" rel="noopener noreferrer" class="show__btn show__btn--fill label">
+              {t.shows.tickets}
+            </a>
+          )}
+          {show.data.flyer && (
+            <button
+              type="button"
+              class="show__btn label"
+              data-flyer
+              data-flyer-src={show.data.flyer.src}
+              data-flyer-alt={pick(show.data.flyerAlt, lang) ?? show.data.venue}
+            >
+              {t.shows.flyer}
+            </button>
+          )}
+        </div>
+      </article>
+    ))}
+  </div>
 </section>
 
 <style>
-  @media (min-width: 960px) {
-    .show-past .flyer-compare {
-      max-width: 50%;
-    }
+  .shows { padding-block: var(--section-pad); }
+  .shows__stack { display: flex; flex-direction: column; gap: 16px; }
+
+  .show {
+    display: grid;
+    grid-template-columns: 150px 1fr auto;
+    gap: 16px;
+    padding: 14px;
+    align-items: center;
+  }
+
+  /* Past dates stay on the page but recede. */
+  .show--past { opacity: 0.55; }
+  .show--past:hover { opacity: 1; }
+
+  .show__art { width: 150px; }
+  .show__flyer { width: 150px; height: 186px; object-fit: cover; }
+
+  .show__plate {
+    position: relative;
+    overflow: hidden;
+    width: 150px;
+    height: 186px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  /* Same recipe as the hero's green tile: luminosity keeps the photo in the
+     plate's own hue, held well back so black ink still reads over it. */
+  .show__plate-bg {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 26%;
+    filter: grayscale(1) contrast(2.6) brightness(0.92);
+    mix-blend-mode: luminosity;
+    opacity: 0.32;
+  }
+
+  .show__plate-date,
+  .show__plate-city { position: relative; }
+
+  .show__plate-date { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; }
+  .show__plate-city { font-size: 40px; }
+
+  .show__date {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .show__venue { font-size: 34px; margin: 4px 0 6px; }
+  .show__meta { font-size: 12px; line-height: 1.5; }
+
+  .show__actions { display: flex; flex-direction: column; gap: 8px; }
+
+  .show__btn {
+    border: var(--rule) solid var(--ink);
+    padding: 10px 14px;
+    text-align: center;
+    min-height: var(--tap);
+    display: grid;
+    place-items: center;
+  }
+
+  .show__btn--fill { background: var(--ink); color: var(--paper); }
+  .show__btn:hover { background: var(--accent); color: var(--ink-on-plate); }
+
+  @media (max-width: 780px) {
+    .show { grid-template-columns: 1fr; gap: 12px; }
+    .show__art, .show__flyer, .show__plate { width: 100%; }
+    .show__flyer, .show__plate { height: auto; aspect-ratio: 150 / 186; }
+    .show__venue { font-size: 26px; }
+    .show__actions { flex-direction: row; }
+    .show__btn { flex: 1; }
   }
 </style>

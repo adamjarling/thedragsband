@@ -1,71 +1,192 @@
 ---
+import { Image } from 'astro:assets';
+import logoTextured from '../assets/logos/logo-textured.svg';
+import heroBand from '../assets/photos/hero-band.png';
+import lillOnstage from '../assets/photos/lill-onstage.png';
+import stefanHand from '../assets/photos/stefan-hand.jpeg';
+import plateBg from '../assets/photos/rehearsal.jpeg';
+import { useTranslations, formatShortDate, type Lang } from '../i18n/utils';
+import { pick } from '../i18n/localized';
+import MobileHeroCarousel from './MobileHeroCarousel.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  lang: Lang;
+  next?: CollectionEntry<'shows'>;
+}
+const { lang, next } = Astro.props;
+const t = useTranslations(lang);
 ---
 
-<section class="hero" aria-label="Hero">
-  <img
-    src="/images/hapsburgs.jpeg"
-    alt=""
-    class="hero-bg"
-    aria-hidden="true"
-    loading="eager"
-  />
+<section class="hero scanlines">
+  <div class="hero__left">
+    <div class="hero__lead frame tilt-a">
+      <Image src={heroBand} alt={t.hero.logoAlt} widths={[740, 1480]} sizes="(max-width: 780px) 100vw, 62vw" class="photo hero__lead-img" />
+    </div>
 
-  <div class="hero-content">
-    <img
-      src="/images/the-drags-logo-textured.svg"
-      alt="The Drags"
-      class="hero-logo"
-    />
+    <div class="hero__row">
+      <div class="frame tilt-b hero__tile">
+        <Image src={lillOnstage} alt={t.hero.logoAlt} width={600} class="photo hero__tile-right" />
+      </div>
+      <div class="frame tilt-c hero__tile">
+        <Image src={stefanHand} alt={t.hero.logoAlt} width={600} class="photo" />
+      </div>
+      <div class="frame tilt-d hero__plate plate">
+        <Image
+          src={plateBg}
+          alt=""
+          aria-hidden="true"
+          width={600}
+          class="hero__plate-bg"
+        />
+        <span class="hero__plate-words">
+          {t.hero.plate.map((word) => <span class="label">{word}</span>)}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__right">
+    <div class="hero__logo-tile">
+      <img src={logoTextured.src} alt={t.hero.logoAlt} class="hero__logo tilt-e" width="600" height="200" />
+    </div>
+
+    <p class="hero__desc">
+      <span class="hero__desc-full">{t.hero.description}</span>
+      <span class="hero__desc-short">{t.hero.descriptionShort}</span>
+    </p>
+
+    {next && (
+      <div class="hero__strip">
+        <span class="label hero__next">{t.hero.nextLabel}: {formatShortDate(next.data.date, lang)}</span>
+        <span class="label">{next.data.venue}</span>
+        <span class="label">{pick(next.data.district, lang) ?? pick(next.data.city, lang)}</span>
+      </div>
+    )}
+
+    <a href="#booking" class="hero__cta frame tilt-f">
+      <span>{t.hero.cta}</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </div>
+
+  <div class="hero__mobile">
+    <MobileHeroCarousel lang={lang} />
   </div>
 </section>
 
 <style>
   .hero {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    min-height: 600px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 22px;
+    padding: 34px var(--gutter) var(--section-pad);
   }
 
-  .hero-bg {
+  .hero__lead { aspect-ratio: 16 / 9; overflow: hidden; }
+  .hero__lead-img { object-position: 70% 50%; }
+
+  .hero__row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .hero__tile { aspect-ratio: 1; overflow: hidden; }
+
+  /* Lill stands at the far right of this frame; a centre crop lands on the
+     drum kit instead. */
+  .hero__tile-right { object-position: 100% 45%; }
+
+  .hero__plate {
+    position: relative;
+    aspect-ratio: 1;
+    display: grid;
+    align-content: center;
+    padding: 10px;
+    overflow: hidden;
+  }
+
+  /* Luminosity keeps the photo monochrome in the plate's own hue rather than
+     laying grey over green, so the tile still reads as the spot colour. */
+  .hero__plate-bg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: grayscale(1) brightness(0.3);
+    object-position: 60% 28%;
+    filter: grayscale(1) contrast(2.6) brightness(0.92);
+    mix-blend-mode: luminosity;
+    /* Held well back: the tile has to still read as the spot-colour plate,
+       and 10px black Courier needs a calm ground to sit on. */
+    opacity: 0.32;
   }
 
-  .hero-content {
+  .hero__plate-words {
     position: relative;
-    z-index: 10;
-    text-align: center;
-    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: var(--ink-on-plate);
   }
 
-  .hero-logo {
-    width: clamp(240px, 50vw, 520px);
-    filter: brightness(0) invert(1);
-    animation: logo-lightning 1.8s ease-out forwards;
+  .hero__plate-words .label { font-size: 10px; }
+
+  .hero__right { display: flex; flex-direction: column; gap: 16px; }
+
+  .hero__logo-tile { background: var(--deep); padding: 18px; }
+  .hero__logo { width: 100%; height: auto; filter: invert(0); }
+
+  .hero__desc { font-size: 13px; line-height: 1.55; text-transform: uppercase; }
+  .hero__desc-short { display: none; }
+
+  /* The carousel replaces the whole hero on mobile; desktop never shows it,
+     and its script skips fetching frames 2-6 on a desktop viewport. */
+  .hero__mobile { display: none; }
+
+  /* Only the NEXT label goes acid; its two siblings stay paper. */
+  .hero__next { color: var(--accent); }
+
+  .hero__strip {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 12px 0;
+    border-top: var(--rule) solid var(--ink);
+    border-bottom: var(--rule) solid var(--ink);
   }
 
-  @keyframes logo-lightning {
-    0%   { opacity: 0;   filter: brightness(0) invert(1);                                                                  transform: translate(0, 0); }
-    4%   { opacity: 1;   filter: brightness(5) invert(1) drop-shadow(0 0 30px #fff) drop-shadow(0 0 70px rgba(180,200,255,0.9)); transform: translate(-3px,  1px); }
-    6%   { opacity: 0;   filter: brightness(0) invert(1);                                                                  transform: translate( 2px, -1px); }
-    10%  { opacity: 1;   filter: brightness(7) invert(1) drop-shadow(0 0 50px #fff) drop-shadow(0 0 110px rgba(160,185,255,0.7)); transform: translate( 3px,  2px); }
-    12%  { opacity: 0.1; filter: brightness(1) invert(1);                                                                  transform: translate(-1px,  1px); }
-    16%  { opacity: 1;   filter: brightness(6) invert(1) drop-shadow(0 0 40px #fff);                                       transform: translate(-2px, -2px); }
-    18%  { opacity: 0;   filter: brightness(0) invert(1);                                                                  transform: translate( 1px,  0);   }
-    22%  { opacity: 1;   filter: brightness(9) invert(1) drop-shadow(0 0 80px #fff) drop-shadow(0 0 40px rgba(210,225,255,1));  transform: translate( 0,    0);   }
-    26%  { opacity: 0.7; filter: brightness(4) invert(1) drop-shadow(0 0 25px rgba(255,255,255,0.8));                      transform: translate( 1px, -1px); }
-    32%  { opacity: 1;   filter: brightness(2) invert(1) drop-shadow(0 0 12px rgba(255,255,255,0.5));                      transform: translate( 0,    0);   }
-    44%  { opacity: 1;   filter: brightness(1.2) invert(1) drop-shadow(0 0 6px rgba(255,255,255,0.2));                     transform: translate( 0,    0);   }
-    65%  { opacity: 1;   filter: brightness(0.6) invert(1);                                                                transform: translate( 0,    0);   }
-    100% { opacity: 1;   filter: brightness(0) invert(1);                                                                  transform: translate( 0,    0);   }
+  /* Button-sized, so it takes the acid fill; black text as always on acid. */
+  .hero__cta {
+    background: var(--accent);
+    color: var(--ink-on-plate);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    min-height: var(--tap);
+    transition: transform 120ms ease-out;
+  }
+
+  .hero__cta:hover { transform: rotate(0deg); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__cta { transition: none; }
+  }
+
+  @media (max-width: 780px) {
+    /* Mobile drops the gutter entirely — the carousel is full-bleed. */
+    .hero { grid-template-columns: 1fr; gap: 0; padding: 0; }
+    .hero__left,
+    .hero__right { display: none; }
+    .hero__mobile { display: block; }
+    .hero__cta { justify-content: space-between; }
   }
 </style>

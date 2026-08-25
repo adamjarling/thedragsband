@@ -1,0 +1,101 @@
+[
+  {
+    "id": "live-1",
+    "src": "../assets/photos/live-1.jpg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    },
+    "credit": null
+  },
+  {
+    "id": "stefan-hand",
+    "src": "../assets/photos/stefan-hand.jpeg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    },
+    "credit": null
+  },
+  {
+    "id": "lill-onstage",
+    "src": "../assets/photos/lill-onstage.png",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    },
+    "credit": null
+  },
+  {
+    "id": "live-2",
+    "src": "../assets/photos/live-2.jpg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    },
+    "credit": null
+  },
+  {
+    "id": "smiles",
+    "src": "../assets/photos/smiles.png",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    },
+    "credit": null
+  },
+  {
+    "id": "live-3",
+    "src": "../assets/photos/live-3.jpg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    },
+    "credit": null
+  },
+  {
+    "id": "rehearsal",
+    "src": "../assets/photos/rehearsal.jpeg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    },
+    "credit": null
+  },
+  {
+    "id": "first-gig",
+    "src": "../assets/photos/first-gig.jpeg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    },
+    "credit": null
+  },
+  {
+    "id": "helmut",
+    "src": "../assets/photos/helmut.png",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    },
+    "credit": null
+  },
+  {
+    "id": "lill",
+    "src": "../assets/photos/lill.png",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    },
+    "credit": null
+  },
+  {
+    "id": "leopard",
+    "src": "../assets/photos/leopard.jpeg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    },
+    "credit": null
+  }
+]

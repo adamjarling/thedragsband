@@ -1,0 +1,30 @@
+[
+  {
+    "id": "the-river",
+    "youtubeId": "Q1-kFqxT9bU",
+    "title": {
+      "de": "The River — live im Café Carina",
+      "en": "The River — Live at Café Carina"
+    },
+    "orientation": "portrait",
+    "order": 1
+  },
+  {
+    "id": "boots",
+    "youtubeId": "zmulzEoGWM8",
+    "title": {
+      "de": "Live im Café Carina",
+      "en": "Live at Café Carina"
+    },
+    "order": 2
+  },
+  {
+    "id": "live-2",
+    "youtubeId": "hqVK8x67hhI",
+    "title": {
+      "de": "The Drags — live",
+      "en": "The Drags — live"
+    },
+    "order": 3
+  }
+]

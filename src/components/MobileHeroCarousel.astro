@@ -1,0 +1,229 @@
+---
+import { getImage } from 'astro:assets';
+import logoTextured from '../assets/logos/logo-textured.svg';
+import stageBodies from '../assets/photos/stage-bodies.png';
+import live2 from '../assets/photos/live-2.jpg';
+import bg4 from '../assets/photos/mobile-hero-bg4.png';
+import bg6 from '../assets/photos/mobile-hero-bg6.jpeg';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+/* Six photographs crossfading in one 9:16 frame.
+
+   Each layer keeps its OWN filter and scrim. This is deliberate and must not
+   be collapsed into one shared filter: a dark stage shot and a bright one need
+   different values, and a single global filter renders the dark sources
+   near-black. Values come straight from the handoff. */
+const LAYERS = [
+  { src: stageBodies, pos: '50% 30%', filter: 'grayscale(1) contrast(1.08) brightness(1.32)', scrim: 0.26 },
+  { src: live2,       pos: '50% 34%', filter: 'grayscale(1) contrast(1.24) brightness(1.0)',  scrim: 0.42 },
+  { src: bg4,         pos: '50% 30%', filter: 'grayscale(1) contrast(1.02) brightness(1.0)',  scrim: 0.38 },
+  { src: bg6,         pos: '42% 30%', filter: 'grayscale(1) contrast(1.06) brightness(1.08)', scrim: 0.3 },
+];
+
+// 588x1046 at 1x per the handoff; 1176 covers 2x screens.
+const layers = await Promise.all(
+  LAYERS.map(async (l) => ({
+    ...l,
+    img: await getImage({ src: l.src, width: 588, height: 1046, widths: [588, 1176] }),
+  }))
+);
+---
+
+<div class="mh" data-carousel>
+  <div class="mh__frame">
+    {layers.map((l, i) => (
+      <div class="mh__layer" data-layer style={`--scrim:${l.scrim}`}>
+        <img
+          data-src={l.img.src}
+          data-srcset={l.img.srcSet?.attribute}
+          sizes="100vw"
+          width="588"
+          height="1046"
+          alt={i === 0 ? t.hero.logoAlt : ''}
+          aria-hidden={i === 0 ? undefined : 'true'}
+          decoding="async"
+          style={`object-position:${l.pos};filter:${l.filter}`}
+        />
+      </div>
+    ))}
+
+    <noscript>
+      <img
+        class="mh__fallback"
+        src={layers[0].img.src}
+        srcset={layers[0].img.srcSet?.attribute}
+        sizes="100vw"
+        width="588"
+        height="1046"
+        alt={t.hero.logoAlt}
+        style={`object-position:${layers[0].pos};filter:${layers[0].filter}`}
+      />
+    </noscript>
+
+    <div class="mh__scanlines" aria-hidden="true"></div>
+
+    <div class="mh__caption">
+      <img src={logoTextured.src} alt={t.hero.logoAlt} class="mh__logo" width="600" height="200" />
+      <p class="mh__desc">{t.hero.descriptionShort}</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mh__frame {
+    position: relative;
+    aspect-ratio: 392 / 697;
+    overflow: hidden;
+    background: var(--deep);
+  }
+
+  .mh__layer {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1400ms ease-in-out;
+  }
+
+  .mh__layer[data-active] { opacity: 1; }
+
+  .mh__fallback,
+  .mh__layer img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Per-layer scrim, so it crossfades together with its own image. */
+  .mh__layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(10, 11, 9, var(--scrim)) 0%,
+      rgba(10, 11, 9, 0.06) 38%,
+      rgba(10, 11, 9, 0.9) 88%
+    );
+  }
+
+  /* One shared scanline overlay above every layer. */
+  .mh__scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(10, 11, 9, 0.16) 0 2px,
+      transparent 2px 5px
+    );
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
+  .mh__caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 16px 18px;
+  }
+
+  .mh__logo { width: 100%; height: auto; transform: rotate(-1deg); }
+
+  .mh__desc {
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #e8e5da;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mh__layer { transition: none; }
+  }
+</style>
+
+<!-- Runs during parse so the chosen frame is discovered as early as possible.
+     Picking here (not in the deferred module) means the visible frame always
+     has an image, including under prefers-reduced-motion where the carousel
+     never advances. On desktop nothing is fetched at all. -->
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-carousel]');
+    if (!root) return;
+    var layers = root.querySelectorAll('[data-layer]');
+    if (!layers.length) return;
+
+    var i = Math.floor(Math.random() * layers.length);
+    layers[i].setAttribute('data-active', '');
+    root.setAttribute('data-index', i);
+
+    if (!window.matchMedia('(max-width: 780px)').matches) return;
+
+    var img = layers[i].querySelector('img');
+    if (img && img.dataset.src) {
+      if (img.dataset.srcset) img.srcset = img.dataset.srcset;
+      img.src = img.dataset.src;
+      img.setAttribute('fetchpriority', 'high');
+      delete img.dataset.src;
+    }
+  })();
+</script>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-carousel]');
+  const layers = Array.from(document.querySelectorAll<HTMLElement>('[data-layer]'));
+
+  if (root && layers.length) {
+    // The inline script above already picked and marked the starting frame.
+    let index = Number(root.dataset.index ?? 0);
+
+    const hydrate = () => {
+      layers.forEach((layer) => {
+        const img = layer.querySelector<HTMLImageElement>('img');
+        if (!img || !img.dataset.src) return;
+        if (img.dataset.srcset) img.srcset = img.dataset.srcset;
+        img.src = img.dataset.src;
+        delete img.dataset.src;
+      });
+    };
+
+    const mobile = window.matchMedia('(max-width: 780px)');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    let timer: ReturnType<typeof setInterval> | undefined;
+
+    const advance = () => {
+      layers[index].removeAttribute('data-active');
+      index = (index + 1) % layers.length;
+      layers[index].setAttribute('data-active', '');
+    };
+
+    const start = () => {
+      if (timer || reduced.matches || !mobile.matches || document.hidden) return;
+      hydrate();
+      timer = setInterval(advance, 5000);
+    };
+
+    const stop = () => {
+      if (timer) clearInterval(timer);
+      timer = undefined;
+    };
+
+    /* Remaining frames are pulled only once the first has painted, and only on
+       a viewport that shows the carousel — a desktop visitor fetches none. */
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
+
+    mobile.addEventListener('change', () => (mobile.matches ? start() : stop()));
+    reduced.addEventListener('change', () => (reduced.matches ? stop() : start()));
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+  }
+</script>

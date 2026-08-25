@@ -1,21 +1,194 @@
 ---
-import { t } from '../i18n/utils';
+import { getImage } from 'astro:assets';
+import leopard from '../assets/photos/leopard.jpeg';
+import heroBand from '../assets/photos/hero-band.png';
+import SectionHead from './SectionHead.astro';
+import { lineup } from '../data/lineup';
+import { useTranslations, type Lang } from '../i18n/utils';
 
-interface Props {
-  lang: 'de' | 'en';
-}
-
+interface Props { lang: Lang }
 const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const [first, ...rest] = t.about.body;
+
+/* Art direction, not just a resize: the ocelot stays on desktop, mobile gets
+   the band shot. A <picture> with a media source means the viewer downloads
+   one of them, never both — which display:none toggling would not guarantee. */
+const leopardImg = await getImage({ src: leopard, width: 600 });
+const heroBandImg = await getImage({ src: heroBand, width: 600, widths: [600, 900] });
 ---
 
-<section id="about" class="section">
-  <div class="about-inner">
-    <p class="about-bio">{t(lang, 'about.bio')}</p>
-    <img
-      src="/images/lill-stage-edited.png"
-      alt="The Drags"
-      class="about-photo"
-      loading="lazy"
-    />
+<section class="about gutter" id="about">
+  <SectionHead title={t.about.heading} meta={t.about.location} />
+
+  <div class="about__grid">
+    <div class="about__body">
+      <p class="about__para">{first}</p>
+
+      {/* On mobile everything below collapses behind a read-more toggle.
+          Desktop lifts the clamp and hides the button entirely. */}
+      <div class="about__more" data-bio>
+        {rest.map((p) => <p class="about__para">{p}</p>)}
+        <p class="about__chip plate tilt-h">{t.about.chip}</p>
+        <span class="about__fade" data-bio-fade aria-hidden="true"></span>
+      </div>
+
+      <button
+        type="button"
+        class="about__toggle"
+        data-bio-toggle
+        aria-expanded="false"
+        aria-controls="about-more"
+        data-label-more={`${t.about.readMore} ↓`}
+        data-label-less={`${t.about.readLess} ↑`}
+      >{t.about.readMore} ↓</button>
+    </div>
+
+    <div class="about__side">
+      <div class="frame tilt-g about__photo">
+        <picture>
+          <source media="(max-width: 780px)" srcset={heroBandImg.srcSet?.attribute || heroBandImg.src} />
+          <img src={leopardImg.src} alt={t.about.heading} width="600" height="450" loading="lazy" decoding="async" class="photo" />
+        </picture>
+      </div>
+
+      <p class="about__eyebrow">{t.about.lineupLabel}</p>
+      <ul class="about__lineup">
+        {lineup.map((m) => (
+          <li class="about__member">
+            <span class="display about__name">{m.name}</span>
+            <span class="label about__role">{t.about.instruments[m.role]}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
 </section>
+
+<style>
+  .about { padding-block: var(--section-pad); }
+
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 28px;
+  }
+
+  .about__body { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+  .about__para { font-size: 13px; line-height: 1.7; }
+
+  .about__more {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .about__fade { display: none; }
+  .about__toggle { display: none; }
+
+  .about__chip {
+    display: inline-block;
+    padding: 9px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .about__side { display: flex; flex-direction: column; gap: 18px; }
+  .about__photo { aspect-ratio: 4 / 3; overflow: hidden; }
+  .about__photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+
+  .about__eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .about__lineup { list-style: none; width: 100%; }
+
+  .about__member {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px dotted color-mix(in srgb, var(--ink) 45%, transparent);
+  }
+
+  .about__member:last-child { border-bottom: none; }
+  .about__name { font-size: 21px; }
+  .about__role { color: var(--accent); white-space: nowrap; }
+
+  @media (max-width: 780px) {
+    .about__grid { grid-template-columns: 1fr; gap: 22px; }
+    .about__name { font-size: 18px; }
+    .about__para { font-size: 12px; }
+    .about__photo { aspect-ratio: 4 / 3; }
+
+    .about__more {
+      max-height: 96px;
+      overflow: hidden;
+      transition: max-height 260ms ease-out;
+    }
+
+    .about__more[data-open] { max-height: 1200px; }
+
+    .about__fade {
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 64px;
+      pointer-events: none;
+      background: linear-gradient(
+        180deg,
+        rgba(var(--paper-rgb), 0) 0%,
+        rgb(var(--paper-rgb)) 92%
+      );
+    }
+
+    .about__more[data-open] .about__fade { display: none; }
+
+    .about__toggle {
+      display: block;
+      align-self: flex-start;
+      background: none;
+      border: none;
+      border-bottom: 2px solid var(--plate);
+      color: var(--ink);
+      padding: 0 0 3px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      min-height: var(--tap);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about__more { transition: none; }
+  }
+</style>
+
+<script>
+  const wrap = document.querySelector<HTMLElement>('[data-bio]');
+  const btn = document.querySelector<HTMLButtonElement>('[data-bio-toggle]');
+
+  if (wrap && btn) {
+    wrap.id = 'about-more';
+    btn.addEventListener('click', () => {
+      const open = wrap.toggleAttribute('data-open');
+      btn.setAttribute('aria-expanded', String(open));
+      btn.textContent = open
+        ? btn.dataset.labelLess ?? ''
+        : btn.dataset.labelMore ?? '';
+    });
+  }
+</script>

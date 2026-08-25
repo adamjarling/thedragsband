@@ -1,0 +1,34 @@
+---
+/* heading + 2px rule filling the remaining width + right-aligned meta.
+   Repeats across About, Shows, Look and the Listen/Video band. */
+interface Props { title: string; meta?: string; id?: string }
+const { title, meta, id } = Astro.props;
+---
+
+<div class="head" id={id}>
+  <h2 class="display head__title">{title}</h2>
+  <span class="head__rule" aria-hidden="true"></span>
+  {meta && <span class="label head__meta">{meta}</span>}
+</div>
+
+<style>
+  .head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+    scroll-margin-top: 70px;
+    /* Title and meta are both flex:none. On a very narrow phone (320px) the
+       pair overflows, so let the meta drop to its own line instead. */
+    flex-wrap: wrap;
+  }
+
+  .head__title { font-size: 44px; flex: none; }
+  .head__rule { flex: 1; height: var(--rule); background: var(--accent); }
+  .head__meta { flex: none; margin-left: auto; color: var(--accent); }
+
+  @media (max-width: 780px) {
+    .head__title { font-size: 30px; }
+    .head { gap: 10px; margin-bottom: 16px; }
+  }
+</style>

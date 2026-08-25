@@ -1,0 +1,330 @@
+---
+import logoSolid from '../assets/logos/logo-solid.svg';
+import { useTranslations, localePath, getAltLangPath, type Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const home = localePath('/', lang);
+
+const altPath = getAltLangPath(Astro.url);
+const current = lang === 'de' ? 'DE' : 'EN';
+const other = lang === 'de' ? 'EN' : 'DE';
+const otherHreflang = lang === 'de' ? 'en' : 'de';
+
+const links = [
+  { href: '#shows', label: t.nav.shows },
+  { href: '#listen', label: t.nav.music },
+  { href: '#video', label: t.nav.video },
+  { href: '#look', label: t.nav.look },
+  { href: '#about', label: t.nav.about },
+];
+---
+
+<div class="header-shell">
+  <header class="header">
+    <a href={home} class="header__logo" aria-label="The Drags">
+      <img src={logoSolid.src} alt={t.hero.logoAlt} width="120" height="34" />
+    </a>
+
+    <nav class="header__nav" aria-label={t.nav.menu}>
+      {links.map((l) => <a href={l.href} class="label header__link">{l.label}</a>)}
+      <a href="#booking" class="header__chip label">{t.nav.bookDesktop}</a>
+      <span class="header__lang label">
+        <span class="header__lang-current">{current}</span>
+        <span aria-hidden="true">/</span>
+        <a href={altPath} hreflang={otherHreflang} aria-label={t.nav.language}>{other}</a>
+      </span>
+      <button
+        type="button"
+        class="header__theme"
+        data-theme-toggle
+        aria-label={t.nav.themeToggle}
+        title={t.nav.themeToggle}
+      >
+        <span data-theme-icon aria-hidden="true"></span>
+      </button>
+    </nav>
+  </header>
+
+  {/* Mobile only. Sits outside <header> because on mobile the bar is gone
+      entirely and this floats over the full-bleed hero instead. */}
+  <button
+    type="button"
+    class="burger"
+    data-menu-toggle
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+    aria-label={t.nav.menu}
+  >
+    <span class="burger__bars" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </span>
+  </button>
+
+  <div class="mobile-menu" id="mobile-menu" data-menu hidden>
+    <a href={home} class="mobile-menu__logo" aria-label="The Drags">
+      <img src={logoSolid.src} alt={t.hero.logoAlt} width="120" height="34" />
+    </a>
+    {links.map((l) => <a href={l.href} class="mobile-menu__link display">{l.label}</a>)}
+    <a href="#booking" class="mobile-menu__cta label">{t.nav.bookMobile}</a>
+    <div class="mobile-menu__utils">
+      <button type="button" class="mobile-menu__theme label" data-theme-toggle>
+        <span data-theme-icon aria-hidden="true"></span>
+        <span>{t.nav.themeToggle}</span>
+      </button>
+      <span class="mobile-menu__lang label">
+        <span class="header__lang-current">{current}</span>
+        <span aria-hidden="true">/</span>
+        <a href={altPath} hreflang={otherHreflang} aria-label={t.nav.language}>{other}</a>
+      </span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px var(--gutter);
+    border-bottom: var(--rule) solid var(--ink);
+    background: var(--paper);
+  }
+
+  .header-shell {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+  }
+
+  .header__logo img {
+    height: 34px;
+    width: auto;
+    /* Logos ship white-on-transparent; invert them on light stock. */
+    filter: invert(var(--logo-invert));
+  }
+
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .header__link:hover { color: var(--accent); }
+
+  /* Acid fill, black text. Text on an acid fill is always ink-black. */
+  .header__chip {
+    background: var(--accent);
+    color: var(--ink-on-plate);
+    padding: 5px 9px;
+  }
+
+  .header__chip:hover { background: var(--ink); color: var(--paper); }
+
+  .header__lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .header__lang-current { opacity: 0.45; }
+  .header__lang a:hover { color: var(--accent); }
+
+  .header__theme {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border: var(--rule) solid var(--ink);
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .header__theme:hover { background: var(--accent); color: var(--ink-on-plate); }
+
+  .burger { display: none; }
+
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .mobile-menu[data-open] { display: flex; }
+
+  .mobile-menu__logo { margin-bottom: 18px; }
+  .mobile-menu__logo img {
+    height: 30px;
+    width: auto;
+    filter: invert(var(--logo-invert));
+  }
+
+  .mobile-menu__link {
+    font-size: 34px;
+    padding: 8px 0;
+    min-height: var(--tap);
+    border-bottom: 1px dotted color-mix(in srgb, var(--ink) 30%, transparent);
+  }
+
+  .mobile-menu__cta {
+    margin-top: 18px;
+    background: var(--accent);
+    color: var(--ink-on-plate);
+    border: var(--rule) solid var(--ink);
+    padding: 16px;
+    text-align: center;
+  }
+
+  .mobile-menu__utils {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 14px;
+  }
+
+  .mobile-menu__theme {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: var(--tap);
+  }
+
+  .mobile-menu__lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    min-height: var(--tap);
+  }
+
+  .mobile-menu__lang a { color: var(--accent); }
+
+  @media (max-width: 780px) {
+    /* No bar on mobile — the hero runs full bleed to the top edge. The shell
+       goes static so its fixed children escape into the root stacking context
+       instead of being trapped in the sticky element's own. */
+    .header { display: none; }
+    .header-shell { position: static; z-index: auto; }
+
+    /* Floating over photography, so it carries the only spot colour on screen
+       plus a hard black border — nothing in the greyscale image competes. */
+    .burger {
+      display: grid;
+      place-items: center;
+      position: fixed;
+      top: calc(env(safe-area-inset-top, 0px) + 14px);
+      right: 14px;
+      z-index: 60;
+      width: 48px;
+      height: 48px;
+      background: var(--accent);
+      border: var(--rule) solid var(--ink-on-plate);
+      transform: rotate(-2deg);
+    }
+
+    .burger__bars {
+      position: relative;
+      display: block;
+      width: 20px;
+      height: 14px;
+    }
+
+    .burger__bars span {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--ink-on-plate);
+      transition: transform 160ms ease, opacity 120ms ease;
+    }
+
+    .burger__bars span:nth-child(1) { top: 0; }
+    .burger__bars span:nth-child(2) { top: 6px; }
+    .burger__bars span:nth-child(3) { top: 12px; }
+
+    /* Bars fold into an X while the panel is open. */
+    .burger[aria-expanded='true'] .burger__bars span:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+    .burger[aria-expanded='true'] .burger__bars span:nth-child(2) { opacity: 0; }
+    .burger[aria-expanded='true'] .burger__bars span:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    /* Full-screen overlay rather than a dropdown: with no bar to hang from,
+       a panel anchored to nothing reads as an accident. */
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 55;
+      background: var(--paper);
+      padding: calc(env(safe-area-inset-top, 0px) + 76px) var(--gutter)
+               calc(env(safe-area-inset-bottom, 0px) + 32px);
+      overflow-y: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .burger__bars span { transition: none; }
+  }
+</style>
+
+<script>
+  const ICONS = { dark: '◑', light: '○' };
+
+  function paintIcons(theme: string) {
+    document.querySelectorAll<HTMLElement>('[data-theme-icon]').forEach((el) => {
+      el.textContent = theme === 'dark' ? ICONS.dark : ICONS.light;
+    });
+  }
+
+  function setTheme(theme: 'dark' | 'light') {
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem('drags-theme', theme);
+    } catch {
+      /* private browsing — the choice just will not persist */
+    }
+    paintIcons(theme);
+  }
+
+  paintIcons(document.documentElement.dataset.theme ?? 'dark');
+
+  document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+    });
+  });
+
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  const burger = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+
+  function closeMenu() {
+    if (!menu || !burger) return;
+    menu.removeAttribute('data-open');
+    menu.hidden = true;
+    burger.setAttribute('aria-expanded', 'false');
+    document.body.style.removeProperty('overflow');
+  }
+
+  burger?.addEventListener('click', () => {
+    if (!menu) return;
+    if (menu.hasAttribute('data-open')) {
+      closeMenu();
+    } else {
+      menu.hidden = false;
+      menu.setAttribute('data-open', '');
+      burger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+  });
+
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+</script>
