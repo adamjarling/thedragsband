@@ -72,7 +72,7 @@ const rest = tracks.filter((tr) => tr.id !== featured?.id);
       <SectionHead title={t.video.heading} />
       <div class="lv__videos">
         {videos.map((v) => (
-          <div class="lv__video frame">
+          <div class:list={['lv__video', 'frame', v.data.orientation === 'portrait' && 'lv__video--portrait']}>
             <iframe
               src={`https://www.youtube-nocookie.com/embed/${v.data.youtubeId}`}
               title={pick(v.data.title, lang)}
@@ -102,6 +102,10 @@ const rest = tracks.filter((tr) => tr.id !== featured?.id);
   .lv :global(.head__title), .lv :global(.head__meta) { color: var(--ink-on-plate); }
 
   .lv__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  /* Grid items default to min-width:auto, so a track refuses to shrink below
+     its content's min-content width — an iframe reports 300px. On a narrow
+     phone that pushes the column past the viewport. */
+  .lv__grid > * { min-width: 0; }
 
   .lv__card { border-color: var(--ink-on-plate); padding: 16px; }
   .lv__eyebrow { opacity: 0.75; }
@@ -158,9 +162,39 @@ const rest = tracks.filter((tr) => tr.id !== featured?.id);
   .lv__status { flex: none; }
   .lv__note { margin-top: 14px; font-size: 12px; line-height: 1.5; }
 
-  .lv__videos { display: flex; flex-direction: column; gap: 12px; }
-  .lv__video { aspect-ratio: 16 / 9; border-color: var(--ink-on-plate); }
-  .lv__video iframe { width: 100%; height: 100%; border: 0; }
+  .lv__videos { display: flex; flex-direction: column; gap: 12px; align-items: stretch; min-width: 0; }
+
+  .lv__video {
+    aspect-ratio: 16 / 9;
+    border-color: var(--ink-on-plate);
+    min-width: 0;
+    /* Belt and braces for the iframe below: whatever it does, it is clipped. */
+    overflow: hidden;
+  }
+
+  /* iOS Safari sizes an iframe to its CONTENT and ignores `width:100%`, so a
+     YouTube embed spills past the frame on an iPhone while looking fine in
+     desktop Chrome. `width:1px` with `min-width:100%` is the long-standing
+     workaround: the tiny width wins the intrinsic-sizing argument, then
+     min-width stretches it back to the container. */
+  .lv__video iframe {
+    width: 1px;
+    min-width: 100%;
+    max-width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  /* A Short at full column width would stand ~890px tall, dwarfing the
+     landscape slots beside it. Capping the width keeps it roughly the height
+     of the two 16:9 frames stacked, and centres it in the column. */
+  .lv__video--portrait {
+    aspect-ratio: 9 / 16;
+    width: 100%;
+    max-width: 300px;
+    align-self: center;
+  }
 
   @media (max-width: 780px) {
     .lv__grid { grid-template-columns: 1fr; }

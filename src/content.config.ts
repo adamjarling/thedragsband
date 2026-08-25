@@ -37,6 +37,13 @@ const videos = defineCollection({
   schema: z.object({
     youtubeId: z.string(),
     title: localizedString,
+    /* Shorts are 9:16. The embed URL is the same either way — /shorts/<id> is
+       only a viewing surface — but the frame has to match the source or the
+       player pillarboxes into black bars. */
+    orientation: z.enum(['landscape', 'portrait']).default('landscape'),
+    // getCollection returns entries sorted by id, not file order, so display
+    // order is stated explicitly. Lower shows first.
+    order: z.number().default(99),
   }),
 });
 

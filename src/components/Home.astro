@@ -24,7 +24,9 @@ const upcoming = all.filter((s) => s.data.date >= now);
 const past = all.filter((s) => s.data.date < now).reverse();
 
 const tracks = await getCollection('tracks');
-const videos = await getCollection('videos');
+const videos = (await getCollection('videos')).sort(
+  (a, b) => a.data.order - b.data.order
+);
 const photos = await getCollection('gallery');
 ---
 
