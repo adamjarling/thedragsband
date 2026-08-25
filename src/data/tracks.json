@@ -7,17 +7,10 @@
     "status": null
   },
   {
-    "id": "tbc-1",
-    "title": null,
-    "src": null,
+    "id": "wang-dang-doodle",
+    "title": "Wang Dang Doodle",
+    "src": "/audio/wang_dang_doogle_audio_only_clip.mp3",
     "featured": false,
-    "status": "soon"
-  },
-  {
-    "id": "tbc-2",
-    "title": null,
-    "src": null,
-    "featured": false,
-    "status": "soon"
+    "status": null
   }
 ]
