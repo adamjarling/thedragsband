@@ -7,6 +7,7 @@ interface Props {
   lang?: 'de' | 'en';
   description?: string;
   canonicalUrl?: string;
+  ogImage?: 'og-poster.png' | 'og-pasteup.png' | 'og-show.png';
 }
 
 const {
@@ -14,9 +15,10 @@ const {
   lang = 'de',
   description = 'The Drags – Blues Garage Rock aus Wien.',
   canonicalUrl = 'https://www.thedragsband.com/',
+  ogImage: ogImageFile = 'og-poster.png',
 } = Astro.props;
 
-const ogImage = 'https://www.thedragsband.com/images/og-image.jpg';
+const ogImage = `https://www.thedragsband.com/images/${ogImageFile}`;
 ---
 
 <!doctype html>
@@ -61,6 +63,7 @@ const ogImage = 'https://www.thedragsband.com/images/og-image.jpg';
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
     <meta property="og:locale" content={lang === 'de' ? 'de_AT' : 'en_US'} />
     <meta property="og:site_name" content="The Drags" />
 
