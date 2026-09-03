@@ -16,6 +16,10 @@ const shows = defineCollection({
     z.object({
       date: z.coerce.date(),
       doors: z.coerce.date().optional(),
+      /* Radio slots and other broadcast appearances sit in the same list as
+         gigs, but they are not gigs: the hero's NEXT GIG strip skips them
+         (see Home.astro) and they carry no ticket link. */
+      type: z.enum(['show', 'radio']).default('show'),
       venue: z.string(),
       city: localizedString,
       district: localizedString.optional(),

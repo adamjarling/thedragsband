@@ -18,6 +18,31 @@
     "support": null
   },
   {
+    "id": "2026-11-19-blues-garage-radio",
+    "type": "radio",
+    "date": "2026-11-19T21:00:00+01:00",
+    "venue": "Danny Chicago’s Blues Garage",
+    "city": {
+      "de": "Radio Orange 94.0 FM, Wien",
+      "en": "Radio Orange 94.0 FM, Vienna"
+    },
+    "plateCity": "Radio",
+    "policy": {
+      "de": "Radiosendung — eine Stunde, live einschalten",
+      "en": "Radio broadcast — one hour, tune in live"
+    },
+    "ticketUrl": null,
+    "flyer": "../assets/brand-logos/blues-garage-logo.jpg",
+    "flyerAlt": {
+      "de": "Logo von Danny Chicago’s Blues Garage",
+      "en": "Danny Chicago’s Blues Garage logo"
+    },
+    "support": {
+      "de": "Interview plus Live-Session",
+      "en": "Interview plus live performance"
+    }
+  },
+  {
     "id": "2026-06-19-carina",
     "date": "2026-06-19T21:00:00+02:00",
     "doors": "2026-06-19T20:00:00+02:00",
