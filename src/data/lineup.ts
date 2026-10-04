@@ -11,6 +11,7 @@ export const lineup = [
 export const socials = [
   { name: 'Instagram', href: 'https://www.instagram.com/wearethedrags' },
   { name: 'YouTube', href: 'https://www.youtube.com/@TheDragsBand' },
+  { name: 'SoundCloud', href: 'https://soundcloud.com/the-drags-band' },
   { name: 'TikTok', href: 'https://www.tiktok.com/@wearethedrags' },
 ] as const;
 
