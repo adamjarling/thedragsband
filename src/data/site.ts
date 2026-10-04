@@ -5,4 +5,9 @@ export const site = {
      '/press-kit.zip'). While this is null the footer omits the download
      button rather than linking at a 404. */
   pressKitUrl: null as string | null,
+
+  /* SoundCloud: the playlist feeds the Listen embed, the profile feeds the
+     footer link and the "on SoundCloud" note. */
+  soundcloudProfileUrl: 'https://soundcloud.com/the-drags-band',
+  soundcloudPlaylistUrl: 'https://soundcloud.com/the-drags-band/sets/rehearsal-room',
 } as const;

@@ -2,18 +2,28 @@
 import SectionHead from './SectionHead.astro';
 import { useTranslations, type Lang } from '../i18n/utils';
 import { pick } from '../i18n/localized';
+import { site } from '../data/site';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   lang: Lang;
-  tracks: CollectionEntry<'tracks'>[];
   videos: CollectionEntry<'videos'>[];
 }
-const { lang, tracks, videos } = Astro.props;
+const { lang, videos } = Astro.props;
 const t = useTranslations(lang);
 
-const featured = tracks.find((tr) => tr.data.featured) ?? tracks[0];
-const rest = tracks.filter((tr) => tr.id !== featured?.id);
+/* SoundCloud's widget takes the public playlist URL; it resolves it itself. */
+const playerSrc =
+  'https://w.soundcloud.com/player/?' +
+  new URLSearchParams({
+    url: site.soundcloudPlaylistUrl,
+    color: '#1a1a1a',
+    visual: 'false',
+    show_comments: 'false',
+    show_user: 'true',
+    show_reposts: 'false',
+    hide_related: 'true',
+  }).toString();
 ---
 
 <section class="lv" id="listen">
@@ -21,51 +31,19 @@ const rest = tracks.filter((tr) => tr.id !== featured?.id);
     <div>
       <SectionHead title={t.listen.heading} />
 
-      {featured && (
-        <div class="lv__card frame">
-          <p class="label lv__eyebrow">{t.listen.demoLabel}</p>
-          <h3 class="display lv__track">{featured.data.title ?? t.listen.tbc}</h3>
-          <div class="lv__transport">
-            <button
-              type="button"
-              class="lv__play lv__play--lg"
-              data-track={featured.data.src}
-              data-play-label={t.listen.play}
-              data-pause-label={t.listen.pause}
-              aria-label={`${t.listen.play}: ${featured.data.title ?? t.listen.tbc}`}
-            >
-              <span aria-hidden="true">&#9654;</span>
-            </button>
-            <div class="lv__rail" data-rail><span class="lv__progress" data-progress></span></div>
-            <span class="label lv__time" data-duration>0:00</span>
-          </div>
-        </div>
-      )}
+      <div class="lv__player frame">
+        <iframe
+          src={playerSrc}
+          title={t.listen.playerTitle}
+          allow="autoplay; encrypted-media"
+          loading="lazy"
+        ></iframe>
+      </div>
 
-      <ul class="lv__list">
-        {rest.map((tr, i) => (
-          <li class="lv__row">
-            <button
-              type="button"
-              class="lv__play"
-              data-track={tr.data.src}
-              data-play-label={t.listen.play}
-              data-pause-label={t.listen.pause}
-              disabled={!tr.data.src}
-              aria-label={`${t.listen.play}: ${tr.data.title ?? t.listen.tbc}`}
-            >
-              <span aria-hidden="true">&#9654;</span>
-            </button>
-            <span class="lv__row-meta">
-              <span class="label lv__row-num">{t.listen.track} {String(i + 2).padStart(2, '0')}</span>
-              <span class="display lv__row-title">{tr.data.title ?? t.listen.tbc}</span>
-            </span>
-            {tr.data.status && <span class="label lv__status">{t.listen.comingSoon}</span>}
-          </li>
-        ))}
-      </ul>
-
-      <p class="lv__note">{t.listen.note}</p>
+      <p class="lv__note">
+        {t.listen.note}
+        <a href={site.soundcloudProfileUrl} target="_blank" rel="noopener noreferrer">{t.listen.onSoundcloud}</a>
+      </p>
     </div>
 
     <div id="video">
@@ -86,7 +64,6 @@ const rest = tracks.filter((tr) => tr.id !== featured?.id);
     </div>
   </div>
 
-  <audio data-audio preload="none"></audio>
 </section>
 
 <style>
@@ -107,60 +84,28 @@ const rest = tracks.filter((tr) => tr.id !== featured?.id);
      phone that pushes the column past the viewport. */
   .lv__grid > * { min-width: 0; }
 
-  .lv__card { border-color: var(--ink-on-plate); padding: 16px; }
-  .lv__eyebrow { opacity: 0.75; }
-  .lv__track { font-size: 30px; margin: 6px 0 14px; }
+  .lv__player { border-color: var(--ink-on-plate); height: 300px; overflow: hidden; }
 
-  .lv__transport { display: flex; align-items: center; gap: 12px; }
-
-  .lv__play {
-    width: 30px;
-    height: 30px;
-    flex: none;
-    display: grid;
-    place-items: center;
-    background: var(--ink-on-plate);
-    color: var(--plate);
-    font-size: 11px;
+  /* Same iOS iframe-sizing workaround as the video frames below. */
+  .lv__player iframe {
+    width: 1px;
+    min-width: 100%;
+    max-width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
   }
 
-  .lv__play--lg { width: 38px; height: 38px; font-size: 14px; }
-  .lv__play:disabled { opacity: 0.4; cursor: not-allowed; }
-
-  .lv__rail {
-    flex: 1;
-    height: 8px;
-    background: repeating-linear-gradient(
-      90deg,
-      var(--ink-on-plate) 0 3px,
-      transparent 3px 7px
-    );
-    position: relative;
+  /* SoundCloud's widget has no dark theme, so in dark mode (the default —
+     only an explicit data-theme="light" opts out) the iframe is inverted.
+     hue-rotate(180deg) undoes the colour shift invert() causes, so the
+     artwork keeps roughly its own hues. */
+  :global(:root:not([data-theme='light'])) .lv__player iframe {
+    filter: invert(1) hue-rotate(180deg);
   }
 
-  .lv__progress {
-    position: absolute;
-    inset: 0 100% 0 0;
-    background: var(--ink-on-plate);
-  }
-
-  .lv__time { flex: none; }
-
-  .lv__list { list-style: none; margin-top: 16px; }
-
-  .lv__row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 0;
-    border-top: var(--rule) solid var(--ink-on-plate);
-  }
-
-  .lv__row-meta { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-  .lv__row-num { font-size: 9px; opacity: 0.7; }
-  .lv__row-title { font-size: 20px; }
-  .lv__status { flex: none; }
   .lv__note { margin-top: 14px; font-size: 12px; line-height: 1.5; }
+  .lv__note a { text-decoration: underline; text-underline-offset: 2px; }
 
   .lv__videos { display: flex; flex-direction: column; gap: 12px; align-items: stretch; min-width: 0; }
 
@@ -198,78 +143,5 @@ const rest = tracks.filter((tr) => tr.id !== featured?.id);
 
   @media (max-width: 780px) {
     .lv__grid { grid-template-columns: 1fr; }
-    .lv__track { font-size: 24px; }
   }
 </style>
-
-<script>
-  const audio = document.querySelector<HTMLAudioElement>('[data-audio]');
-  const progress = document.querySelector<HTMLElement>('[data-progress]');
-  const durationEl = document.querySelector<HTMLElement>('[data-duration]');
-  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-track]'));
-
-  const PLAY = '▶';
-  const PAUSE = '⏸';
-
-  function fmt(sec: number) {
-    if (!Number.isFinite(sec)) return '0:00';
-    const m = Math.floor(sec / 60);
-    const s = Math.floor(sec % 60);
-    return `${m}:${String(s).padStart(2, '0')}`;
-  }
-
-  /* One player, one track at a time — starting a track stops any other. */
-  let current: HTMLButtonElement | null = null;
-
-  function resetButtons() {
-    buttons.forEach((b) => {
-      const icon = b.querySelector('span');
-      if (icon) icon.textContent = PLAY;
-    });
-  }
-
-  buttons.forEach((btn) => {
-    const src = btn.dataset.track;
-    if (!src || !audio) return;
-
-    btn.addEventListener('click', () => {
-      const icon = btn.querySelector('span');
-
-      if (current === btn && !audio.paused) {
-        audio.pause();
-        if (icon) icon.textContent = PLAY;
-        return;
-      }
-
-      if (current !== btn) {
-        audio.src = src;
-        current = btn;
-        if (progress) progress.style.right = '100%';
-      }
-
-      audio.play().then(() => {
-        resetButtons();
-        if (icon) icon.textContent = PAUSE;
-      }).catch(() => {
-        /* Autoplay policy or a missing file — leave the button alone. */
-      });
-    });
-  });
-
-  audio?.addEventListener('timeupdate', () => {
-    if (!audio.duration) return;
-    const pct = (audio.currentTime / audio.duration) * 100;
-    if (progress) progress.style.right = `${100 - pct}%`;
-    if (durationEl && current) durationEl.textContent = fmt(audio.duration - audio.currentTime);
-  });
-
-  audio?.addEventListener('loadedmetadata', () => {
-    if (durationEl) durationEl.textContent = fmt(audio.duration);
-  });
-
-  audio?.addEventListener('ended', () => {
-    resetButtons();
-    if (progress) progress.style.right = '100%';
-    current = null;
-  });
-</script>

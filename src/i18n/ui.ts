@@ -59,13 +59,9 @@ export interface Copy {
   };
   listen: {
     heading: string;
-    demoLabel: string;
     note: string;
-    tbc: string;
-    track: string;
-    play: string;
-    pause: string;
-    comingSoon: string;
+    playerTitle: string;
+    onSoundcloud: string;
   };
   video: { heading: string };
   look: {
@@ -152,13 +148,9 @@ export const ui: Record<Lang, Copy> = {
     },
     listen: {
       heading: 'Hören',
-      demoLabel: 'DEMO-AUFNAHME',
-      note: 'Rohe Raumaufnahmen, keine Overdubs. Zwei weitere Tracks kommen diese Woche.',
-      tbc: 'TITEL FOLGT',
-      track: 'Track',
-      play: 'Abspielen',
-      pause: 'Pause',
-      comingSoon: 'BALD',
+      note: 'Rohe Raumaufnahmen, keine Overdubs.',
+      playerTitle: 'The Drags – Rehearsal Room auf SoundCloud',
+      onSoundcloud: 'Auf SoundCloud anhören →',
     },
     video: { heading: 'Video' },
     look: {
@@ -244,13 +236,9 @@ export const ui: Record<Lang, Copy> = {
     },
     listen: {
       heading: 'Listen',
-      demoLabel: 'DEMO RECORDING',
-      note: 'Raw room recordings, no overdubs. Two more tracks land this week.',
-      tbc: 'TITLE TBC',
-      track: 'Track',
-      play: 'Play',
-      pause: 'Pause',
-      comingSoon: 'SOON',
+      note: 'Raw room recordings, no overdubs.',
+      playerTitle: 'The Drags – Rehearsal Room on SoundCloud',
+      onSoundcloud: 'Listen on SoundCloud →',
     },
     video: { heading: 'Video' },
     look: {

@@ -3,7 +3,7 @@ import { z } from 'astro/zod';
 import { file } from 'astro/loaders';
 import { localizedString } from './i18n/localized';
 
-/* Shows, videos, tracks and gallery images are data-driven on purpose —
+/* Shows, videos and gallery images are data-driven on purpose —
    the band adds dates and photos often and should never have to touch
    component markup to do it. Zod catches a malformed entry at build time.
 
@@ -51,17 +51,6 @@ const videos = defineCollection({
   }),
 });
 
-const tracks = defineCollection({
-  loader: file('src/data/tracks.json'),
-  schema: z.object({
-    // null title renders as the localized "title TBC" placeholder.
-    title: z.string().nullable().default(null),
-    src: z.string().nullable().default(null),
-    featured: z.boolean().default(false),
-    status: z.enum(['soon']).nullable().default(null),
-  }),
-});
-
 const gallery = defineCollection({
   loader: file('src/data/gallery.json'),
   schema: ({ image }) =>
@@ -74,4 +63,4 @@ const gallery = defineCollection({
     }),
 });
 
-export const collections = { shows, videos, tracks, gallery };
+export const collections = { shows, videos, gallery };

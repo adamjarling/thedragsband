@@ -26,7 +26,6 @@ const past = all.filter((s) => s.data.date < now).reverse();
    displace it — broadcasts still list normally in the Shows section. */
 const nextGig = upcoming.find((s) => s.data.type === 'show');
 
-const tracks = await getCollection('tracks');
 const videos = (await getCollection('videos')).sort(
   (a, b) => a.data.order - b.data.order
 );
@@ -46,7 +45,7 @@ const photos = await getCollection('gallery');
     <About lang={lang} />
     <Marquee lang={lang} />
     <Shows lang={lang} upcoming={upcoming} past={past} />
-    <ListenVideo lang={lang} tracks={tracks} videos={videos} />
+    <ListenVideo lang={lang} videos={videos} />
     <Look lang={lang} photos={photos} />
   </main>
   <BookingFooter lang={lang} url={Astro.url} />
