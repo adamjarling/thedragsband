@@ -9,15 +9,6 @@
     "credit": null
   },
   {
-    "id": "live-1",
-    "src": "../assets/photos/live-1.jpg",
-    "alt": {
-      "de": "The Drags live in Wien",
-      "en": "The Drags live in Vienna"
-    },
-    "credit": null
-  },
-  {
     "id": "stefan-hand",
     "src": "../assets/photos/stefan-hand.jpeg",
     "alt": {
@@ -56,6 +47,15 @@
   {
     "id": "live-4",
     "src": "../assets/photos/live-4.jpg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    },
+    "credit": null
+  },
+  {
+    "id": "live-1",
+    "src": "../assets/photos/live-1.jpg",
     "alt": {
       "de": "The Drags live in Wien",
       "en": "The Drags live in Vienna"

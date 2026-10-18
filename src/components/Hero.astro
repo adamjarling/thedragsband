@@ -1,8 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import logoTextured from '../assets/logos/logo-textured.svg';
-import heroBand from '../assets/photos/hero-band.png';
-import lillOnstage from '../assets/photos/lill-onstage.png';
+import stageBodies from '../assets/photos/stage-bodies.png';
+import heroLead from '../assets/photos/hero-lead.jpg';
 import stefanHand from '../assets/photos/stefan-hand.jpeg';
 import plateBg from '../assets/photos/rehearsal.jpeg';
 import { useTranslations, formatShortDate, type Lang } from '../i18n/utils';
@@ -21,12 +21,12 @@ const t = useTranslations(lang);
 <section class="hero scanlines">
   <div class="hero__left">
     <div class="hero__lead frame tilt-a">
-      <Image src={lillOnstage} alt={t.hero.logoAlt} widths={[740, 1480]} sizes="(max-width: 780px) 100vw, 62vw" class="photo hero__lead-img" />
+      <Image src={heroLead} alt={t.hero.logoAlt} widths={[740, 1480]} sizes="(max-width: 780px) 100vw, 62vw" class="photo hero__lead-img" />
     </div>
 
     <div class="hero__row">
       <div class="frame tilt-b hero__tile">
-        <Image src={heroBand} alt={t.hero.logoAlt} width={600} class="photo" />
+        <Image src={stageBodies} alt={t.hero.logoAlt} width={600} class="photo" style="object-position: 50% 40%" />
       </div>
       <div class="frame tilt-c hero__tile">
         <Image src={stefanHand} alt={t.hero.logoAlt} width={600} class="photo" />
@@ -85,10 +85,9 @@ const t = useTranslations(lang);
 
   .hero__lead { aspect-ratio: 16 / 9; overflow: hidden; border-width: 1px; }
 
-  /* Lill sits flush against the right edge of this frame. It is a hair wider
-     than 16/9, so the crop is anchored right and the sliver lost comes off the
-     empty stage at left rather than off her. */
-  .hero__lead-img { object-position: 100% 50%; }
+  /* hero-lead.jpg is cropped to exactly 16:9 at the source, so the frame
+     shows it uncropped. */
+  .hero__lead-img { object-position: 50% 0; }
 
   .hero__row {
     display: grid;
@@ -97,8 +96,8 @@ const t = useTranslations(lang);
     margin-top: 16px;
   }
 
-  /* The band shot squares up on a centre crop — it keeps bass, vocals and
-     drums, and only the outer two guitarists fall outside the frame. */
+  /* Tiles square up on a centre crop. stage-bodies is a tall portrait, so the
+     first tile nudges the crop up a little to keep the drum kit and legs. */
   .hero__tile { aspect-ratio: 1; overflow: hidden; border-width: 1px; }
 
   .hero__plate {
