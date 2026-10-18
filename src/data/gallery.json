@@ -1,5 +1,14 @@
 [
   {
+    "id": "chain-bw",
+    "src": "../assets/photos/chain-bw.jpg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    },
+    "credit": null
+  },
+  {
     "id": "live-1",
     "src": "../assets/photos/live-1.jpg",
     "alt": {
@@ -45,8 +54,17 @@
     "credit": null
   },
   {
-    "id": "live-3",
-    "src": "../assets/photos/live-3.jpg",
+    "id": "live-4",
+    "src": "../assets/photos/live-4.jpg",
+    "alt": {
+      "de": "The Drags live in Wien",
+      "en": "The Drags live in Vienna"
+    },
+    "credit": null
+  },
+  {
+    "id": "chain-color",
+    "src": "../assets/photos/chain-color.jpg",
     "alt": {
       "de": "The Drags live in Wien",
       "en": "The Drags live in Vienna"

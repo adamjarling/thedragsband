@@ -79,6 +79,10 @@ const creditName = (key: CollectionEntry<'gallery'>['data']['credit']) =>
 
   .look__tile:hover { transform: rotate(0deg) !important; }
 
+  /* Thumbnails show the photos in their original colour; the global
+     .photo greyscale filter is switched off here only. */
+  .look__tile :global(.photo) { filter: none; }
+
   @media (prefers-reduced-motion: reduce) {
     .look__tile { transition: none; }
   }
