@@ -68,6 +68,8 @@ const rows = [
                 src={show.data.flyer}
                 alt={pick(show.data.flyerAlt, lang) ?? show.data.venue}
                 width={300}
+                widths={[300, 600, 900, 1200]}
+                sizes="(max-width: 780px) 100vw, 150px"
                 class:list={['show__flyer', 'frame', show.data.flyerFit === 'contain' && 'show__flyer--contain']}
               />
             </button>
