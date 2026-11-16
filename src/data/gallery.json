@@ -45,15 +45,6 @@
     "credit": null
   },
   {
-    "id": "live-3",
-    "src": "../assets/photos/live-3.jpg",
-    "alt": {
-      "de": "The Drags live in Wien",
-      "en": "The Drags live in Vienna"
-    },
-    "credit": null
-  },
-  {
     "id": "rehearsal",
     "src": "../assets/photos/rehearsal.jpeg",
     "alt": {
