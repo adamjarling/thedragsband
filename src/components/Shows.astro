@@ -52,7 +52,7 @@ const rows = [
               src={show.data.flyer}
               alt={pick(show.data.flyerAlt, lang) ?? show.data.venue}
               width={300}
-              class="show__flyer frame"
+              class:list={['show__flyer', 'frame', show.data.flyerFit === 'contain' && 'show__flyer--contain']}
             />
           ) : (
             /* Standing pattern for dates announced before artwork exists. */
@@ -121,6 +121,8 @@ const rows = [
 
   .show__art { width: 150px; }
   .show__flyer { width: 150px; height: 186px; object-fit: cover; border-width: 1px; }
+  /* Non-portrait artwork (e.g. a square logo) keeps its own proportions. */
+  .show__flyer--contain { height: auto; object-fit: contain; }
 
   .show__plate {
     position: relative;
@@ -183,6 +185,7 @@ const rows = [
     .show { grid-template-columns: 1fr; gap: 12px; }
     .show__art, .show__flyer, .show__plate { width: 100%; }
     .show__flyer, .show__plate { height: auto; aspect-ratio: 150 / 186; }
+    .show__flyer--contain { aspect-ratio: auto; }
     .show__venue { font-size: 26px; }
     .show__actions { flex-direction: row; }
     .show__btn { flex: 1; }

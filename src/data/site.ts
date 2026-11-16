@@ -6,8 +6,8 @@ export const site = {
      button rather than linking at a 404. */
   pressKitUrl: null as string | null,
 
-  /* SoundCloud: the playlist feeds the Listen embed, the profile feeds the
+  /* SoundCloud: the track feeds the Listen embed, the profile feeds the
      footer link and the "on SoundCloud" note. */
   soundcloudProfileUrl: 'https://soundcloud.com/the-drags-band',
-  soundcloudPlaylistUrl: 'https://soundcloud.com/the-drags-band/sets/rehearsal-room',
+  soundcloudTrackUrl: 'https://soundcloud.com/the-drags-band/web-demo-reel-nov-2026',
 } as const;

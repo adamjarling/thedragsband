@@ -1,7 +1,8 @@
 [
   {
     "id": "2026-11-27-carina",
-    "date": "2026-11-27T20:00:00+01:00",
+    "date": "2026-11-27T21:00:00+01:00",
+    "doors": "2026-11-27T20:00:00+01:00",
     "venue": "Café Carina",
     "city": {
       "de": "Wien, Österreich",
@@ -39,6 +40,7 @@
     },
     "ticketUrl": null,
     "flyer": "../assets/brand-logos/blues-garage-logo.jpg",
+    "flyerFit": "contain",
     "flyerAlt": {
       "de": "Logo von Danny Chicago’s Blues Garage",
       "en": "Danny Chicago’s Blues Garage logo"

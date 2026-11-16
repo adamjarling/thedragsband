@@ -149,7 +149,7 @@ export const ui: Record<Lang, Copy> = {
     listen: {
       heading: 'Hören',
       note: 'Rohe Raumaufnahmen, keine Overdubs.',
-      playerTitle: 'The Drags – Rehearsal Room auf SoundCloud',
+      playerTitle: 'The Drags – Demo Reel auf SoundCloud',
       onSoundcloud: 'Auf SoundCloud anhören →',
     },
     video: { heading: 'Video' },
@@ -237,7 +237,7 @@ export const ui: Record<Lang, Copy> = {
     listen: {
       heading: 'Listen',
       note: 'Raw room recordings, no overdubs.',
-      playerTitle: 'The Drags – Rehearsal Room on SoundCloud',
+      playerTitle: 'The Drags – Demo Reel on SoundCloud',
       onSoundcloud: 'Listen on SoundCloud →',
     },
     video: { heading: 'Video' },

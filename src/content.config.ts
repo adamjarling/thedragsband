@@ -32,6 +32,9 @@ const shows = defineCollection({
       // substitutes a Resedagrün date plate.
       flyer: image().nullable().default(null),
       flyerAlt: localizedString.nullable().default(null),
+      // Posters fill a portrait frame ('cover'). A logo or any non-portrait
+      // image should use 'contain' so it renders whole instead of cropped.
+      flyerFit: z.enum(['cover', 'contain']).default('cover'),
       support: localizedString.nullable().default(null),
     }),
 });

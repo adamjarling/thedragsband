@@ -12,11 +12,11 @@ interface Props {
 const { lang, videos } = Astro.props;
 const t = useTranslations(lang);
 
-/* SoundCloud's widget takes the public playlist URL; it resolves it itself. */
+/* SoundCloud's widget takes the public track URL; it resolves it itself. */
 const playerSrc =
   'https://w.soundcloud.com/player/?' +
   new URLSearchParams({
-    url: site.soundcloudPlaylistUrl,
+    url: site.soundcloudTrackUrl,
     color: '#1a1a1a',
     visual: 'false',
     show_comments: 'false',
@@ -84,7 +84,7 @@ const playerSrc =
      phone that pushes the column past the viewport. */
   .lv__grid > * { min-width: 0; }
 
-  .lv__player { border-color: var(--ink-on-plate); height: 300px; overflow: hidden; }
+  .lv__player { border-color: var(--ink-on-plate); height: 166px; overflow: hidden; }
 
   /* Same iOS iframe-sizing workaround as the video frames below. */
   .lv__player iframe {
