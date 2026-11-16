@@ -13,9 +13,15 @@
       "en": "Vienna"
     },
     "ticketUrl": "https://www.cafe-carina.at/",
-    "flyer": null,
-    "flyerAlt": null,
-    "support": null
+    "flyer": "../assets/flyers/flyer-2026-11-27.jpeg",
+    "flyerAlt": {
+      "de": "Flyer zum Konzert im Café Carina am 27. November 2026",
+      "en": "Flyer for the Café Carina show on 27 November 2026"
+    },
+    "support": {
+      "de": "mit Oddly Enough",
+      "en": "with Oddly Enough"
+    }
   },
   {
     "id": "2026-11-19-blues-garage-radio",

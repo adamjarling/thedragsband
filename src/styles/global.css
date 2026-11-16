@@ -17,6 +17,9 @@
   --ink: #e8e5da; /* text, rules */
   --plate: #5c6b4c; /* spot ink — RAL 6011, printed AREAS: panels, plates, tiles */
   --ink-on-plate: #141210;
+  /* Mirrors --ink-on-plate: fixed light ink for elements with a permanently
+     dark fill (mobile burger, mobile CTA), independent of theme. */
+  --ink-on-deep: #e8e5da;
   /* Acid Lime. Small marks on dark only — buttons, single rules, one-line
      labels, badges. If an element is bigger than a button it keeps 6011, and
      nothing acid ever sits on a 6011 panel: the two greens fight at that size.
@@ -51,6 +54,7 @@
      on the plate clears WCAG AA in both. Do not unify. */
   --plate: #6b7c59; /* RAL 6011 Resedagrün */
   --ink-on-plate: #141210;
+  --ink-on-deep: #e8e5da;
   --accent: #6b7c59;
   --accent-on-deep: #a8b893;
   --paper-rgb: 229, 224, 212;

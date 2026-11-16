@@ -3,7 +3,7 @@ import { getImage } from 'astro:assets';
 import logoTextured from '../assets/logos/logo-textured.svg';
 import stageBodies from '../assets/photos/stage-bodies.png';
 import live2 from '../assets/photos/live-2.jpg';
-import bg4 from '../assets/photos/mobile-hero-bg4.png';
+import chainColor from '../assets/photos/chain-color.jpg';
 import bg6 from '../assets/photos/mobile-hero-bg6.jpeg';
 import { useTranslations, type Lang } from '../i18n/utils';
 
@@ -18,10 +18,10 @@ const t = useTranslations(lang);
    different values, and a single global filter renders the dark sources
    near-black. Values come straight from the handoff. */
 const LAYERS = [
+  { src: chainColor, pos: '50% 40%', filter: 'grayscale(1) contrast(1.1) brightness(1.15)',  scrim: 0.38 },
+  { src: bg6,         pos: '42% 30%', filter: 'grayscale(1) contrast(1.06) brightness(1.08)', scrim: 0.3 },
   { src: stageBodies, pos: '50% 30%', filter: 'grayscale(1) contrast(1.08) brightness(1.32)', scrim: 0.26 },
   { src: live2,       pos: '50% 34%', filter: 'grayscale(1) contrast(1.24) brightness(1.0)',  scrim: 0.42 },
-  { src: bg4,         pos: '50% 30%', filter: 'grayscale(1) contrast(1.02) brightness(1.0)',  scrim: 0.38 },
-  { src: bg6,         pos: '42% 30%', filter: 'grayscale(1) contrast(1.06) brightness(1.08)', scrim: 0.3 },
 ];
 
 // 588x1046 at 1x per the handoff; 1176 covers 2x screens.

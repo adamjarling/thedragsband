@@ -73,10 +73,15 @@ const creditName = (key: CollectionEntry<'gallery'>['data']['credit']) =>
     overflow: hidden;
     padding: 0;
     display: block;
+    border-width: 1px;
     transition: transform 120ms ease-out;
   }
 
   .look__tile:hover { transform: rotate(0deg) !important; }
+
+  /* Thumbnails show the photos in their original colour; the global
+     .photo greyscale filter is switched off here only. */
+  .look__tile :global(.photo) { filter: none; }
 
   @media (prefers-reduced-motion: reduce) {
     .look__tile { transition: none; }
