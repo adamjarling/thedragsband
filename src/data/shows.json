@@ -15,6 +15,7 @@
     },
     "ticketUrl": "https://www.cafe-carina.at/",
     "flyer": "../assets/flyers/flyer-2026-11-27.jpeg",
+    "flyerCredit": "murtaugh",
     "flyerAlt": {
       "de": "Flyer zum Konzert im Café Carina am 27. November 2026",
       "en": "Flyer for the Café Carina show on 27 November 2026"
@@ -66,6 +67,7 @@
     },
     "ticketUrl": "https://www.cafe-carina.at/2020/events/the-drags/",
     "flyer": "../assets/flyers/flyer-2026-06-19.jpg",
+    "flyerCredit": "murtaugh",
     "flyerAlt": {
       "de": "Flyer zum Konzert im Café Carina am 19. Juni 2026",
       "en": "Flyer for the Café Carina show on 19 June 2026"
@@ -90,6 +92,7 @@
     },
     "ticketUrl": "https://www.cafe-carina.at/2020/events/the-drags-deloreans/",
     "flyer": "../assets/flyers/flyer-2026-04-18.jpeg",
+    "flyerCredit": "murtaugh",
     "flyerAlt": {
       "de": "Flyer zum Konzert im Café Carina am 18. April 2026",
       "en": "Flyer for the Café Carina show on 18 April 2026"

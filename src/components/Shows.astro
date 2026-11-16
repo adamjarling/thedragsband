@@ -6,6 +6,7 @@ import {
   useTranslations, formatShowDate, formatTime, formatPlateDate, type Lang,
 } from '../i18n/utils';
 import { pick } from '../i18n/localized';
+import { photographers } from '../data/lineup';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -28,6 +29,9 @@ function dateLine(show: CollectionEntry<'shows'>) {
   return `${base} · ${formatTime(d.date, lang)}`;
 }
 
+const posterArtist = (show: CollectionEntry<'shows'>) =>
+  show.data.flyerCredit ? photographers[show.data.flyerCredit] : null;
+
 const rows = [
   ...upcoming.map((s) => ({ show: s, isPast: false })),
   ...past.map((s) => ({ show: s, isPast: true })),
@@ -47,13 +51,26 @@ const rows = [
       <article class:list={['show', 'frame', isPast && 'show--past']}>
         <div class="show__art" style={`transform:${tilt(i)}`}>
           {show.data.flyer ? (
-            /* Flyers stay in full colour — no greyscale filter here. */
-            <Image
-              src={show.data.flyer}
-              alt={pick(show.data.flyerAlt, lang) ?? show.data.venue}
-              width={300}
-              class:list={['show__flyer', 'frame', show.data.flyerFit === 'contain' && 'show__flyer--contain']}
-            />
+            /* Flyers stay in full colour — no greyscale filter here.
+               The image itself opens the lightbox, like the Flyer button. */
+            <button
+              type="button"
+              class="show__flyer-btn"
+              data-flyer-zoom
+              data-flyer
+              data-flyer-src={show.data.flyer.src}
+              data-flyer-alt={pick(show.data.flyerAlt, lang) ?? show.data.venue}
+              data-flyer-credit={posterArtist(show)?.name ?? ''}
+              data-flyer-credit-url={posterArtist(show)?.url ?? ''}
+              aria-label={`${t.shows.flyer}: ${pick(show.data.flyerAlt, lang) ?? show.data.venue}`}
+            >
+              <Image
+                src={show.data.flyer}
+                alt={pick(show.data.flyerAlt, lang) ?? show.data.venue}
+                width={300}
+                class:list={['show__flyer', 'frame', show.data.flyerFit === 'contain' && 'show__flyer--contain']}
+              />
+            </button>
           ) : (
             /* Standing pattern for dates announced before artwork exists. */
             <div class="show__plate plate frame">
@@ -93,6 +110,8 @@ const rows = [
               data-flyer
               data-flyer-src={show.data.flyer.src}
               data-flyer-alt={pick(show.data.flyerAlt, lang) ?? show.data.venue}
+              data-flyer-credit={posterArtist(show)?.name ?? ''}
+              data-flyer-credit-url={posterArtist(show)?.url ?? ''}
             >
               {t.shows.flyer}
             </button>
@@ -120,6 +139,7 @@ const rows = [
   .show--past:hover { opacity: 1; }
 
   .show__art { width: 150px; }
+  .show__flyer-btn { display: block; width: 100%; padding: 0; cursor: zoom-in; }
   .show__flyer { width: 150px; height: 186px; object-fit: cover; border-width: 1px; }
   /* Non-portrait artwork (e.g. a square logo) keeps its own proportions. */
   .show__flyer--contain { height: auto; object-fit: contain; }
@@ -184,6 +204,8 @@ const rows = [
   @media (max-width: 780px) {
     .show { grid-template-columns: 1fr; gap: 12px; }
     .show__art, .show__flyer, .show__plate { width: 100%; }
+    /* Already full width on mobile — the image itself doesn't open the lightbox. */
+    .show__flyer-btn { cursor: default; }
     .show__flyer, .show__plate { height: auto; aspect-ratio: 150 / 186; }
     .show__flyer--contain { aspect-ratio: auto; }
     .show__venue { font-size: 26px; }

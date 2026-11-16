@@ -53,6 +53,7 @@ export interface Copy {
     none: string;
     tickets: string;
     flyer: string;
+    posterBy: string;
     doors: string;
     show: string;
     policy: string;
@@ -142,6 +143,7 @@ export const ui: Record<Lang, Copy> = {
       none: 'Keine weiteren Konzerte angekündigt.',
       tickets: 'Tickets',
       flyer: 'Flyer',
+      posterBy: 'Plakat',
       doors: 'Einlass',
       show: 'Beginn',
       policy: 'Hutspende — zahlt was ihr wollt',
@@ -230,6 +232,7 @@ export const ui: Record<Lang, Copy> = {
       none: 'No further shows announced.',
       tickets: 'Tickets',
       flyer: 'Flyer',
+      posterBy: 'Poster by',
       doors: 'Doors',
       show: 'Show',
       policy: 'Pass the hat — pay what you like',

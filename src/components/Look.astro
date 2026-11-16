@@ -136,6 +136,9 @@ const creditName = (key: CollectionEntry<'gallery'>['data']['credit']) =>
     min-height: 1em;
   }
 
+  .lb__caption a { text-decoration: underline; text-underline-offset: 3px; }
+  .lb__caption a:hover { color: var(--accent); }
+
   .lb__btn {
     position: fixed;
     color: #e8e5da;
@@ -176,7 +179,9 @@ const creditName = (key: CollectionEntry<'gallery'>['data']['credit']) =>
   const flyers = Array.from(document.querySelectorAll<HTMLElement>('[data-flyer]'));
   const openAll = document.querySelector<HTMLElement>('[data-open-gallery]');
 
-  const PHOTO_BY = document.documentElement.lang === 'de' ? 'Foto' : 'Photo';
+  const isDe = document.documentElement.lang === 'de';
+  const PHOTO_BY = isDe ? 'Foto' : 'Photo';
+  const POSTER_BY = isDe ? 'Plakat' : 'Poster';
 
   let index = 0;
 
@@ -206,9 +211,28 @@ const creditName = (key: CollectionEntry<'gallery'>['data']['credit']) =>
   flyers.forEach((btn) => {
     btn.addEventListener('click', () => {
       if (!img) return;
+      // The flyer image is already full width on mobile; only desktop zooms it.
+      if (btn.hasAttribute('data-flyer-zoom') && window.matchMedia('(max-width: 780px)').matches) return;
       img.src = btn.dataset.flyerSrc ?? '';
       img.alt = btn.dataset.flyerAlt ?? '';
-      if (caption) caption.textContent = btn.dataset.flyerAlt ?? '';
+      if (caption) {
+        caption.textContent = btn.dataset.flyerAlt ?? '';
+        const name = btn.dataset.flyerCredit;
+        if (name) {
+          caption.append(` · ${POSTER_BY}: `);
+          const url = btn.dataset.flyerCreditUrl;
+          if (url) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.textContent = name;
+            caption.append(a);
+          } else {
+            caption.append(name);
+          }
+        }
+      }
       dialog?.setAttribute('data-single', '');
       dialog?.showModal();
     });

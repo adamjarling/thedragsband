@@ -35,6 +35,9 @@ const shows = defineCollection({
       // Posters fill a portrait frame ('cover'). A logo or any non-portrait
       // image should use 'contain' so it renders whole instead of cropped.
       flyerFit: z.enum(['cover', 'contain']).default('cover'),
+      // Key into `photographers` in src/data/lineup.ts — poster artist, shown
+      // (linked) in the flyer lightbox.
+      flyerCredit: z.enum(['kogoj', 'murtaugh']).nullable().default(null),
       support: localizedString.nullable().default(null),
     }),
 });
