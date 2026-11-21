@@ -54,15 +54,6 @@
     "credit": null
   },
   {
-    "id": "live-1",
-    "src": "../assets/photos/live-1.jpg",
-    "alt": {
-      "de": "The Drags live in Wien",
-      "en": "The Drags live in Vienna"
-    },
-    "credit": null
-  },
-  {
     "id": "chain-color",
     "src": "../assets/photos/chain-color.jpg",
     "alt": {
@@ -115,5 +106,78 @@
       "en": "The Drags live in Vienna"
     },
     "credit": null
+  },
+  {
+    "id": "radio-orange-studio",
+    "src": "../assets/photos/radio-orange-studio.jpg",
+    "alt": {
+      "de": "Blick durch das Studiofenster bei Radio Orange 94.0: die Band im Aufnahmeraum, davor das Mischpult",
+      "en": "Looking through the studio window at Radio Orange 94.0: the band in the recording room, the mixing desk in front"
+    },
+    "credit": "murtaugh"
+  },
+  {
+    "id": "radio-group",
+    "src": "../assets/photos/radio-group.jpg",
+    "alt": {
+      "de": "Gruppenfoto im Radio-Orange-Studio nach der Sendung",
+      "en": "Group photo in the Radio Orange studio after the show"
+    },
+    "credit": "murtaugh"
+  },
+  {
+    "id": "radio-fan",
+    "position": 2,
+    "src": "../assets/photos/radio-fan.jpg",
+    "alt": {
+      "de": "Posieren in Stiefeln vor einem Standventilator im Radio-Orange-Studio",
+      "en": "Posing in boots in front of a standing fan in the Radio Orange studio"
+    },
+    "credit": "murtaugh"
+  },
+  {
+    "id": "radio-couch",
+    "src": "../assets/photos/radio-couch.jpg",
+    "alt": {
+      "de": "Entspannt auf dem Sofa im Radio-Orange-Studio, an der Wand ein „On air“-Schild",
+      "en": "Relaxing on the sofa in the Radio Orange studio, an “On air” sign on the wall"
+    },
+    "credit": "murtaugh"
+  },
+  {
+    "id": "radio-onair-signs",
+    "src": "../assets/photos/radio-onair-signs.jpg",
+    "alt": {
+      "de": "Die Leuchten „Micro on air“ und „Studio in use“ im Radio-Orange-Studio",
+      "en": "The “Micro on air” and “Studio in use” lights in the Radio Orange studio"
+    },
+    "credit": "murtaugh"
+  },
+  {
+    "id": "radio-guest",
+    "src": "../assets/photos/radio-guest.jpg",
+    "alt": {
+      "de": "Porträt im Radio-Orange-Studio, der Blick zur Seite",
+      "en": "Portrait in the Radio Orange studio, looking off to the side"
+    },
+    "credit": "murtaugh"
+  },
+  {
+    "id": "radio-mics",
+    "src": "../assets/photos/radio-mics.jpg",
+    "alt": {
+      "de": "Zwei Personen mit Kopfhörern hinter den Studiomikrofonen bei Radio Orange 94.0",
+      "en": "Two people in headphones behind the studio microphones at Radio Orange 94.0"
+    },
+    "credit": "murtaugh"
+  },
+  {
+    "id": "radio-standing",
+    "src": "../assets/photos/radio-standing.jpg",
+    "alt": {
+      "de": "Beim Reden im Radio-Orange-Studio, eine Dose in der Hand",
+      "en": "Mid-conversation in the Radio Orange studio, a can in hand"
+    },
+    "credit": "murtaugh"
   }
 ]

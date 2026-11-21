@@ -66,6 +66,10 @@ const gallery = defineCollection({
       // Key into `photographers` in src/data/lineup.ts. Null falls back
       // to the combined credit line beneath the grid.
       credit: z.enum(['kogoj', 'murtaugh']).nullable().default(null),
+      /* Pins a photo to a slot in the grid (1 = first). getCollection returns
+         entries sorted by id — file order is ignored — so everything without a
+         position stays alphabetical and pinned photos are spliced in (Home.astro). */
+      position: z.number().int().min(1).optional(),
     }),
 });
 

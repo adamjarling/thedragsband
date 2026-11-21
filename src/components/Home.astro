@@ -30,7 +30,15 @@ const nextGig = upcoming.find((s) => s.data.type === 'show');
 const videos = (await getCollection('videos')).sort(
   (a, b) => a.data.order - b.data.order
 );
-const photos = await getCollection('gallery');
+/* Un-pinned photos keep the collection's own (alphabetical) order. Pinned ones
+   are then spliced in at their slot, lowest position first so each index is
+   still correct by the time it is used. */
+const gallery = await getCollection('gallery');
+const photos = gallery.filter((p) => !p.data.position);
+gallery
+  .filter((p) => p.data.position)
+  .sort((a, b) => a.data.position! - b.data.position!)
+  .forEach((p) => photos.splice(p.data.position! - 1, 0, p));
 ---
 
 <BaseLayout
