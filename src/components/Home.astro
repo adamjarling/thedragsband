@@ -6,6 +6,7 @@ import Hero from './Hero.astro';
 import About from './About.astro';
 import Marquee from './Marquee.astro';
 import Shows from './Shows.astro';
+import RadioFeature from './RadioFeature.astro';
 import ListenVideo from './ListenVideo.astro';
 import Look from './Look.astro';
 import BookingFooter from './BookingFooter.astro';
@@ -44,7 +45,11 @@ const photos = await getCollection('gallery');
     <Hero lang={lang} next={nextGig} />
     <About lang={lang} />
     <Marquee lang={lang} />
-    <Shows lang={lang} upcoming={upcoming} past={past} />
+    <Shows lang={lang} upcoming={upcoming} past={past}>
+      {/* Sits right under the upcoming gigs, above the past ones: second in
+          line, so the next show stays the lead. */}
+      <RadioFeature slot="between" lang={lang} />
+    </Shows>
     <ListenVideo lang={lang} videos={videos} />
     <Look lang={lang} photos={photos} />
   </main>

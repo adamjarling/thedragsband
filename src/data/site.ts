@@ -10,4 +10,12 @@ export const site = {
      footer link and the "on SoundCloud" note. */
   soundcloudProfileUrl: 'https://soundcloud.com/the-drags-band',
   soundcloudTrackUrl: 'https://soundcloud.com/the-drags-band/web-demo-reel-nov-2026',
+
+  /* Radio Orange 94.0 session on Danny Chicago's Blues Garage, archived on
+     cba.media (CC BY 4.0). `embed` is CBA's own player; `title=false` hides
+     the archive title, which currently reads "Nov 2027" (a typo on their end). */
+  radioSession: {
+    pageUrl: 'https://cba.media/803157',
+    embedUrl: 'https://cba.media/803157/embed?audio&title=false&waveform=false',
+  },
 } as const;

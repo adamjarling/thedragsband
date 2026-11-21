@@ -32,9 +32,20 @@ function dateLine(show: CollectionEntry<'shows'>) {
 const posterArtist = (show: CollectionEntry<'shows'>) =>
   show.data.flyerCredit ? photographers[show.data.flyerCredit] : null;
 
-const rows = [
-  ...upcoming.map((s) => ({ show: s, isPast: false })),
-  ...past.map((s) => ({ show: s, isPast: true })),
+/* One flat list drives the stack, with two non-show markers in it: `slot` is
+   where Home drops the radio feature (right under the upcoming gigs, so the
+   next show stays the lead), and `pastHead` is the divider that opens the
+   past group. `n` counts real shows only, so the tilt still alternates. */
+type Row =
+  | { kind: 'show'; show: CollectionEntry<'shows'>; isPast: boolean; n: number }
+  | { kind: 'slot' }
+  | { kind: 'pastHead' };
+
+const rows: Row[] = [
+  ...upcoming.map((show, n): Row => ({ kind: 'show', show, isPast: false, n })),
+  { kind: 'slot' },
+  ...(past.length ? [{ kind: 'pastHead' } as Row] : []),
+  ...past.map((show, n): Row => ({ kind: 'show', show, isPast: true, n: upcoming.length + n })),
 ];
 ---
 
@@ -44,12 +55,24 @@ const rows = [
     meta={`${upcoming.length} ${t.shows.upcoming}`}
   />
 
-  {rows.length === 0 && <p>{t.shows.none}</p>}
+  {upcoming.length === 0 && <p>{t.shows.none}</p>}
 
   <div class="shows__stack">
-    {rows.map(({ show, isPast }, i) => (
+    {rows.map((row) => {
+      if (row.kind === 'slot') return <slot name="between" />;
+      if (row.kind === 'pastHead') {
+        return (
+          <div class="shows__group" role="presentation">
+            <span class="label shows__group-label">{t.shows.past}</span>
+            <span class="shows__group-rule" aria-hidden="true"></span>
+          </div>
+        );
+      }
+      const { show, isPast, n: i } = row;
+      return (
       <article class:list={['show', 'frame', isPast && 'show--past']}>
         <div class="show__art" style={`transform:${tilt(i)}`}>
+          {isPast && <span class="show__stamp label" aria-hidden="true">{t.shows.past}</span>}
           {show.data.flyer ? (
             /* Flyers stay in full colour — no greyscale filter here.
                The image itself opens the lightbox, like the Flyer button. */
@@ -105,6 +128,12 @@ const rows = [
               {t.shows.tickets}
             </a>
           )}
+          {/* A finished broadcast becomes a recording: point at the radio card. */}
+          {show.data.type === 'radio' && isPast && (
+            <a href="#radio" class="show__btn show__btn--fill label">
+              {t.shows.listenBack} &darr;
+            </a>
+          )}
           {show.data.flyer && (
             <button
               type="button"
@@ -120,7 +149,8 @@ const rows = [
           )}
         </div>
       </article>
-    ))}
+      );
+    })}
   </div>
 </section>
 
@@ -136,11 +166,42 @@ const rows = [
     align-items: center;
   }
 
-  /* Past dates stay on the page but recede. */
-  .show--past { opacity: 0.55; }
-  .show--past:hover { opacity: 1; }
+  /* Divider that opens the past group: label, then a rule to the edge —
+     the same rule-after-title shape as the section headings. */
+  .shows__group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+  }
 
-  .show__art { width: 150px; }
+  .shows__group-label { flex: none; }
+  .shows__group-rule { flex: 1; height: var(--rule); background: var(--ink); opacity: 0.4; }
+
+  /* Past dates stay on the page but are clearly finished: a dashed frame,
+     a greyscale flyer and a PAST stamp. Text keeps full contrast — fading
+     the whole card (the old approach) made the copy hard to read. */
+  .show--past { border-style: dashed; }
+  .show--past .show__flyer,
+  .show--past .show__plate { filter: grayscale(1) contrast(1.05); }
+  .show--past .show__date { color: var(--ink); }
+  .show--past:hover .show__flyer,
+  .show--past:hover .show__plate { filter: none; }
+
+  .show__art { width: 150px; position: relative; }
+
+  .show__stamp {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    left: -6px;
+    padding: 3px 8px;
+    background: var(--deep);
+    color: var(--ink-on-deep);
+    border: 1px solid var(--ink-on-deep);
+    transform: rotate(-6deg);
+    pointer-events: none;
+  }
   .show__flyer-btn { display: block; width: 100%; padding: 0; cursor: zoom-in; }
   .show__flyer { width: 150px; height: 186px; object-fit: cover; border-width: 1px; }
   /* Non-portrait artwork (e.g. a square logo) keeps its own proportions. */

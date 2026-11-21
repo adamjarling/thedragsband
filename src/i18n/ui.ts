@@ -54,6 +54,7 @@ export interface Copy {
     tickets: string;
     flyer: string;
     posterBy: string;
+    listenBack: string;
     doors: string;
     show: string;
     policy: string;
@@ -63,6 +64,16 @@ export interface Copy {
     note: string;
     playerTitle: string;
     onSoundcloud: string;
+  };
+  radio: {
+    new: string;
+    heading: string;
+    meta: string;
+    body: string;
+    playerTitle: string;
+    photoAlt: string;
+    onCba: string;
+    license: string;
   };
   video: { heading: string };
   look: {
@@ -144,6 +155,7 @@ export const ui: Record<Lang, Copy> = {
       tickets: 'Tickets',
       flyer: 'Flyer',
       posterBy: 'Plakat',
+      listenBack: 'Nachhören',
       doors: 'Einlass',
       show: 'Beginn',
       policy: 'Hutspende — zahlt was ihr wollt',
@@ -153,6 +165,16 @@ export const ui: Record<Lang, Copy> = {
       note: 'Rohe Raumaufnahmen, keine Overdubs.',
       playerTitle: 'The Drags – Demo Reel auf SoundCloud',
       onSoundcloud: 'Auf SoundCloud anhören →',
+    },
+    radio: {
+      new: 'NEU',
+      heading: 'Auf Sendung',
+      meta: 'RADIO ORANGE 94.0 · 60 MIN',
+      body: 'Eine Stunde live im Studio bei Danny Chicago’s Blues Garage — Interview und Songs.',
+      playerTitle: 'The Drags bei Danny Chicago’s Blues Garage, Radio Orange 94.0 (cba.media)',
+      photoAlt: 'Blick durch das Studiofenster bei Radio Orange 94.0: die Band im Aufnahmeraum, davor das Mischpult',
+      onCba: 'Auf cba.media anhören →',
+      license: 'Archiviert auf cba.media · CC BY 4.0',
     },
     video: { heading: 'Video' },
     look: {
@@ -233,6 +255,7 @@ export const ui: Record<Lang, Copy> = {
       tickets: 'Tickets',
       flyer: 'Flyer',
       posterBy: 'Poster by',
+      listenBack: 'Listen back',
       doors: 'Doors',
       show: 'Show',
       policy: 'Pass the hat — pay what you like',
@@ -242,6 +265,16 @@ export const ui: Record<Lang, Copy> = {
       note: 'Raw room recordings, no overdubs.',
       playerTitle: 'The Drags – Demo Reel on SoundCloud',
       onSoundcloud: 'Listen on SoundCloud →',
+    },
+    radio: {
+      new: 'NEW',
+      heading: 'On the air',
+      meta: 'RADIO ORANGE 94.0 · 60 MIN',
+      body: 'A full hour live in the studio on Danny Chicago’s Blues Garage — interview and songs.',
+      playerTitle: 'The Drags on Danny Chicago’s Blues Garage, Radio Orange 94.0 (cba.media)',
+      photoAlt: 'Looking through the studio window at Radio Orange 94.0: the band in the recording room, the mixing desk in front',
+      onCba: 'Listen on cba.media →',
+      license: 'Archived on cba.media · CC BY 4.0',
     },
     video: { heading: 'Video' },
     look: {
