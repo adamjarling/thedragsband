@@ -121,7 +121,7 @@ export const ui: Record<Lang, Copy> = {
     hero: {
       plate: ['BLUES', 'GARAGE', 'ROCK'],
       description:
-        'Blues Garage Rock aus Wien, Österreich. Howlin’ Wolf, Small Faces, Chess Records, Etta James, Mike Bloomfield — und alles Coole aus den 50ern und 60ern.',
+        'Blues Garage Rock aus Wien, Österreich. Howlin’ Wolf, Small Faces, Chess Records, Etta James, Mike Bloomfield — und alles Coole aus den 60ern.',
       descriptionShort: 'Blues Garage Rock aus Wien, Österreich.',
       nextLabel: 'NÄCHSTER GIG',
       cta: 'Band buchen',
@@ -221,7 +221,7 @@ export const ui: Record<Lang, Copy> = {
     hero: {
       plate: ['BLUES', 'GARAGE', 'ROCK'],
       description:
-        'Blues garage rock from Vienna, Austria. Howlin’ Wolf, Small Faces, Chess Records, Etta James, Mike Bloomfield — and everything cool from the ’50s and ’60s.',
+        'Blues garage rock from Vienna, Austria. Howlin’ Wolf, Small Faces, Chess Records, Etta James, Mike Bloomfield — and everything cool from the ’60s.',
       descriptionShort: 'Blues garage rock from Vienna, Austria.',
       nextLabel: 'NEXT',
       cta: 'Book the band',
