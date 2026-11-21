@@ -44,17 +44,27 @@ const shows = defineCollection({
 
 const videos = defineCollection({
   loader: file('src/data/videos.json'),
-  schema: z.object({
-    youtubeId: z.string(),
-    title: localizedString,
-    /* Shorts are 9:16. The embed URL is the same either way — /shorts/<id> is
-       only a viewing surface — but the frame has to match the source or the
-       player pillarboxes into black bars. */
-    orientation: z.enum(['landscape', 'portrait']).default('landscape'),
-    // getCollection returns entries sorted by id, not file order, so display
-    // order is stated explicitly. Lower shows first.
-    order: z.number().default(99),
-  }),
+  schema: z
+    .object({
+      // A video is either a YouTube embed or a self-hosted file in public/.
+      youtubeId: z.string().optional(),
+      file: z.string().optional(),
+      // Still shown before a self-hosted video plays.
+      poster: z.string().optional(),
+      // Key into `photographers` in src/data/lineup.ts — shown under the video.
+      credit: z.enum(['kogoj', 'murtaugh']).nullable().default(null),
+      title: localizedString,
+      /* Shorts are 9:16. The embed URL is the same either way — /shorts/<id> is
+         only a viewing surface — but the frame has to match the source or the
+         player pillarboxes into black bars. */
+      orientation: z.enum(['landscape', 'portrait']).default('landscape'),
+      // getCollection returns entries sorted by id, not file order, so display
+      // order is stated explicitly. Lower shows first.
+      order: z.number().default(99),
+    })
+    .refine((v) => v.youtubeId || v.file, {
+      message: 'A video needs either youtubeId or file.',
+    }),
 });
 
 const gallery = defineCollection({

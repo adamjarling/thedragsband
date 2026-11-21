@@ -26,5 +26,17 @@
       "en": "The Drags — live"
     },
     "order": 3
+  },
+  {
+    "id": "radio-orange-pedals",
+    "file": "/video/radio-orange-pedals.mp4",
+    "poster": "/video/radio-orange-pedals.jpg",
+    "title": {
+      "de": "Im Studio bei Radio Orange 94.0",
+      "en": "In the studio at Radio Orange 94.0"
+    },
+    "orientation": "portrait",
+    "credit": "murtaugh",
+    "order": 4
   }
 ]
