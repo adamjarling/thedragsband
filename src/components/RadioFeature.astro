@@ -1,7 +1,8 @@
 ---
 import { Image } from 'astro:assets';
-import radioPhoto from '../assets/photos/radio-orange-studio.jpg';
+import { getCollection } from 'astro:content';
 import { useTranslations, type Lang } from '../i18n/utils';
+import { pick } from '../i18n/localized';
 import { site } from '../data/site';
 import { photographers } from '../data/lineup';
 
@@ -9,26 +10,49 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-/* The studio shot was taken by Casey Murtaugh, like the rest of the session set. */
-const photographer = photographers.murtaugh;
+/* The thumbnails come straight from the gallery collection, so the image,
+   alt text and credit have one source of truth. Order here is display order:
+   the studio window, the mics, then a mid-conversation shot. */
+const THUMB_IDS = ['radio-orange-studio', 'radio-mics', 'radio-standing'] as const;
+const gallery = await getCollection('gallery');
+const thumbs = THUMB_IDS
+  .map((id) => gallery.find((p) => p.id === id))
+  .filter((p): p is NonNullable<typeof p> => Boolean(p));
+
+/* Each tilt/offset pair is fixed per slot, so the cluster looks hand-dropped
+   but never changes between builds. */
+const TILTS = [-5, 3.5, -2];
+const DROPS = [0, 12, -4];
+
+/* Credit line lists whoever shot the thumbnails above, de-duplicated. */
+const credited = [...new Set(thumbs.map((p) => p.data.credit).filter(Boolean))].map(
+  (key) => photographers[key as keyof typeof photographers],
+);
 ---
 
 <aside class="rf plate frame" id="radio" aria-labelledby="radio-title">
   <div class="rf__top">
-    <figure class="rf__photo frame">
-      <Image
-        src={radioPhoto}
-        alt={t.radio.photoAlt}
-        widths={[160, 240, 320]}
-        sizes="120px"
-        class="photo"
-      />
-    </figure>
-
     <div class="rf__text">
       <p class="label rf__kicker">{t.radio.new} · {t.radio.meta}</p>
       <h3 class="display rf__title" id="radio-title">{t.radio.heading}</h3>
       <p class="rf__body">{t.radio.body}</p>
+    </div>
+
+    <div class="rf__thumbs">
+      {thumbs.map((p, i) => (
+        <figure
+          class="rf__thumb frame"
+          style={`--tilt:${TILTS[i]}deg;--drop:${DROPS[i]}px;z-index:${i + 1}`}
+        >
+          <Image
+            src={p.data.src}
+            alt={pick(p.data.alt, lang)}
+            widths={[120, 240, 360]}
+            sizes="(min-width: 781px) 124px, 120px"
+            class="photo"
+          />
+        </figure>
+      ))}
     </div>
   </div>
 
@@ -45,8 +69,18 @@ const photographer = photographers.murtaugh;
     <a href={site.radioSession.pageUrl} target="_blank" rel="noopener noreferrer">{t.radio.onCba}</a>
     <span aria-hidden="true"> · </span>
     {t.radio.license}
-    <span aria-hidden="true"> · </span>
-    {t.look.photoBy}: <a href={photographer.url} target="_blank" rel="noopener noreferrer">{photographer.name}</a>
+    {credited.length > 0 && (
+      <>
+        <span aria-hidden="true"> · </span>
+        {t.look.photoBy}:{' '}
+        {credited.map((c, i) => (
+          <>
+            {i > 0 && ' & '}
+            <a href={c.url} target="_blank" rel="noopener noreferrer">{c.name}</a>
+          </>
+        ))}
+      </>
+    )}
   </p>
 </aside>
 
@@ -60,26 +94,54 @@ const photographer = photographers.murtaugh;
     scroll-margin-top: 80px;
   }
 
+  /* Phone: text first, then the photo strip, stacked. */
   .rf__top {
-    display: grid;
-    grid-template-columns: 96px minmax(0, 1fr);
-    gap: 14px;
-    align-items: start;
-    margin-bottom: 12px;
-  }
-
-  .rf__photo {
-    margin: 0;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-    border-color: var(--ink-on-plate);
-    border-width: 1px;
-    transform: rotate(-1.5deg);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 14px;
   }
 
   .rf__kicker { font-size: 10px; line-height: 1.5; }
   .rf__title { font-size: 30px; margin: 2px 0 6px; }
   .rf__body { font-size: 13px; line-height: 1.5; }
+
+  /* Overlapping, tilted thumbnails — a scatter of prints on a studio desk.
+     The negative margin overlaps each one onto its neighbour, and later
+     ones sit on top (z-index set inline). */
+  .rf__thumbs {
+    display: flex;
+    align-items: flex-start;
+    padding: 6px 6px 14px;
+  }
+
+  .rf__thumb {
+    /* A third of the card, capped: fills a phone's width, never gets huge. */
+    --w: min(120px, 31%);
+    flex: none;
+    width: var(--w);
+    margin: 0 0 0 -16px;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-color: var(--ink-on-plate);
+    border-width: 1px;
+    /* A hard offset shadow — the Xerox-print look, not a soft drop shadow. */
+    box-shadow: 3px 4px 0 rgba(20, 18, 16, 0.4);
+    transform: translateY(var(--drop)) rotate(var(--tilt));
+    transition: transform 140ms ease-out;
+  }
+
+  .rf__thumb:first-child { margin-left: 0; }
+
+  /* Straighten and lift on hover, like picking a print up off the desk. */
+  .rf__thumb:hover {
+    transform: translateY(calc(var(--drop) - 4px)) rotate(0deg) scale(1.06);
+    z-index: 10 !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rf__thumb { transition: none; }
+  }
 
   .rf__player { border-color: var(--ink-on-plate); overflow: hidden; }
 
@@ -97,10 +159,19 @@ const photographer = photographers.murtaugh;
   .rf__note { margin-top: 10px; font-size: 11px; line-height: 1.6; }
   .rf__note a { text-decoration: underline; text-underline-offset: 2px; }
 
+  /* Desktop: text on the left, the photo cluster filling the empty space on
+     the right. */
   @media (min-width: 781px) {
     .rf { padding: 18px; }
-    .rf__top { grid-template-columns: 120px minmax(0, 1fr); gap: 20px; }
+    .rf__top {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 32px;
+    }
     .rf__title { font-size: 38px; }
     .rf__body { font-size: 14px; max-width: 62ch; }
+    .rf__thumbs { padding: 10px 14px 20px; flex: none; }
+    .rf__thumb { --w: 124px; margin-left: -22px; }
   }
 </style>

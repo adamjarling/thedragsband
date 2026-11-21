@@ -71,7 +71,6 @@ export interface Copy {
     meta: string;
     body: string;
     playerTitle: string;
-    photoAlt: string;
     onCba: string;
     license: string;
   };
@@ -172,7 +171,6 @@ export const ui: Record<Lang, Copy> = {
       meta: 'RADIO ORANGE 94.0 · 60 MIN',
       body: 'Eine Stunde live im Studio bei Danny Chicago’s Blues Garage — Interview und Songs.',
       playerTitle: 'The Drags bei Danny Chicago’s Blues Garage, Radio Orange 94.0 (cba.media)',
-      photoAlt: 'Blick durch das Studiofenster bei Radio Orange 94.0: die Band im Aufnahmeraum, davor das Mischpult',
       onCba: 'Auf cba.media anhören →',
       license: 'Archiviert auf cba.media · CC BY 4.0',
     },
@@ -272,7 +270,6 @@ export const ui: Record<Lang, Copy> = {
       meta: 'RADIO ORANGE 94.0 · 60 MIN',
       body: 'A full hour live in the studio on Danny Chicago’s Blues Garage — interview and songs.',
       playerTitle: 'The Drags on Danny Chicago’s Blues Garage, Radio Orange 94.0 (cba.media)',
-      photoAlt: 'Looking through the studio window at Radio Orange 94.0: the band in the recording room, the mixing desk in front',
       onCba: 'Listen on cba.media →',
       license: 'Archived on cba.media · CC BY 4.0',
     },
