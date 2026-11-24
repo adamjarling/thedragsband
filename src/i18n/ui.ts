@@ -74,7 +74,7 @@ export interface Copy {
     onCba: string;
     license: string;
   };
-  video: { heading: string; by: string };
+  video: { heading: string; by: string; subscribe: string };
   look: {
     heading: string;
     seeAll: string;
@@ -174,7 +174,7 @@ export const ui: Record<Lang, Copy> = {
       onCba: 'Auf cba.media anhören →',
       license: 'Archiviert auf cba.media · CC BY 4.0',
     },
-    video: { heading: 'Video', by: 'Video' },
+    video: { heading: 'Video', by: 'Video', subscribe: 'AUF YOUTUBE ABONNIEREN' },
     look: {
       heading: 'Look',
       seeAll: 'ALLE {n} ANSEHEN',
@@ -273,7 +273,7 @@ export const ui: Record<Lang, Copy> = {
       onCba: 'Listen on cba.media →',
       license: 'Archived on cba.media · CC BY 4.0',
     },
-    video: { heading: 'Video', by: 'Video' },
+    video: { heading: 'Video', by: 'Video', subscribe: 'SUBSCRIBE ON YOUTUBE' },
     look: {
       heading: 'Look',
       seeAll: 'SEE ALL {n}',

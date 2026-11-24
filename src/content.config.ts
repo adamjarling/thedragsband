@@ -54,6 +54,10 @@ const videos = defineCollection({
       // Key into `photographers` in src/data/lineup.ts — shown under the video.
       credit: z.enum(['kogoj', 'murtaugh']).nullable().default(null),
       title: localizedString,
+      /* The one video shown big, beside the audio player. Only the first
+         featured entry is used; with none flagged, the first landscape clip
+         takes the slot. */
+      featured: z.boolean().default(false),
       /* Shorts are 9:16. The embed URL is the same either way — /shorts/<id> is
          only a viewing surface — but the frame has to match the source or the
          player pillarboxes into black bars. */

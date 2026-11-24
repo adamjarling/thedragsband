@@ -1,9 +1,9 @@
 ---
 import SectionHead from './SectionHead.astro';
 import { useTranslations, type Lang } from '../i18n/utils';
-import { pick } from '../i18n/localized';
+import VideoItem from './VideoItem.astro';
 import { site } from '../data/site';
-import { photographers } from '../data/lineup';
+import { socials } from '../data/lineup';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -12,6 +12,23 @@ interface Props {
 }
 const { lang, videos } = Astro.props;
 const t = useTranslations(lang);
+
+/* `sub_confirmation=1` makes YouTube open its "Subscribe to this channel?"
+   prompt on arrival (for visitors who are signed in), so the button is one
+   tap from a subscription. A plain link rather than Google's subscribe widget:
+   that widget loads a third-party script, which would undo the point of using
+   youtube-nocookie embeds. */
+const channelUrl = socials.find((s) => s.name === 'YouTube')!.href;
+const subscribeUrl = `${channelUrl}?sub_confirmation=1`;
+
+/* Row 1 pairs the audio player with one featured video; Shorts and any other
+   16:9 clips follow in their own full-width rows. Each group keeps the explicit
+   `order` from videos.json — only the grouping is automatic. */
+const featured =
+  videos.find((v) => v.data.featured) ?? videos.find((v) => v.data.orientation !== 'portrait');
+const rest = videos.filter((v) => v !== featured);
+const shorts = rest.filter((v) => v.data.orientation === 'portrait');
+const clips = rest.filter((v) => v.data.orientation !== 'portrait');
 
 /* SoundCloud's widget takes the public track URL; it resolves it itself. */
 const playerSrc =
@@ -49,45 +66,34 @@ const playerSrc =
 
     <div id="video">
       <SectionHead title={t.video.heading} />
-      <div class="lv__videos">
-        {videos.map((v) => {
-          const credit = v.data.credit ? photographers[v.data.credit] : null;
-          return (
-            <>
-              <div class:list={['lv__video', 'frame', v.data.orientation === 'portrait' && 'lv__video--portrait']}>
-                {v.data.file ? (
-                  /* Self-hosted clip. `preload="metadata"` fetches only the
-                     poster and duration, so the 5 MB file costs nothing until play. */
-                  <video
-                    src={v.data.file}
-                    poster={v.data.poster}
-                    controls
-                    playsinline
-                    preload="metadata"
-                    aria-label={pick(v.data.title, lang)}
-                  ></video>
-                ) : (
-                  <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${v.data.youtubeId}`}
-                    title={pick(v.data.title, lang)}
-                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen
-                    loading="lazy"
-                  ></iframe>
-                )}
-              </div>
-              {credit && (
-                <p class="lv__note lv__video-credit">
-                  {t.video.by}: <a href={credit.url} target="_blank" rel="noopener noreferrer">{credit.name}</a>
-                </p>
-              )}
-            </>
-          );
-        })}
-      </div>
+      {featured && (
+        <div class="lv__featured">
+          <VideoItem lang={lang} video={featured} />
+        </div>
+      )}
     </div>
   </div>
 
+  {(shorts.length > 0 || clips.length > 0) && (
+    <div class="lv__more gutter">
+      {shorts.length > 0 && (
+        <div class="lv__group lv__group--shorts">
+          {shorts.map((v) => <VideoItem lang={lang} video={v} />)}
+        </div>
+      )}
+      {clips.length > 0 && (
+        <div class="lv__group lv__group--clips">
+          {clips.map((v) => <VideoItem lang={lang} video={v} />)}
+        </div>
+      )}
+    </div>
+  )}
+
+  <div class="lv__cta gutter">
+    <a class="lv__subscribe label" href={subscribeUrl} target="_blank" rel="noopener noreferrer">
+      <span aria-hidden="true">▶</span> {t.video.subscribe}
+    </a>
+  </div>
 </section>
 
 <style>
@@ -131,49 +137,49 @@ const playerSrc =
   .lv__note { margin-top: 14px; font-size: 12px; line-height: 1.5; }
   .lv__note a { text-decoration: underline; text-underline-offset: 2px; }
 
-  .lv__videos { display: flex; flex-direction: column; gap: 12px; align-items: stretch; min-width: 0; }
+  /* Rows below the audio/featured pair span the whole section. The 22px gap
+     matches .lv__grid, so a half-width clip lines up with the column above it. */
+  .lv__more { display: flex; flex-direction: column; gap: 22px; margin-top: 22px; }
 
-  .lv__video {
-    aspect-ratio: 16 / 9;
-    border-color: var(--ink-on-plate);
-    min-width: 0;
-    /* Belt and braces for the iframe below: whatever it does, it is clipped. */
-    overflow: hidden;
+  /* `justify-content: center` keeps a short last row (a lone clip, or a fourth
+     Short after a row of three) centred rather than hanging off the left. */
+  .lv__group { display: flex; flex-wrap: wrap; gap: 22px; justify-content: center; min-width: 0; }
+
+  /* Shorts: up to four across, capped so a lone one is not 800px tall. */
+  .lv__group--shorts > :global(.lv__item) { flex: 0 1 calc((100% - 66px) / 4); max-width: 320px; }
+
+  /* Clips: half the row each. One on its own stays half-width and centred. */
+  .lv__group--clips > :global(.lv__item) { flex: 0 1 calc((100% - 22px) / 2); }
+
+  /* A Short chosen as the featured video would be 9:16 across a whole column. */
+  .lv__featured > :global(.lv__item--portrait) { max-width: 300px; margin-inline: auto; }
+
+  .lv__cta { margin-top: 22px; display: flex; justify-content: center; }
+
+  /* Light ink on a dark fill. --ink-on-deep is the fixed light colour; the
+     page's --plate is a mid green and nearly vanishes on the ink background. */
+  .lv__subscribe {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: min(100%, 340px);
+    min-height: var(--tap);
+    padding: 14px 28px;
+    border: var(--rule) solid var(--ink-on-plate);
+    background: var(--ink-on-plate);
+    color: var(--ink-on-deep);
+    text-align: center;
   }
-
-  /* iOS Safari sizes an iframe to its CONTENT and ignores `width:100%`, so a
-     YouTube embed spills past the frame on an iPhone while looking fine in
-     desktop Chrome. `width:1px` with `min-width:100%` is the long-standing
-     workaround: the tiny width wins the intrinsic-sizing argument, then
-     min-width stretches it back to the container. */
-  .lv__video iframe,
-  .lv__video video {
-    width: 1px;
-    min-width: 100%;
-    max-width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
-  }
-
-  /* A self-hosted portrait clip fills its frame; the 9:16 frame matches the
-     720x1280 source, so nothing is cropped. */
-  .lv__video video { object-fit: cover; background: var(--deep); }
-
-  /* Credit sits tight under its own video, centred like the portrait frame. */
-  .lv__video-credit { margin-top: -6px; align-self: center; }
-
-  /* A Short at full column width would stand ~890px tall, dwarfing the
-     landscape slots beside it. Capping the width keeps it roughly the height
-     of the two 16:9 frames stacked, and centres it in the column. */
-  .lv__video--portrait {
-    aspect-ratio: 9 / 16;
-    width: 100%;
-    max-width: 300px;
-    align-self: center;
-  }
+  .lv__subscribe:hover,
+  .lv__subscribe:focus-visible { background: transparent; color: var(--ink-on-plate); }
 
   @media (max-width: 780px) {
     .lv__grid { grid-template-columns: 1fr; }
+    /* Narrow screens: one per row. Shorts are capped so one does not stand
+       taller than the screen. */
+    .lv__group--clips > :global(.lv__item) { flex-basis: 100%; }
+    .lv__group--shorts > :global(.lv__item) { flex-basis: 100%; max-width: 300px; }
+    .lv__subscribe { width: 100%; }
   }
 </style>

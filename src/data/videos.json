@@ -19,24 +19,33 @@
     "order": 2
   },
   {
-    "id": "live-2",
+    "id": "gloria",
     "youtubeId": "hqVK8x67hhI",
+    "featured": true,
     "title": {
-      "de": "The Drags — live",
-      "en": "The Drags — live"
+      "de": "Gloria — live im Café Carina",
+      "en": "Gloria — Live at Café Carina"
     },
     "order": 3
   },
   {
-    "id": "radio-orange-pedals",
-    "file": "/video/radio-orange-pedals.mp4",
-    "poster": "/video/radio-orange-pedals.jpg",
+    "id": "cajon",
+    "youtubeId": "j8ctWaLSn5g",
     "title": {
-      "de": "Im Studio bei Radio Orange 94.0",
-      "en": "In the studio at Radio Orange 94.0"
+      "de": "Wozu ein ganzes Schlagzeug, wenn man eine Cajón hat?",
+      "en": "Who needs a full drum kit when you have a cajón?"
     },
     "orientation": "portrait",
-    "credit": "murtaugh",
     "order": 4
+  },
+  {
+    "id": "short-2",
+    "youtubeId": "u_2eR5fIsyQ",
+    "title": {
+      "de": "The Drags — Short",
+      "en": "The Drags — Short"
+    },
+    "orientation": "portrait",
+    "order": 5
   }
 ]

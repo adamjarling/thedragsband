@@ -1,0 +1,85 @@
+---
+import { pick } from '../i18n/localized';
+import { useTranslations, type Lang } from '../i18n/utils';
+import { photographers } from '../data/lineup';
+import type { CollectionEntry } from 'astro:content';
+
+/* One entry from the `videos` collection: the framed player plus its optional
+   credit line. How items are arranged in rows is ListenVideo's job; this only
+   knows how to draw one. */
+interface Props {
+  lang: Lang;
+  video: CollectionEntry<'videos'>;
+}
+const { lang, video: v } = Astro.props;
+const t = useTranslations(lang);
+const credit = v.data.credit ? photographers[v.data.credit] : null;
+---
+
+<div class:list={['lv__item', `lv__item--${v.data.orientation}`]}>
+  <div class="lv__video frame">
+    {v.data.file ? (
+      /* Self-hosted clip. `preload="metadata"` fetches only the
+         poster and duration, so a large file costs nothing until play. */
+      <video
+        src={v.data.file}
+        poster={v.data.poster}
+        controls
+        playsinline
+        preload="metadata"
+        aria-label={pick(v.data.title, lang)}
+      ></video>
+    ) : (
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${v.data.youtubeId}`}
+        title={pick(v.data.title, lang)}
+        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        loading="lazy"
+      ></iframe>
+    )}
+  </div>
+  {credit && (
+    <p class="lv__video-credit">
+      {t.video.by}: <a href={credit.url} target="_blank" rel="noopener noreferrer">{credit.name}</a>
+    </p>
+  )}
+</div>
+
+<style>
+  .lv__item { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+
+  .lv__video {
+    aspect-ratio: 16 / 9;
+    border-color: var(--ink-on-plate);
+    min-width: 0;
+    /* Belt and braces for the iframe below: whatever it does, it is clipped. */
+    overflow: hidden;
+  }
+
+  /* The 9:16 frame matches a Short's source, so the player does not
+     pillarbox into black bars. */
+  .lv__item--portrait .lv__video { aspect-ratio: 9 / 16; }
+
+  /* iOS Safari sizes an iframe to its CONTENT and ignores `width:100%`, so a
+     YouTube embed spills past the frame on an iPhone while looking fine in
+     desktop Chrome. `width:1px` with `min-width:100%` is the long-standing
+     workaround: the tiny width wins the intrinsic-sizing argument, then
+     min-width stretches it back to the container. */
+  .lv__video iframe,
+  .lv__video video {
+    width: 1px;
+    min-width: 100%;
+    max-width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  /* A self-hosted portrait clip fills its frame; the 9:16 frame matches the
+     720x1280 source, so nothing is cropped. */
+  .lv__video video { object-fit: cover; background: var(--deep); }
+
+  .lv__video-credit { font-size: 12px; line-height: 1.5; text-align: center; }
+  .lv__video-credit a { text-decoration: underline; text-underline-offset: 2px; }
+</style>
