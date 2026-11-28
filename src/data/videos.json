@@ -1,5 +1,15 @@
 [
   {
+    "id": "the-river-full",
+    "youtubeId": "xFp8y-G0tVk",
+    "featured": true,
+    "title": {
+      "de": "The River — live im Café Carina",
+      "en": "The River — Live at Café Carina"
+    },
+    "order": 0
+  },
+  {
     "id": "the-river",
     "youtubeId": "Q1-kFqxT9bU",
     "title": {
@@ -21,7 +31,6 @@
   {
     "id": "gloria",
     "youtubeId": "hqVK8x67hhI",
-    "featured": true,
     "title": {
       "de": "Gloria — live im Café Carina",
       "en": "Gloria — Live at Café Carina"

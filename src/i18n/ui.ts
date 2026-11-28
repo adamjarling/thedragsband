@@ -58,6 +58,7 @@ export interface Copy {
     doors: string;
     show: string;
     policy: string;
+    presentedBy: string;
   };
   listen: {
     heading: string;
@@ -158,6 +159,7 @@ export const ui: Record<Lang, Copy> = {
       doors: 'Einlass',
       show: 'Beginn',
       policy: 'Hutspende — zahlt was ihr wollt',
+      presentedBy: 'Präsentiert von',
     },
     listen: {
       heading: 'Hören',
@@ -178,7 +180,7 @@ export const ui: Record<Lang, Copy> = {
     look: {
       heading: 'Look',
       seeAll: 'ALLE {n} ANSEHEN',
-      credit: 'FOTOS VON {a} & {b}',
+      credit: 'FOTOS VON {names}',
       close: 'Schließen',
       prev: 'Vorheriges Foto',
       next: 'Nächstes Foto',
@@ -257,6 +259,7 @@ export const ui: Record<Lang, Copy> = {
       doors: 'Doors',
       show: 'Show',
       policy: 'Pass the hat — pay what you like',
+      presentedBy: 'Presented by',
     },
     listen: {
       heading: 'Listen',
@@ -277,7 +280,7 @@ export const ui: Record<Lang, Copy> = {
     look: {
       heading: 'Look',
       seeAll: 'SEE ALL {n}',
-      credit: 'PHOTOS BY {a} & {b}',
+      credit: 'PHOTOS BY {names}',
       close: 'Close',
       prev: 'Previous photo',
       next: 'Next photo',

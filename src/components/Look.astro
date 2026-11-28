@@ -15,8 +15,15 @@ const t = useTranslations(lang);
 const TILTS = [-1.2, 0.9, -0.6, 1.4, -1.1, 0.7, 1.2, -0.9, 0.5, -1.4, 1.0];
 const OFFSETS = [0, 10, 0, 8, 12, 0, 9, 0, 11, 0, 8];
 
-const creditName = (key: CollectionEntry<'gallery'>['data']['credit']) =>
-  key ? photographers[key].name : null;
+const creditFor = (key: CollectionEntry<'gallery'>['data']['credit']) =>
+  key ? photographers[key] : null;
+
+/* The line under the grid names everyone in `photographers`, each linked, so
+   adding a photographer there is enough to credit them. */
+const everyone = Object.values(photographers);
+const [creditBefore, creditAfter] = t.look.credit.split('{names}');
+const separator = (i: number) =>
+  i === 0 ? '' : i === everyone.length - 1 ? ' & ' : ', ';
 ---
 
 <section class="look gutter" id="look">
@@ -31,7 +38,8 @@ const creditName = (key: CollectionEntry<'gallery'>['data']['credit']) =>
         data-lightbox
         data-full={p.data.src.src}
         data-alt={pick(p.data.alt, lang)}
-        data-credit={creditName(p.data.credit) ?? ''}
+        data-credit={creditFor(p.data.credit)?.name ?? ''}
+        data-credit-url={creditFor(p.data.credit)?.url ?? ''}
         aria-label={pick(p.data.alt, lang)}
       >
         <Image src={p.data.src} alt={pick(p.data.alt, lang)} width={600} class="photo" />
@@ -44,7 +52,9 @@ const creditName = (key: CollectionEntry<'gallery'>['data']['credit']) =>
   </div>
 
   <p class="look__credit label">
-    {t.look.credit.replace('{a}', photographers.kogoj.name).replace('{b}', photographers.murtaugh.name)}
+    {creditBefore}{everyone.map((person, i) => (
+      <Fragment>{separator(i)}<a href={person.url} target="_blank" rel="noopener noreferrer">{person.name}</a></Fragment>
+    ))}{creditAfter}
   </p>
 </section>
 
@@ -97,7 +107,9 @@ const creditName = (key: CollectionEntry<'gallery'>['data']['credit']) =>
 
   .look__all:hover { background: var(--ink); color: var(--paper); }
 
-  .look__credit { margin-top: 16px; }
+  .look__credit { margin-top: 16px; line-height: 1.8; }
+  .look__credit a { text-decoration: underline; text-underline-offset: 3px; }
+  .look__credit a:hover { color: var(--accent); }
 
   .lb {
     border: none;
@@ -185,18 +197,31 @@ const creditName = (key: CollectionEntry<'gallery'>['data']['credit']) =>
 
   let index = 0;
 
+  /* Adds " · <label>: <name>" to the caption, linking the name if there is a
+     URL. Photos and posters are credited the same way. */
+  function appendCredit(label: string, name?: string, url?: string) {
+    if (!caption || !name) return;
+    caption.append(` · ${label}: `);
+    if (!url) {
+      caption.append(name);
+      return;
+    }
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = name;
+    caption.append(a);
+  }
+
   function show(i: number) {
     if (!tiles.length || !img) return;
     index = (i + tiles.length) % tiles.length;
     const tile = tiles[index];
     img.src = tile.dataset.full ?? '';
     img.alt = tile.dataset.alt ?? '';
-    if (caption) {
-      const credit = tile.dataset.credit;
-      caption.textContent = credit
-        ? `${index + 1} / ${tiles.length} · ${PHOTO_BY}: ${credit}`
-        : `${index + 1} / ${tiles.length}`;
-    }
+    if (caption) caption.textContent = `${index + 1} / ${tiles.length}`;
+    appendCredit(PHOTO_BY, tile.dataset.credit, tile.dataset.creditUrl);
   }
 
   function open(i: number) {
@@ -215,24 +240,8 @@ const creditName = (key: CollectionEntry<'gallery'>['data']['credit']) =>
       if (btn.hasAttribute('data-flyer-zoom') && window.matchMedia('(max-width: 780px)').matches) return;
       img.src = btn.dataset.flyerSrc ?? '';
       img.alt = btn.dataset.flyerAlt ?? '';
-      if (caption) {
-        caption.textContent = btn.dataset.flyerAlt ?? '';
-        const name = btn.dataset.flyerCredit;
-        if (name) {
-          caption.append(` · ${POSTER_BY}: `);
-          const url = btn.dataset.flyerCreditUrl;
-          if (url) {
-            const a = document.createElement('a');
-            a.href = url;
-            a.target = '_blank';
-            a.rel = 'noopener noreferrer';
-            a.textContent = name;
-            caption.append(a);
-          } else {
-            caption.append(name);
-          }
-        }
-      }
+      if (caption) caption.textContent = btn.dataset.flyerAlt ?? '';
+      appendCredit(POSTER_BY, btn.dataset.flyerCredit, btn.dataset.flyerCreditUrl);
       dialog?.setAttribute('data-single', '');
       dialog?.showModal();
     });

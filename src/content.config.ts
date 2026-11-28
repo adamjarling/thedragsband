@@ -16,6 +16,10 @@ const shows = defineCollection({
     z.object({
       date: z.coerce.date(),
       doors: z.coerce.date().optional(),
+      /* For dates announced before the start time is set: the card prints the
+         day only. Give `date` as 23:59 so the show counts as upcoming until
+         the day is over. */
+      timeTba: z.boolean().default(false),
       /* Radio slots and other broadcast appearances sit in the same list as
          gigs, but they are not gigs: the hero's NEXT GIG strip skips them
          (see Home.astro) and they carry no ticket link. */
@@ -25,7 +29,17 @@ const shows = defineCollection({
       district: localizedString.optional(),
       // Short city name for the flyer-less date plate.
       plateCity: localizedString.optional(),
-      policy: localizedString.nullable().default(null),
+      // Door policy line. Null prints the pass-the-hat default; false prints
+      // nothing, for shows where the policy is not ours or not yet known.
+      policy: z.union([localizedString, z.literal(false)]).nullable().default(null),
+      /* Outside promoter, credited on the card with a link to their site. The
+         url may be a {de, en} pair where the site has both languages. */
+      presenter: z
+        .object({
+          name: z.string(),
+          url: z.union([z.url(), z.object({ de: z.url(), en: z.url() })]),
+        })
+        .optional(),
       ticketUrl: z.url().nullable().default(null),
       // Flyers stay in full colour — they are exempt from the greyscale
       // treatment. Where a flyer does not exist yet the Shows section
@@ -79,7 +93,7 @@ const gallery = defineCollection({
       alt: localizedString,
       // Key into `photographers` in src/data/lineup.ts. Null falls back
       // to the combined credit line beneath the grid.
-      credit: z.enum(['kogoj', 'murtaugh']).nullable().default(null),
+      credit: z.enum(['kogoj', 'murtaugh', 'wilding']).nullable().default(null),
       /* Pins a photo to a slot in the grid (1 = first). getCollection returns
          entries sorted by id — file order is ignored — so everything without a
          position stays alphabetical and pinned photos are spliced in (Home.astro). */

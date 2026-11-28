@@ -1,5 +1,32 @@
 [
   {
+    "id": "2027-03-09-club-lucia",
+    "date": "2027-03-09T23:59:00+01:00",
+    "timeTba": true,
+    "venue": "Club Lucia",
+    "city": {
+      "de": "Wien, Österreich",
+      "en": "Vienna, Austria"
+    },
+    "district": "1080 Wien",
+    "plateCity": {
+      "de": "Wien",
+      "en": "Vienna"
+    },
+    "policy": false,
+    "presenter": {
+      "name": "Rola Music",
+      "url": {
+        "de": "https://rolamusic.com/",
+        "en": "https://rolamusic.com/?lang=en"
+      }
+    },
+    "support": {
+      "de": "mit Daisychain (USA)",
+      "en": "with Daisychain (USA)"
+    }
+  },
+  {
     "id": "2026-11-27-carina",
     "date": "2026-11-27T21:00:00+01:00",
     "doors": "2026-11-27T20:00:00+01:00",

@@ -1,5 +1,15 @@
 [
   {
+    "id": "carina-2026-11-27",
+    "position": 11,
+    "src": "../assets/photos/carina-2026-11-27.jpg",
+    "alt": {
+      "de": "The Drags live im Café Carina: die Band vor einem Lichtervorhang, davor das Publikum",
+      "en": "The Drags live at Café Carina: the band in front of a curtain of fairy lights, the crowd in the foreground"
+    },
+    "credit": "wilding"
+  },
+  {
     "id": "chain-bw",
     "src": "../assets/photos/chain-bw.jpg",
     "alt": {

@@ -27,6 +27,10 @@ export const photographers = {
     name: 'Casey Murtaugh',
     url: 'https://www.instagram.com/caseymolloymurtaugh/',
   },
+  wilding: {
+    name: 'Andrew J. Wilding',
+    url: 'https://www.instagram.com/andrewjwilding/',
+  },
 } as const;
 
 export type PhotographerKey = keyof typeof photographers;

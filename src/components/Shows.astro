@@ -23,6 +23,7 @@ const tilt = (i: number) => (i % 2 === 0 ? 'rotate(-1deg)' : 'rotate(1deg)');
 function dateLine(show: CollectionEntry<'shows'>) {
   const d = show.data;
   const base = `${formatShowDate(d.date, lang)}`;
+  if (d.timeTba) return base;
   if (d.doors) {
     return `${base} · ${t.shows.doors.toUpperCase()} ${formatTime(d.doors, lang)} · ${t.shows.show.toUpperCase()} ${formatTime(d.date, lang)}`;
   }
@@ -119,7 +120,19 @@ const rows: Row[] = [
           <p class="show__meta">
             {pick(show.data.city, lang)}{show.data.support ? ` · ${pick(show.data.support, lang)}` : ''}
           </p>
-          <p class="show__meta">{pick(show.data.policy, lang) ?? t.shows.policy}</p>
+          {show.data.policy !== false && (
+            <p class="show__meta">{pick(show.data.policy, lang) ?? t.shows.policy}</p>
+          )}
+          {show.data.presenter && (
+            <a
+              href={pick(show.data.presenter.url, lang)}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="show__presenter label"
+            >
+              {t.shows.presentedBy} {show.data.presenter.name} <span aria-hidden="true">&#8599;&#xFE0E;</span>
+            </a>
+          )}
         </div>
 
         <div class="show__actions">
@@ -208,6 +221,8 @@ const rows: Row[] = [
   .show__flyer--contain { height: auto; object-fit: contain; }
 
   .show__plate {
+    /* Lets the city name below size itself against the plate's width. */
+    container-type: inline-size;
     position: relative;
     overflow: hidden;
     width: 150px;
@@ -237,7 +252,9 @@ const rows: Row[] = [
   .show__plate-city { position: relative; }
 
   .show__plate-date { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; }
-  .show__plate-city { font-size: 40px; }
+  /* 40px where there is room; the 150px desktop plate scales it down so a
+     six-letter city ("VIENNA") is not clipped. */
+  .show__plate-city { font-size: min(40px, 22cqi); }
 
   .show__date {
     font-size: 11px;
@@ -249,6 +266,21 @@ const rows: Row[] = [
 
   .show__venue { font-size: 34px; margin: 4px 0 6px; }
   .show__meta { font-size: 12px; line-height: 1.5; }
+
+  /* Promoter credit: a ruled tag, outlined rather than filled so it never
+     competes with the Tickets button. */
+  .show__presenter {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    min-height: var(--tap);
+    padding: 8px 12px;
+    border: var(--rule) solid var(--ink);
+  }
+
+  .show__presenter:hover,
+  .show__presenter:focus-visible { background: var(--accent); color: var(--ink-on-plate); }
 
   .show__actions { display: flex; flex-direction: column; gap: 8px; }
 
